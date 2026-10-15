@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">Ruang Berbagi dan Solusi Kerja Digital</title>
+  <desc id="desc">Ilustrasi lembar kerja, aplikasi data, dan kartu publikasi yang saling terhubung.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#e7f3eb"/>
+      <stop offset="1" stop-color="#c4e0cf"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#fff"/>
+      <stop offset="1" stop-color="#f4f8f5"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#28563a" flood-opacity=".14"/>
+    </filter>
+  </defs>
+  <rect width="960" height="720" rx="48" fill="url(#bg)"/>
+  <circle cx="765" cy="130" r="176" fill="#a8d3b8" opacity=".66"/>
+  <circle cx="160" cy="590" r="180" fill="#d0e8d8" opacity=".8"/>
+  <path d="M95 484c90-76 174-106 259-83 87 23 133 91 216 98 79 7 157-41 294-18v239H95z" fill="#b6d9c2" opacity=".58"/>
+  <g filter="url(#shadow)" transform="rotate(-7 390 350)">
+    <rect x="116" y="142" width="486" height="390" rx="24" fill="url(#screen)"/>
+    <rect x="116" y="142" width="486" height="61" rx="24" fill="#1e7458"/>
+    <path d="M116 179h486v24H116z" fill="#1e7458"/>
+    <circle cx="153" cy="173" r="7" fill="#b9e1c8"/>
+    <circle cx="178" cy="173" r="7" fill="#d9efdf"/>
+    <circle cx="203" cy="173" r="7" fill="#f0c58e"/>
+    <rect x="145" y="228" width="172" height="18" rx="9" fill="#d7e9dc"/>
+    <rect x="145" y="266" width="424" height="1" fill="#dfe9e2"/>
+    <rect x="145" y="294" width="424" height="1" fill="#dfe9e2"/>
+    <rect x="145" y="322" width="424" height="1" fill="#dfe9e2"/>
+    <rect x="145" y="350" width="424" height="1" fill="#dfe9e2"/>
+    <rect x="145" y="378" width="424" height="1" fill="#dfe9e2"/>
+    <rect x="145" y="406" width="424" height="1" fill="#dfe9e2"/>
+    <rect x="145" y="434" width="424" height="1" fill="#dfe9e2"/>
+    <rect x="230" y="269" width="1" height="193" fill="#dfe9e2"/>
+    <rect x="328" y="269" width="1" height="193" fill="#dfe9e2"/>
+    <rect x="426" y="269" width="1" height="193" fill="#dfe9e2"/>
+    <rect x="524" y="269" width="1" height="193" fill="#dfe9e2"/>
+    <rect x="157" y="280" width="50" height="12" rx="6" fill="#f1b76c"/>
+    <rect x="243" y="307" width="68" height="12" rx="6" fill="#a8d4b8"/>
+    <rect x="340" y="335" width="68" height="12" rx="6" fill="#73b78e"/>
+    <rect x="440" y="363" width="68" height="12" rx="6" fill="#f1b76c"/>
+    <rect x="157" y="392" width="50" height="12" rx="6" fill="#73b78e"/>
+    <rect x="243" y="420" width="68" height="12" rx="6" fill="#a8d4b8"/>
+  </g>
+  <g filter="url(#shadow)" transform="rotate(7 660 402)">
+    <rect x="544" y="282" width="292" height="318" rx="25" fill="#fff"/>
+    <rect x="570" y="310" width="78" height="78" rx="21" fill="#e8f4ec"/>
+    <path d="M592 333h34v31h-34z" fill="none" stroke="#1e7458" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M598 341h22m-22 8h22m-22 8h14" stroke="#1e7458" stroke-width="3" stroke-linecap="round"/>
+    <rect x="669" y="319" width="132" height="14" rx="7" fill="#1e7458"/>
+    <rect x="669" y="345" width="104" height="10" rx="5" fill="#b9c9c0"/>
+    <rect x="570" y="414" width="240" height="2" fill="#e8eeea"/>
+    <rect x="570" y="440" width="205" height="12" rx="6" fill="#dcebe1"/>
+    <rect x="570" y="465" width="223" height="10" rx="5" fill="#edf2ee"/>
+    <rect x="570" y="485" width="186" height="10" rx="5" fill="#edf2ee"/>
+    <rect x="570" y="526" width="104" height="42" rx="13" fill="#1e7458"/>
+    <path d="M594 547h50" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#shadow)">
+    <circle cx="758" cy="172" r="49" fill="#f2a356"/>
+    <path d="M734 174h48m-24-24v48" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <g fill="#fff" opacity=".9">
+    <circle cx="704" cy="245" r="5"/><circle cx="731" cy="232" r="3"/>
+    <circle cx="101" cy="252" r="5"/><circle cx="130" cy="229" r="3"/>
+  </g>
+</svg>
