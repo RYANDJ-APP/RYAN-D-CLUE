@@ -46,6 +46,18 @@
     .article-content p{margin:0 0 1em}
     .article-content blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--green);color:var(--muted)}
     @media(max-width:560px){.article-editor[data-columns],.article-editor [data-columns],.article-content [data-columns]{column-count:1}}
+    .order-tracking{margin-top:10px}.order-tracking summary{cursor:pointer;color:var(--green);font-size:12px;font-weight:700}
+    .order-timeline{list-style:none;margin:13px 0 0;padding:0 0 0 12px;border-left:2px solid var(--line)}
+    .order-timeline li{position:relative;padding:0 0 14px 13px;font-size:11px}
+    .order-timeline li:last-child{padding-bottom:0}
+    .order-timeline li:before{content:"";position:absolute;left:-18px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--green);border:2px solid white;box-shadow:0 0 0 1px var(--green)}
+    .order-timeline time{display:block;color:var(--muted);margin-top:3px}
+    .order-chat-messages{max-height:330px;overflow:auto;display:grid;gap:9px;margin:14px 0}
+    .order-chat-message{padding:10px 12px;border-radius:11px;background:#f1f6f3;font-size:12px;line-height:1.5}
+    .order-chat-message.mine{background:var(--mint);margin-left:12%}
+    .order-chat-message small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+    .review-stars{display:flex;gap:6px}.review-stars label{cursor:pointer;font-size:24px;color:var(--orange)}
+    .order-actions{display:flex;gap:6px;flex-wrap:wrap}
     html{min-height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
     img,iframe{max-width:100%}
     @media(orientation:landscape) and (max-height:600px){.topbar{height:62px}.mobile-nav{top:62px}.hero{padding-top:12px;padding-bottom:24px}.hero-art{height:min(270px,55vh)}main{padding-top:22px}}
@@ -80,7 +92,7 @@
     const toastEl = document.createElement("div");
     toastEl.className = "toast hidden";
     document.body.appendChild(toastEl);
-    const state = { user:null,profile:null,articles:[],media:[],reviews:[],messages:[],timeline:[],serviceRequests:[],purchaseOrders:[],subscriptions:[],accessLogs:[],merchantApplications:[],storefronts:[],ownStore:null,ownApplication:null,ownSubscription:null,merchantActiveSubscription:false,merchantWriteAccess:false,shopProducts:[],shopPackages:[],shopPaymentMethods:[],shopOrders:[],ownProducts:[],ownPackages:[],ownPaymentMethods:[],ownOrders:[],adminProducts:[],adminPackages:[],financeEntries:[],financeSummary:{income_idr:0,expense_idr:0,net_idr:0,entry_count:0},financeMonth:new Date().toISOString().slice(0,7),financeScope:null,plans:[{id:"monthly",name:"Bulanan",duration_days:30,mentorship_days:30,price_idr:99000,description:"Akses selama 1 bulan"},{id:"six_month",name:"6 Bulanan",duration_days:180,mentorship_days:180,price_idr:499000,description:"Akses selama 6 bulan"},{id:"yearly",name:"1 Tahunan",duration_days:365,mentorship_days:365,price_idr:899000,description:"Akses selama 1 tahun"}],paymentSettings:{url:"",qrUrl:"",instructions:""},externalLinks:[],socialLinks:{},chatChannel:null,marketplaceChannel:null,stats:{articles:0,views:0,media:0,members:0},category:"Semua",catalogGroup:"all",pages:{},adminTab:"dashboard",merchantTab:"overview",viewerSearch:"",articleSearch:"",calendarDate:new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate:"",loadedPricing:false,loadedAdminPlans:false,loadedEmbeds:false,loadedOrders:false,loadedRequests:false,loadedSocial:false,loadedAccessLogs:false,loadedMarketplace:false,loadedMerchant:false,loadedBuyerOrders:false,loadedMerchantApplications:false,loadedAdminProducts:false,loadedFinance:false,loadedPaymentSettings:false,loadingFinance:false,loadingMarketplace:false,loadingMerchant:false,loadingBuyerOrders:false,survey:null,loading:false,articleEditorRange:null };
+    const state = { user:null,profile:null,articles:[],media:[],reviews:[],messages:[],timeline:[],serviceRequests:[],purchaseOrders:[],subscriptions:[],accessLogs:[],merchantApplications:[],storefronts:[],ownStore:null,ownApplication:null,ownSubscription:null,merchantActiveSubscription:false,merchantWriteAccess:false,shopProducts:[],shopPackages:[],shopPaymentMethods:[],shopOrders:[],adminShopOrders:[],orderStatusHistory:{},reviewedOrderIds:[],productRatings:{},orderChatMessages:[],orderChatChannel:null,orderChatOrderId:null,ownProducts:[],ownPackages:[],ownPaymentMethods:[],ownOrders:[],adminProducts:[],adminPackages:[],financeEntries:[],financeSummary:{income_idr:0,expense_idr:0,net_idr:0,entry_count:0},financeMonth:new Date().toISOString().slice(0,7),financeScope:null,plans:[{id:"monthly",name:"Bulanan",duration_days:30,mentorship_days:30,price_idr:99000,description:"Akses selama 1 bulan"},{id:"six_month",name:"6 Bulanan",duration_days:180,mentorship_days:180,price_idr:499000,description:"Akses selama 6 bulan"},{id:"yearly",name:"1 Tahunan",duration_days:365,mentorship_days:365,price_idr:899000,description:"Akses selama 1 tahun"}],paymentSettings:{url:"",qrUrl:"",instructions:""},externalLinks:[],socialLinks:{},chatChannel:null,marketplaceChannel:null,stats:{articles:0,views:0,media:0,members:0},category:"Semua",catalogGroup:"all",pages:{},adminTab:"dashboard",merchantTab:"overview",viewerSearch:"",articleSearch:"",calendarDate:new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate:"",loadedPricing:false,loadedAdminPlans:false,loadedEmbeds:false,loadedOrders:false,loadedRequests:false,loadedSocial:false,loadedAccessLogs:false,loadedMarketplace:false,loadedMerchant:false,loadedBuyerOrders:false,loadedMerchantApplications:false,loadedAdminProducts:false,loadedFinance:false,loadedPaymentSettings:false,loadingFinance:false,loadingMarketplace:false,loadingMerchant:false,loadingBuyerOrders:false,survey:null,loading:false,articleEditorRange:null };
     const socialPlatforms = [
       ["instagram","Instagram","https://www.instagram.com/akun-anda"],
       ["youtube","YouTube","https://www.youtube.com/@channel-anda"],
@@ -138,6 +150,7 @@
       selection.removeAllRanges();selection.addRange(range);return true;
     }
     const dateShort = value => value ? new Date(value).toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"}) : "";
+    const dateTimeShort = value => value ? new Date(value).toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"}) : "—";
     const dateKey = value => {const d=new Date(value);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;};
     const money = value => new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(value||0));
     const toast = (text,error=false) => {toastEl.textContent=text;toastEl.classList.toggle("error",error);toastEl.classList.remove("hidden");clearTimeout(toastEl._timer);toastEl._timer=setTimeout(()=>toastEl.classList.add("hidden"),3600);};
@@ -157,7 +170,7 @@
         state.user=session?.user||null;
         if(state.user){const {data,error:profileError}=await db.from("profiles").select("id,display_name,role,created_at").eq("id",state.user.id).maybeSingle();if(profileError)throw profileError;state.profile=data;}
         else state.profile=null;
-        if(previousUserId!==(state.user?.id||null)){state.loadedPricing=false;state.loadedOrders=false;state.loadedRequests=false;state.loadedAccessLogs=false;state.loadedMerchant=false;state.loadedBuyerOrders=false;state.loadedFinance=false;state.loadedAdminProducts=false;state.financeScope=null;state.ownStore=null;state.ownApplication=null;state.ownProducts=[];state.ownPackages=[];state.ownPaymentMethods=[];state.ownOrders=[];state.financeEntries=[];state.purchaseOrders=[];state.subscriptions=[];state.merchantActiveSubscription=false;state.merchantWriteAccess=false;}
+        if(previousUserId!==(state.user?.id||null)){closeOrderChat();state.loadedPricing=false;state.loadedOrders=false;state.loadedRequests=false;state.loadedAccessLogs=false;state.loadedMerchant=false;state.loadedBuyerOrders=false;state.loadedFinance=false;state.loadedAdminProducts=false;state.financeScope=null;state.ownStore=null;state.ownApplication=null;state.ownProducts=[];state.ownPackages=[];state.ownPaymentMethods=[];state.ownOrders=[];state.shopOrders=[];state.adminShopOrders=[];state.orderStatusHistory={};state.reviewedOrderIds=[];state.productRatings={};state.financeEntries=[];state.purchaseOrders=[];state.subscriptions=[];state.merchantActiveSubscription=false;state.merchantWriteAccess=false;}
         await loadContent();
         if(state.user)await loadPricingData();
         await loadSocialLinks();
@@ -233,7 +246,8 @@
     const validHttpsUrl=value=>{try{return new URL(value).protocol==="https:";}catch{return false;}};
     function catalogProductCard(product){
       const shop=state.storefronts.find(item=>item.id===product.storefront_id),offers=state.shopPackages.filter(item=>item.product_id===product.id&&item.active);
-      return `<article class="service-card catalog-product"><span class="eyebrow">${salesGroup(product)==="jasa"?"JASA":salesGroup(product)==="penyewaan"?"PENYEWAAN":"PEMBELIAN"} · ${esc(itemTypeLabels[product.item_type]||product.category)}</span><h3>${esc(product.title)}</h3><p>${esc(product.description)}</p><p class="price-note">Lapak: <a class="text-link" href="#lapak/${encodeURIComponent(shop?.slug||"")}">${esc(shop?.name||"Lapak")}</a>${product.track_inventory?` · Stok ${Number(product.stock_quantity)} unit/slot`:""}</p>${offers.length?`<div class="mini-list">${offers.map(offer=>`<div class="mini-item"><span><b>${esc(offer.name)}</b><br>${esc(offer.description||"")}</span><span><b>${money(offer.price_idr)}</b><br><button class="btn btn-small" data-buy-product="${esc(product.id)}" data-buy-package="${esc(offer.id)}">Pesan</button></span></div>`).join("")}</div>`:`<p><b>${money(product.price_idr)}</b></p><button class="btn btn-small" data-buy-product="${esc(product.id)}">Pesan</button>`}</article>`;
+      const rating=state.productRatings[product.id],ratingText=rating?`<p class="price-note" aria-label="Rating ${rating.average.toFixed(1)} dari 5 dari ${rating.count} ulasan"><span style="color:var(--orange)">★ ${rating.average.toFixed(1)}</span> · ${rating.count} ulasan</p>`:`<p class="price-note">Belum ada ulasan</p>`;
+      return `<article class="service-card catalog-product"><span class="eyebrow">${salesGroup(product)==="jasa"?"JASA":salesGroup(product)==="penyewaan"?"PENYEWAAN":"PEMBELIAN"} · ${esc(itemTypeLabels[product.item_type]||product.category)}</span><h3>${esc(product.title)}</h3>${ratingText}<p>${esc(product.description)}</p><p class="price-note">Lapak: <a class="text-link" href="#lapak/${encodeURIComponent(shop?.slug||"")}">${esc(shop?.name||"Lapak")}</a>${product.track_inventory?` · Stok ${Number(product.stock_quantity)} unit/slot`:""}</p>${offers.length?`<div class="mini-list">${offers.map(offer=>`<div class="mini-item"><span><b>${esc(offer.name)}</b><br>${esc(offer.description||"")}</span><span><b>${money(offer.price_idr)}</b><br><button class="btn btn-small" data-buy-product="${esc(product.id)}" data-buy-package="${esc(offer.id)}">Pesan</button></span></div>`).join("")}</div>`:`<p><b>${money(product.price_idr)}</b></p><button class="btn btn-small" data-buy-product="${esc(product.id)}">Pesan</button>`}</article>`;
     }
     function catalogPage(route="lapak"){
       const slug=route.startsWith("lapak/")?decodeURIComponent(route.slice("lapak/".length)):"",shop=slug?state.storefronts.find(item=>item.slug===slug):null;
@@ -260,6 +274,13 @@
         ]);
         for(const result of [shops,products,packages,payments])if(result.error)throw result.error;
         state.storefronts=shops.data||[];state.shopProducts=(products.data||[]).filter(productAvailable);state.shopPackages=packages.data||[];state.shopPaymentMethods=payments.data||[];
+        const productIds=state.shopProducts.map(product=>product.id);
+        state.productRatings={};
+        if(productIds.length){
+          const {data,error}=await db.from("product_rating_summary").select("product_id,average_rating,review_count").in("product_id",productIds);
+          if(error)throw error;
+          for(const rating of data||[])state.productRatings[rating.product_id]={average:Number(rating.average_rating),count:Number(rating.review_count)};
+        }
         state.loadedMarketplace=true;
       }catch(e){toast("Gagal memuat lapak: "+errText(e),true);}
       finally{state.loadingMarketplace=false;}
@@ -285,6 +306,7 @@
           ]);
           for(const result of [products,payments,orders])if(result.error)throw result.error;
           state.ownProducts=products.data||[];state.ownPaymentMethods=payments.data||[];state.ownOrders=orders.data||[];
+          await loadOrderStatusHistory(state.ownOrders);
           const ids=state.ownProducts.map(product=>product.id);
           if(ids.length){const result=await db.from("shop_packages").select("id,product_id,name,description,price_idr,active").in("product_id",ids);if(result.error)throw result.error;state.ownPackages=result.data||[];}
         }
@@ -318,7 +340,7 @@
       const endDate=new Date(Date.UTC(year,month,1)).toISOString().slice(0,10);
       try{
         const summaryRequest=db.rpc("get_finance_summary",{p_start_date:startDate,p_end_date:endDate,p_storefront_id:storefrontId});
-        let entriesRequest=db.from("finance_entries").select("id,storefront_id,entry_type,category,amount_idr,description,occurred_on,source_type,created_at").gte("occurred_on",startDate).lt("occurred_on",endDate).order("occurred_on",{ascending:false}).order("created_at",{ascending:false}).limit(500);
+        let entriesRequest=db.from("finance_entries").select("id,storefront_id,entry_type,category,amount_idr,description,occurred_on,source_type,is_frozen,created_at").gte("occurred_on",startDate).lt("occurred_on",endDate).order("occurred_on",{ascending:false}).order("created_at",{ascending:false}).limit(500);
         if(storefrontId)entriesRequest=entriesRequest.eq("storefront_id",storefrontId);
         const requests=[summaryRequest,entriesRequest];
         if(adminView)requests.push(db.from("storefronts").select("id,name,owner_id").order("name"));
@@ -340,7 +362,7 @@
       csvDownload("template-pembukuan.csv",[["Tanggal (YYYY-MM-DD)","Jenis (income/expense)","Kategori","Jumlah (IDR)","Keterangan"],["","","","",""]]);
     }
     function exportFinanceReport(){
-      const rows=[["Tanggal","Jenis","Kategori","Jumlah (IDR)","Keterangan","Sumber"],...state.financeEntries.map(entry=>[entry.occurred_on,entry.entry_type,entry.category,entry.amount_idr,entry.description,entry.source_type])];
+      const rows=[["Tanggal","Jenis","Kategori","Jumlah (IDR)","Keterangan","Sumber","Status dana"],...state.financeEntries.map(entry=>[entry.occurred_on,entry.entry_type,entry.category,entry.amount_idr,entry.description,entry.source_type,entry.is_frozen?"dibekukan":"aktif"])];
       csvDownload(`laporan-keuangan-${state.financeMonth}.csv`,rows);
     }
     async function submitFinanceEntry(form){
@@ -360,7 +382,7 @@
       const summary=state.financeSummary||{income_idr:0,expense_idr:0,net_idr:0,entry_count:0};
       const canAdd=!merchantView||state.merchantWriteAccess;
       const labels={income:"Pemasukan",expense:"Pengeluaran",shop_order:"Penjualan terkonfirmasi",shop_order_refund:"Pengembalian pesanan",purchase_order:"Langganan / penyewaan lapak",manual:"Catatan manual"};
-      return `<div class="panel"><div class="section-head"><div><h3>Buku kas · ${esc(state.financeMonth)}</h3><p>${merchantView?"Catatan lapak Anda.":"Pembukuan platform dan seluruh lapak terdaftar."} Pemasukan pesanan dicatat saat dikonfirmasi. Buku kas ini untuk pemantauan operasional, bukan pengganti laporan pajak formal.</p></div><div><input id="finance-month" type="month" value="${esc(state.financeMonth)}" aria-label="Pilih bulan laporan"> <button class="btn btn-ghost btn-small" data-action="export-finance-template">Unduh templat</button> <button class="btn btn-ghost btn-small" data-action="export-finance">Ekspor CSV</button></div></div><div class="admin-kpis"><div class="admin-kpi"><strong>${money(summary.income_idr)}</strong><span>Total pemasukan</span></div><div class="admin-kpi"><strong>${money(summary.expense_idr)}</strong><span>Total pengeluaran</span></div><div class="admin-kpi"><strong>${money(summary.net_idr)}</strong><span>Saldo bersih</span></div><div class="admin-kpi"><strong>${Number(summary.entry_count||0).toLocaleString("id-ID")}</strong><span>Jumlah transaksi</span></div></div></div><section class="panel"><h3>Catat pemasukan atau pengeluaran</h3><p class="price-note">Catatan dibuat permanen untuk menjaga jejak pembukuan. Koreksi transaksi dengan menambahkan entri pembalik; transaksi otomatis berasal dari pesanan yang telah dikonfirmasi.</p><form id="finance-entry-form" class="form-grid"><div class="field"><label>Jenis transaksi</label><select name="entry_type"><option value="income">Pemasukan</option><option value="expense">Pengeluaran</option></select></div><div class="field"><label>Kategori</label><input name="category" maxlength="80" required placeholder="Contoh: Operasional, bahan, jasa"></div><div class="field"><label>Jumlah (Rp)</label><input name="amount_idr" type="number" min="1" step="1" required></div><div class="field"><label>Tanggal transaksi</label><input name="occurred_on" type="date" value="${new Date().toISOString().slice(0,10)}" required></div><div class="field span-2"><label>Keterangan</label><input name="description" maxlength="500" required placeholder="Ringkasan transaksi, tanpa data rahasia"></div><div class="span-2"><button class="btn btn-small" ${canAdd?"":"disabled"}>Simpan transaksi</button></div></form></section><section class="panel"><h3>Transaksi periode terpilih</h3><p class="price-note">Ringkasan total dihitung langsung di basis data; tabel dan ekspor menampilkan maksimal 500 transaksi terakhir pada periode ini.</p><div class="table-wrap"><table><thead><tr>${!merchantView&&isAdmin()?"<th>Lapak</th>":""}<th>Tanggal</th><th>Jenis</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Sumber</th></tr></thead><tbody>${state.financeEntries.map(entry=>`<tr>${!merchantView&&isAdmin()?`<td>${esc(state.storefronts.find(store=>store.id===entry.storefront_id)?.name||(entry.storefront_id?"Lapak":"Platform"))}</td>`:""}<td>${dateShort(entry.occurred_on)}</td><td>${entry.entry_type==="income"?"Pemasukan":"Pengeluaran"}</td><td>${esc(entry.category)}</td><td>${esc(entry.description)}</td><td>${entry.entry_type==="expense"?"−":"+"}${money(entry.amount_idr)}</td><td>${labels[entry.source_type]||esc(entry.source_type)}</td></tr>`).join("")||`<tr><td colspan="${!merchantView&&isAdmin()?7:6}">Belum ada transaksi pada periode ini.</td></tr>`}</tbody></table></div></section>`;
+      return `<div class="panel"><div class="section-head"><div><h3>Buku kas · ${esc(state.financeMonth)}</h3><p>${merchantView?"Catatan lapak Anda.":"Pembukuan platform dan seluruh lapak terdaftar."} Pemasukan pesanan dicatat saat dikonfirmasi. Komplain membekukan sementara baris pemasukan terkait sampai Admin memutuskan. Transfer berlangsung di luar website sehingga pembekuan ini adalah status pembukuan, bukan escrow bank.</p></div><div><input id="finance-month" type="month" value="${esc(state.financeMonth)}" aria-label="Pilih bulan laporan"> <button class="btn btn-ghost btn-small" data-action="export-finance-template">Unduh templat</button> <button class="btn btn-ghost btn-small" data-action="export-finance">Ekspor CSV</button></div></div><div class="admin-kpis"><div class="admin-kpi"><strong>${money(summary.income_idr)}</strong><span>Total pemasukan aktif</span></div><div class="admin-kpi"><strong>${money(summary.expense_idr)}</strong><span>Total pengeluaran</span></div><div class="admin-kpi"><strong>${money(summary.net_idr)}</strong><span>Saldo bersih</span></div><div class="admin-kpi"><strong>${Number(summary.entry_count||0).toLocaleString("id-ID")}</strong><span>Transaksi aktif</span></div></div></div><section class="panel"><h3>Catat pemasukan atau pengeluaran</h3><p class="price-note">Catatan dibuat permanen untuk menjaga jejak pembukuan. Koreksi transaksi dengan menambahkan entri pembalik; transaksi otomatis berasal dari pesanan yang telah dikonfirmasi.</p><form id="finance-entry-form" class="form-grid"><div class="field"><label>Jenis transaksi</label><select name="entry_type"><option value="income">Pemasukan</option><option value="expense">Pengeluaran</option></select></div><div class="field"><label>Kategori</label><input name="category" maxlength="80" required placeholder="Contoh: Operasional, bahan, jasa"></div><div class="field"><label>Jumlah (Rp)</label><input name="amount_idr" type="number" min="1" step="1" required></div><div class="field"><label>Tanggal transaksi</label><input name="occurred_on" type="date" value="${new Date().toISOString().slice(0,10)}" required></div><div class="field span-2"><label>Keterangan</label><input name="description" maxlength="500" required placeholder="Ringkasan transaksi, tanpa data rahasia"></div><div class="span-2"><button class="btn btn-small" ${canAdd?"":"disabled"}>Simpan transaksi</button></div></form></section><section class="panel"><h3>Transaksi periode terpilih</h3><p class="price-note">Ringkasan mengecualikan pemasukan yang sedang dibekukan. Tabel dan ekspor tetap menampilkan maksimal 500 transaksi terakhir beserta status pembekuannya.</p><div class="table-wrap"><table><thead><tr>${!merchantView&&isAdmin()?"<th>Lapak</th>":""}<th>Tanggal</th><th>Jenis</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Sumber / status</th></tr></thead><tbody>${state.financeEntries.map(entry=>`<tr>${!merchantView&&isAdmin()?`<td>${esc(state.storefronts.find(store=>store.id===entry.storefront_id)?.name||(entry.storefront_id?"Lapak":"Platform"))}</td>`:""}<td>${dateShort(entry.occurred_on)}</td><td>${entry.entry_type==="income"?"Pemasukan":"Pengeluaran"}</td><td>${esc(entry.category)}</td><td>${esc(entry.description)}</td><td>${entry.entry_type==="expense"?"−":"+"}${money(entry.amount_idr)}</td><td>${labels[entry.source_type]||esc(entry.source_type)}${entry.is_frozen?`<br><span class="badge pending">Dibekukan · komplain</span>`:""}</td></tr>`).join("")||`<tr><td colspan="${!merchantView&&isAdmin()?7:6}">Belum ada transaksi pada periode ini.</td></tr>`}</tbody></table></div></section>`;
     }
     async function loadBuyerOrders(){
       if(!db||!state.user)return;
@@ -369,9 +391,28 @@
       try{
         const {data,error}=await db.from("shop_orders").select("*").eq("buyer_id",state.user.id).order("created_at",{ascending:false}).limit(300);
         if(error)throw error;
-        state.shopOrders=data||[];state.loadedBuyerOrders=true;
+        state.shopOrders=data||[];
+        await loadOrderStatusHistory(state.shopOrders);
+        state.reviewedOrderIds=[];
+        const orderIds=state.shopOrders.map(order=>order.id);
+        if(orderIds.length){
+          const reviews=await db.from("product_reviews").select("order_id").in("order_id",orderIds);
+          if(reviews.error)throw reviews.error;
+          state.reviewedOrderIds=(reviews.data||[]).map(review=>review.order_id);
+        }
+        state.loadedBuyerOrders=true;
       }catch(e){toast("Gagal memuat pesanan: "+errText(e),true);}
       finally{state.loadingBuyerOrders=false;}
+    }
+    async function loadOrderStatusHistory(orders){
+      const ids=(orders||[]).map(order=>order.id);
+      state.orderStatusHistory={};
+      if(!ids.length)return;
+      const {data,error}=await db.from("order_status_history").select("order_id,status,created_at").in("order_id",ids).order("created_at",{ascending:true});
+      if(error)throw error;
+      for(const entry of data||[]){
+        (state.orderStatusHistory[entry.order_id]||= []).push(entry);
+      }
     }
     async function loadMerchantApplications(){
       const container=document.getElementById("merchant-applications");if(!container||!isAdmin()||state.loadedMerchantApplications)return;
@@ -589,17 +630,43 @@
       const shop=state.storefronts.find(item=>item.id===product.storefront_id);
       const methods=state.shopPaymentMethods.filter(item=>item.storefront_id===product.storefront_id);
       if(!methods.length){toast("Lapak ini belum menambahkan metode pembayaran.",true);return;}
-      showModal(`Pesan dari ${shop?.name||"lapak"}`,`<form id="shop-order-form" data-product="${esc(productId)}" data-package="${esc(packageId)}"><p style="font-size:13px;color:var(--muted)">${esc(product.title)}</p><div class="field"><label>Nama pembeli</label><input name="buyer_name" maxlength="100" value="${esc(state.profile?.display_name||"")}" required></div><div class="field"><label>Email / kontak</label><input name="buyer_contact" maxlength="254" value="${esc(state.user.email||"")}" required></div><div class="field"><label>Jumlah</label><input name="quantity" type="number" min="1" max="${product.track_inventory?Math.min(100,Number(product.stock_quantity)):100}" value="1" required></div>${packageId?`<p>Paket: ${esc(state.shopPackages.find(item=>item.id===packageId)?.name||"")}</p>`:""}<div class="field"><label>Metode pembayaran</label><select name="payment_method" required>${methods.map(method=>`<option value="${method.method}">${paymentLabels[method.method]} · ${esc(method.recipient_name)}</option>`).join("")}</select></div><p style="font-size:11px;color:var(--muted)">Pesanan disimpan dengan snapshot harga dan instruksi pembayaran. Pembayaran dilakukan langsung kepada Pedagang; konfirmasi bukan bukti otomatis pembayaran.</p><button class="btn">Buat pesanan</button></form>`);
+      const offer=packageId?state.shopPackages.find(item=>item.id===packageId&&item.product_id===product.id&&item.active):null;
+      if(packageId&&!offer){toast("Paket sudah tidak tersedia.",true);return;}
+      const unitPrice=Number(offer?.price_idr??product.price_idr),today=new Date(),todayValue=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
+      const rentalFields=product.item_type==="rental"?`<div class="form-grid"><div class="field"><label>Tanggal mulai sewa</label><input name="rental_start_on" type="date" min="${todayValue}" value="${todayValue}" required></div><div class="field"><label>Tanggal selesai sewa</label><input name="rental_end_on" type="date" min="${todayValue}" value="${todayValue}" required></div></div><small class="price-note">Tanggal mulai dan selesai dihitung sebagai hari sewa. Minimal 1 hari.</small>`:"";
+      showModal(`Pesan dari ${shop?.name||"lapak"}`,`<form id="shop-order-form" data-product="${esc(productId)}" data-package="${esc(packageId)}" data-unit-price="${unitPrice}" data-rental="${product.item_type==="rental"}"><p style="font-size:13px;color:var(--muted)">${esc(product.title)}</p><div class="field"><label>Nama pembeli</label><input name="buyer_name" maxlength="100" value="${esc(state.profile?.display_name||"")}" required></div><div class="field"><label>Email / kontak</label><input name="buyer_contact" maxlength="254" value="${esc(state.user.email||"")}" required></div><div class="field"><label>Jumlah</label><input name="quantity" type="number" min="1" max="${product.track_inventory?Math.min(100,Number(product.stock_quantity)):100}" value="1" required></div>${offer?`<p>Paket: ${esc(offer.name)}</p>`:""}${rentalFields}<div class="panel" style="padding:12px;margin:12px 0"><b>Perkiraan total: <span data-order-estimate>${money(unitPrice)}</span></b><small data-order-estimate-note class="price-note" style="display:block;margin-top:4px"></small></div><div class="field"><label>Metode pembayaran</label><select name="payment_method" required>${methods.map(method=>`<option value="${method.method}">${paymentLabels[method.method]} · ${esc(method.recipient_name)}</option>`).join("")}</select></div><p style="font-size:11px;color:var(--muted)">Pesanan disimpan dengan snapshot harga dan instruksi pembayaran. Pembayaran dilakukan langsung kepada Pedagang; konfirmasi bukan bukti otomatis pembayaran.</p><button class="btn">Buat pesanan</button></form>`);
+      updateShopOrderEstimate(document.getElementById("shop-order-form"));
+    }
+    function rentalDayCount(start,end){
+      if(!start||!end)return 0;
+      const first=new Date(`${start}T00:00:00Z`),last=new Date(`${end}T00:00:00Z`);
+      if(Number.isNaN(first.getTime())||Number.isNaN(last.getTime())||last<first)return 0;
+      return Math.floor((last-first)/86400000)+1;
+    }
+    function updateShopOrderEstimate(form){
+      if(!form)return;
+      const quantity=Number(form.elements.quantity.value)||0,unitPrice=Number(form.dataset.unitPrice)||0;
+      const start=form.dataset.rental==="true"?form.elements.rental_start_on.value:"",endInput=form.dataset.rental==="true"?form.elements.rental_end_on:null;
+      if(endInput){endInput.min=start||new Date().toISOString().slice(0,10);if(start&&endInput.value&&endInput.value<start)endInput.value=start;}
+      const days=form.dataset.rental==="true"?rentalDayCount(start,endInput.value):1;
+      const amount=quantity>0&&days>0?quantity*unitPrice*days:0;
+      form.querySelector("[data-order-estimate]").textContent=money(amount);
+      form.querySelector("[data-order-estimate-note]").textContent=form.dataset.rental==="true"?(days?`${days} hari × ${quantity} unit × ${money(unitPrice)} per hari`:"Pilih tanggal sewa yang valid."):`${quantity} unit × ${money(unitPrice)} per unit`;
     }
     async function submitShopOrder(form){
       if(!db||!state.user)return;
       const fields=new FormData(form),productId=form.dataset.product,product=state.shopProducts.find(item=>item.id===productId);
       if(!product){toast("Produk sudah tidak tersedia.",true);return;}
+      const rental=product.item_type==="rental",rentalStart=String(fields.get("rental_start_on")||""),rentalEnd=String(fields.get("rental_end_on")||"");
+      if(rental&&(rentalStart<new Date().toISOString().slice(0,10)||!rentalDayCount(rentalStart,rentalEnd)||rentalDayCount(rentalStart,rentalEnd)>3650)){toast("Pilih rentang tanggal sewa mulai hari ini hingga maksimal 3650 hari.",true);return;}
       try{
-        const {data,error}=await db.from("shop_orders").insert({storefront_id:product.storefront_id,product_id:product.id,package_id:form.dataset.package||null,buyer_id:state.user.id,buyer_name:String(fields.get("buyer_name")).trim(),buyer_contact:String(fields.get("buyer_contact")).trim(),quantity:Number(fields.get("quantity")),payment_method:String(fields.get("payment_method"))}).select("*").single();
+        const orderData={storefront_id:product.storefront_id,product_id:product.id,package_id:form.dataset.package||null,buyer_id:state.user.id,buyer_name:String(fields.get("buyer_name")).trim(),buyer_contact:String(fields.get("buyer_contact")).trim(),quantity:Number(fields.get("quantity")),payment_method:String(fields.get("payment_method"))};
+        if(rental){orderData.rental_start_on=rentalStart;orderData.rental_end_on=rentalEnd;}
+        const {data,error}=await db.from("shop_orders").insert(orderData).select("*").single();
         if(error)throw error;
         const qr=data.payment_qr_image_url&&validHttpsUrl(data.payment_qr_image_url)?`<img src="${esc(data.payment_qr_image_url)}" alt="QRIS ${esc(data.payment_recipient)}" style="max-width:240px;max-height:240px;display:block;margin:16px auto;border-radius:12px">`:"";
-        showModal("Pesanan dibuat",`<p>Nomor pesanan: <b>${esc(data.id.slice(0,8).toUpperCase())}</b></p><p>${esc(data.product_title)} ${data.package_name?`· ${esc(data.package_name)}`:""} · ${data.quantity} × ${money(data.unit_price_idr)}</p><h3>Total ${money(data.total_idr)}</h3><p>Bayar melalui <b>${paymentLabels[data.payment_method]}</b> kepada <b>${esc(data.payment_recipient)}</b>${data.payment_account?`<br>Nomor akun: <b>${esc(data.payment_account)}</b>`:""}</p>${qr}<p style="font-size:12px;color:var(--muted)">Setelah transfer, buka Pesanan saya dan tekan “Saya sudah membayar”. Pedagang akan memverifikasi pembayaran.</p><a class="btn" href="#pesanan" data-action="close-modal">Lihat pesanan saya</a>`);
+        const rentalSummary=data.rental_start_on?`<br>Sewa: ${dateShort(`${data.rental_start_on}T00:00:00`)} – ${dateShort(`${data.rental_end_on}T00:00:00`)} (${rentalDayCount(data.rental_start_on,data.rental_end_on)} hari)`:"";
+        showModal("Pesanan dibuat",`<p>Nomor pesanan: <b>${esc(data.id.slice(0,8).toUpperCase())}</b></p><p>${esc(data.product_title)} ${data.package_name?`· ${esc(data.package_name)}`:""} · ${data.quantity} × ${money(data.unit_price_idr)}${rentalSummary}</p><h3>Total ${money(data.total_idr)}</h3><p>Bayar melalui <b>${paymentLabels[data.payment_method]}</b> kepada <b>${esc(data.payment_recipient)}</b>${data.payment_account?`<br>Nomor akun: <b>${esc(data.payment_account)}</b>`:""}</p>${qr}<p style="font-size:12px;color:var(--muted)">Setelah transfer, buka Pesanan saya dan tekan “Saya sudah membayar”. Pedagang akan memverifikasi pembayaran.</p><a class="btn" href="#pesanan" data-action="close-modal">Lihat pesanan saya</a>`);
         state.loadedBuyerOrders=false;state.loadedMarketplace=false;
       }catch(e){toast("Gagal membuat pesanan: "+errText(e),true);}
     }
@@ -612,12 +679,112 @@
       }catch(e){toast("Gagal melaporkan pembayaran: "+errText(e),true);}
     }
     async function updateShopOrder(id,status){
-      if(!state.ownStore||!["confirmed","completed","cancelled"].includes(status))return;
+      if(!["confirmed","cancelled"].includes(status)||!isAdmin()&&(!state.ownStore||!state.merchantWriteAccess))return;
       if(status==="cancelled"&&!confirm("Batalkan pesanan ini?"))return;
       try{
         const {error}=await db.from("shop_orders").update({status}).eq("id",id);if(error)throw error;
-        state.loadedMerchant=false;state.loadedFinance=false;state.financeScope=null;await loadMerchantData();render();toast("Status pesanan diperbarui.");
+        await refreshOrderViews();toast("Status pesanan diperbarui.");
       }catch(e){toast("Gagal memperbarui pesanan: "+errText(e),true);}
+    }
+    async function refreshOrderViews(){
+      state.loadedBuyerOrders=false;state.loadedMerchant=false;state.loadedOrders=false;state.loadedFinance=false;state.financeScope=null;
+      const route=(location.hash||"").slice(1);
+      if(route==="pesanan")await loadBuyerOrders();
+      if(route==="pedagang"&&state.user)await loadMerchantData();
+      if(route==="admin"&&state.adminTab==="orders")await loadAdminOrders();
+      render();
+    }
+    function orderReviewModal(orderId){
+      const order=state.shopOrders.find(item=>item.id===orderId);
+      if(!order||order.status!=="completed"||state.reviewedOrderIds.includes(orderId)){toast("Ulasan tersedia setelah pesanan selesai dan hanya dapat dikirim satu kali.",true);return;}
+      showModal("Ulasan produk",`<p class="price-note">Ulasan untuk <b>${esc(order.product_title)}</b> · pesanan ${esc(order.id.slice(0,8).toUpperCase())}</p><form id="product-review-form" data-order-id="${esc(order.id)}" data-product-id="${esc(order.product_id)}"><fieldset class="field" style="border:0;padding:0;margin:14px 0"><legend>Penilaian</legend><div class="review-stars">${[5,4,3,2,1].map(rating=>`<label aria-label="${rating} bintang"><input type="radio" name="rating" value="${rating}" ${rating===5?"checked":""} required> ${"★".repeat(rating)}</label>`).join("")}</div></fieldset><div class="field"><label>Ulasan produk / jasa</label><textarea name="body" maxlength="2000" required placeholder="Bagikan pengalaman Anda dengan produk atau jasa ini."></textarea></div><button class="btn">Kirim ulasan</button></form>`);
+    }
+    async function submitProductReview(form){
+      if(!state.user)return;
+      const fields=new FormData(form),orderId=form.dataset.orderId,productId=form.dataset.productId,rating=Number(fields.get("rating")),body=String(fields.get("body")||"").trim();
+      if(!Number.isInteger(rating)||rating<1||rating>5||!body){toast("Pilih rating dan isi ulasan sebelum mengirim.",true);return;}
+      try{
+        const {error}=await db.from("product_reviews").insert({order_id:orderId,product_id:productId,buyer_id:state.user.id,rating,body});
+        if(error)throw error;
+        overlay.innerHTML="";state.loadedBuyerOrders=false;state.loadedMarketplace=false;
+        await Promise.all([loadBuyerOrders(),loadPublicMarketplace()]);render();toast("Ulasan produk terkirim.");
+      }catch(e){toast("Gagal mengirim ulasan: "+errText(e),true);}
+    }
+    async function receiveShopOrder(id){
+      if(!state.user)return;
+      if(!confirm("Konfirmasikan bahwa produk atau jasa sudah diterima? Pesanan akan ditandai selesai."))return;
+      try{
+        const {error}=await db.from("shop_orders").update({status:"completed"}).eq("id",id).eq("buyer_id",state.user.id).eq("status","confirmed");
+        if(error)throw error;
+        await refreshOrderViews();toast("Pesanan ditandai selesai. Silakan bagikan ulasan Anda.");
+        orderReviewModal(id);
+      }catch(e){toast("Gagal mengonfirmasi penerimaan: "+errText(e),true);}
+    }
+    async function disputeShopOrder(id){
+      if(!state.user||!confirm("Ajukan komplain untuk pesanan ini? Pengakuan pemasukan akan dibekukan di buku kas sampai Admin meninjau komplain."))return;
+      try{
+        const {error}=await db.from("shop_orders").update({status:"in_dispute"}).eq("id",id).eq("buyer_id",state.user.id).eq("status","confirmed");
+        if(error)throw error;
+        await refreshOrderViews();toast("Komplain diajukan. Hubungi Pedagang melalui chat pesanan dan tunggu keputusan Admin.");
+      }catch(e){toast("Gagal mengajukan komplain: "+errText(e),true);}
+    }
+    async function resolveShopDispute(id,status){
+      if(!isAdmin()||!["confirmed","cancelled"].includes(status))return;
+      const resolution=status==="cancelled"?"menyetujui refund dan membatalkan pesanan":"menolak komplain dan melanjutkan pesanan";
+      if(!confirm(`Anda akan ${resolution}. ${status==="cancelled"?"Buku kas akan mencatat pembalikan pemasukan.":"Pemasukan akan dilepas dari status beku."} Lanjutkan?`))return;
+      try{
+        const {error}=await db.from("shop_orders").update({status}).eq("id",id).eq("status","in_dispute");
+        if(error)throw error;
+        await refreshOrderViews();toast(status==="cancelled"?"Komplain diselesaikan dengan pembatalan/refund.":"Komplain ditinjau; pesanan kembali diproses.");
+      }catch(e){toast("Gagal menyelesaikan komplain: "+errText(e),true);}
+    }
+    function closeOrderChat(){
+      const channel=state.orderChatChannel;
+      state.orderChatChannel=null;state.orderChatOrderId=null;state.orderChatMessages=[];
+      if(channel&&db)db.removeChannel(channel).then(result=>{if(result==="error")toast("Koneksi chat pesanan tidak dapat ditutup dengan bersih.",true);}).catch(error=>toast("Gagal menutup chat pesanan: "+errText(error),true));
+    }
+    function renderOrderChatMessages(){
+      const container=document.getElementById("order-chat-messages");if(!container)return;
+      container.innerHTML=state.orderChatMessages.map(message=>`<div class="order-chat-message ${message.sender_id===state.user?.id?"mine":""}"><b>${message.sender_id===state.user?.id?"Anda":esc(message.display_name||"Anggota")}</b><br>${esc(message.body)}<small>${dateTimeShort(message.created_at)}</small></div>`).join("")||'<div class="empty">Belum ada pesan. Mulai percakapan terkait pesanan ini.</div>';
+      container.scrollTop=container.scrollHeight;
+    }
+    async function loadOrderChatMessages(orderId){
+      const {data,error}=await db.from("order_chats").select("id,order_id,sender_id,body,created_at").eq("order_id",orderId).order("created_at",{ascending:true}).limit(200);
+      if(error)throw error;
+      if(state.orderChatOrderId!==orderId)return;
+      state.orderChatMessages=data||[];renderOrderChatMessages();
+    }
+    async function openOrderChat(orderId){
+      const order=[...state.shopOrders,...state.ownOrders,...state.adminShopOrders].find(item=>item.id===orderId);
+      if(!order||!state.user){toast("Pesanan atau sesi pengguna tidak tersedia.",true);return;}
+      closeOrderChat();
+      state.orderChatOrderId=orderId;
+      showModal(`Chat pesanan ${orderId.slice(0,8).toUpperCase()}`,`<p class="price-note">${esc(order.product_title)} · ${money(order.total_idr)} · ${esc(order.store_name||"Lapak")}</p><div id="order-chat-messages" class="order-chat-messages"><div class="empty">Memuat percakapan...</div></div><form id="order-chat-form" data-order-id="${esc(orderId)}" class="chat-form"><input name="body" maxlength="2000" required autocomplete="off" placeholder="Tulis pesan terkait pesanan ini"><button class="btn btn-small">Kirim</button></form>`);
+      try{
+        await loadOrderChatMessages(orderId);
+        state.orderChatChannel=db.channel(`shop-order-chat:${orderId}`).on("postgres_changes",{event:"INSERT",schema:"public",table:"order_chats",filter:`order_id=eq.${orderId}`},async()=>{try{await loadOrderChatMessages(orderId);}catch(error){toast("Gagal memuat pesan chat pesanan: "+errText(error),true);}}).subscribe(status=>{if(status==="CHANNEL_ERROR")toast("Koneksi realtime chat pesanan terputus. Coba buka kembali chat.",true);});
+      }catch(e){toast("Gagal memuat chat pesanan: "+errText(e),true);}
+    }
+    async function sendOrderChatMessage(form){
+      if(!state.user)return;
+      const body=String(new FormData(form).get("body")||"").trim(),orderId=form.dataset.orderId;
+      if(!body)return;
+      try{
+        const {error}=await db.from("order_chats").insert({order_id:orderId,sender_id:state.user.id,body});
+        if(error)throw error;
+        form.reset();await loadOrderChatMessages(orderId);
+      }catch(e){toast("Gagal mengirim pesan chat pesanan: "+errText(e),true);}
+    }
+    function printShopInvoice(orderId){
+      const order=[...state.shopOrders,...state.ownOrders,...state.adminShopOrders].find(item=>item.id===orderId);
+      if(!order||!["confirmed","completed"].includes(order.status)){toast("Invoice tersedia setelah pesanan dikonfirmasi.",true);return;}
+      const printWindow=window.open("","_blank");
+      if(!printWindow){toast("Jendela invoice diblokir browser. Izinkan pop-up lalu coba lagi.",true);return;}
+      const rental=order.rental_start_on&&order.rental_end_on?`<tr><th>Periode sewa</th><td>${esc(dateShort(`${order.rental_start_on}T00:00:00`))} – ${esc(dateShort(`${order.rental_end_on}T00:00:00`))} (${rentalDayCount(order.rental_start_on,order.rental_end_on)} hari)</td></tr>`:"";
+      printWindow.document.open();
+      printWindow.document.write(`<!doctype html><html lang="id"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Invoice ${esc(order.id.slice(0,8).toUpperCase())}</title><style>body{font:15px Arial,sans-serif;color:#18332c;margin:40px auto;max-width:760px;padding:0 20px}header{border-bottom:2px solid #1e7458;padding-bottom:18px;margin-bottom:24px}h1{margin:0 0 6px}small{color:#71827c}table{width:100%;border-collapse:collapse;margin:20px 0}th,td{text-align:left;padding:11px;border-bottom:1px solid #e5ebe8}th{width:34%;color:#53665e}.total{font-size:20px;font-weight:bold;text-align:right;padding:18px 0;border-top:2px solid #1e7458}.note{font-size:12px;color:#71827c;margin-top:28px}@media print{body{margin:0 auto}}</style><body><header><h1>Invoice Pesanan</h1><small>Ryan D Clue · Ruang Berbagi</small></header><table><tr><th>Nomor PO</th><td>${esc(order.id.toUpperCase())}</td></tr><tr><th>Status</th><td>${order.status==="completed"?"Selesai":"Dikonfirmasi · diproses"}</td></tr><tr><th>Tanggal pesanan</th><td>${esc(dateTimeShort(order.created_at))}</td></tr><tr><th>Nama lapak</th><td>${esc(order.store_name||"Lapak")}</td></tr><tr><th>Nama pembeli</th><td>${esc(order.buyer_name)}</td></tr><tr><th>Produk / jasa</th><td>${esc(order.product_title)}${order.package_name?` · ${esc(order.package_name)}`:""}</td></tr><tr><th>Jumlah</th><td>${Number(order.quantity)}</td></tr>${rental}<tr><th>Metode pembayaran</th><td>${esc(paymentLabels[order.payment_method]||order.payment_method)} · ${esc(order.payment_recipient)}${order.payment_account?` · ${esc(order.payment_account)}`:""}</td></tr></table><div class="total">Total: ${esc(money(order.total_idr))}</div><p class="note">Invoice ini merupakan bukti ringkasan pesanan. Pembayaran dilakukan langsung kepada Pedagang dan tidak diproses oleh website.</p></body></html>`);
+      printWindow.document.close();
+      setTimeout(()=>{printWindow.focus();printWindow.print();},250);
     }
     function marketplacePage(route="lapak"){
       const slug=route.startsWith("lapak/")?decodeURIComponent(route.slice("lapak/".length)):"";
@@ -652,11 +819,23 @@
       return `${heading}<div class="admin-kpis"><div class="admin-kpi"><strong>${products.length}</strong><span>Produk / jasa</span></div><div class="admin-kpi"><strong>${products.filter(productAvailable).length}</strong><span>Tersedia di katalog</span></div><div class="admin-kpi"><strong>${state.ownOrders.filter(order=>["confirmed","completed"].includes(order.status)).length}</strong><span>Penjualan dikonfirmasi</span></div><div class="admin-kpi"><strong>${money(state.ownOrders.filter(order=>["confirmed","completed"].includes(order.status)).reduce((sum,order)=>sum+Number(order.total_idr||0),0))}</strong><span>Nilai penjualan</span></div></div><div class="dashboard-grid" style="margin-top:18px"><section class="panel"><h3>Informasi lapak</h3><form id="storefront-form"><div class="field"><label>Nama lapak</label><input name="name" maxlength="100" required value="${esc(state.ownStore.name)}"></div><div class="field"><label>Alamat halaman</label><input name="slug" maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*" required value="${esc(state.ownStore.slug)}"></div><div class="field"><label>Deskripsi</label><textarea name="description" minlength="20" maxlength="2000" required>${esc(state.ownStore.description)}</textarea></div><button class="btn btn-small" ${state.merchantWriteAccess?"":"disabled"}>Simpan profil lapak</button></form><div style="margin-top:18px"><button class="btn btn-small" data-merchant-tab="products">Kelola produk & harga →</button></div></section><section class="panel"><h3>Metode pembayaran lapak</h3><p style="font-size:12px;color:var(--muted)">Detail penerima akan tampil ke pembeli saat pemesanan. Jangan masukkan PIN, OTP, kata sandi, atau data rahasia.</p><form id="shop-payment-form" class="form-grid"><div class="field"><label>Metode</label><select name="method">${Object.entries(paymentLabels).map(([key,label])=>`<option value="${key}">${label}</option>`).join("")}</select></div><div class="field"><label>Nama penerima</label><input name="recipient_name" maxlength="100" required></div><div class="field"><label>Nomor akun / telepon (untuk e-wallet)</label><input name="account_identifier" maxlength="100"></div><div class="field"><label>URL gambar QRIS (wajib untuk QRIS, HTTPS)</label><input name="qr_image_url" type="url" maxlength="500"></div><div class="span-2"><button class="btn btn-small" ${state.merchantWriteAccess?"":"disabled"}>Simpan metode</button></div></form><div class="file-list">${methods.map(method=>`<div class="file-item"><span><b>${paymentLabels[method.method]}</b><br>${esc(method.recipient_name)} · ${esc(method.account_identifier||"QRIS")} ${method.qr_image_url?`<br><a class="text-link" href="${esc(method.qr_image_url)}" target="_blank" rel="noopener">Lihat QR</a>`:""}</span><button class="btn btn-ghost btn-small" data-delete-payment="${esc(method.id)}" ${state.merchantWriteAccess?"":"disabled"}>Hapus</button></div>`).join("")||"Belum ada metode pembayaran."}</div></section></div><section class="panel"><div class="section-head"><h3>Pesanan lapak</h3><button class="btn btn-ghost btn-small" data-merchant-tab="finance">Lihat buku kas →</button></div>${shopOrdersTable(state.ownOrders,true)}</section>`;
     }
     function shopOrdersTable(orders,merchantView=false){
-      const statusLabels={pending:"Menunggu pembayaran",payment_reported:"Pembayaran dilaporkan",confirmed:"Dikonfirmasi",completed:"Selesai",cancelled:"Dibatalkan"};
-      return `<div class="table-wrap"><table><thead><tr><th>Pesanan</th>${merchantView?"<th>Pembeli / kontak</th>":"<th>Lapak</th>"}<th>Jumlah</th><th>Garansi / pendampingan</th><th>Metode pembayaran</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${orders.map(order=>`<tr><td>${esc(order.product_title||order.product_id)}${order.package_name?`<br>${esc(order.package_name)}`:""}<br><b>${money(order.total_idr)}</b><br><small>${dateShort(order.created_at)}</small>${order.payment_qr_image_url&&validHttpsUrl(order.payment_qr_image_url)?`<br><a href="${esc(order.payment_qr_image_url)}" target="_blank" rel="noopener">Lihat QRIS</a>`:""}</td><td>${merchantView?`${esc(order.buyer_name)}<br>${esc(order.buyer_contact)}`:esc(order.store_name||order.storefront_id)}</td><td>${order.quantity}</td><td>${order.warranty_ends_at?`Garansi s.d. ${dateShort(order.warranty_ends_at)}`:"Tanpa garansi"}<br>${order.mentorship_ends_at?`Pendampingan s.d. ${dateShort(order.mentorship_ends_at)}`:"Tanpa pendampingan"}</td><td>${paymentLabels[order.payment_method]}<br>${esc(order.payment_recipient)}<br>${esc(order.payment_account||"")}</td><td>${statusLabels[order.status]||esc(order.status)}</td><td>${merchantView?order.status==="pending"||order.status==="payment_reported"?`<button class="btn btn-small" data-shop-order-action="confirmed" data-shop-order="${esc(order.id)}" ${state.merchantWriteAccess?"":"disabled"}>Konfirmasi</button> <button class="btn btn-ghost btn-small" data-shop-order-action="cancelled" data-shop-order="${esc(order.id)}" ${state.merchantWriteAccess?"":"disabled"}>Batalkan</button>`:order.status==="confirmed"?`<button class="btn btn-small" data-shop-order-action="completed" data-shop-order="${esc(order.id)}" ${state.merchantWriteAccess?"":"disabled"}>Tandai selesai</button>`:"—":order.status==="pending"?`<button class="btn btn-small" data-report-shop-payment="${esc(order.id)}">Saya sudah membayar</button>`:"—"}</td></tr>`).join("")||`<tr><td colspan="7">Belum ada pesanan.</td></tr>`}</tbody></table></div>`;
+      const statusLabels={pending:"Menunggu pembayaran",payment_reported:"Pembayaran dilaporkan",confirmed:"Dikonfirmasi · diproses",completed:"Selesai",in_dispute:"Komplain · ditinjau Admin",cancelled:"Dibatalkan"};
+      const statusClass=status=>["pending","payment_reported","in_dispute","cancelled"].includes(status)?"pending":"";
+      const canManageOrders=isAdmin()||state.merchantWriteAccess;
+      return `<div class="table-wrap"><table><thead><tr><th>Pesanan</th>${merchantView?"<th>Pembeli / kontak</th>":"<th>Lapak</th>"}<th>Jumlah / sewa</th><th>Metode pembayaran</th><th>Status & pelacakan</th><th>Aksi</th></tr></thead><tbody>${orders.map(order=>{
+        const history=state.orderStatusHistory[order.id]||[{status:"pending",created_at:order.created_at}];
+        const timeline=history.map(entry=>`<li><b>${esc(statusLabels[entry.status]||entry.status)}</b><time>${dateTimeShort(entry.created_at)}</time></li>`).join("");
+        const badge=`<span class="badge ${statusClass(order.status)}">${esc(statusLabels[order.status]||order.status)}</span>`;
+        const buyerActions=order.status==="pending"?`<button class="btn btn-small" data-report-shop-payment="${esc(order.id)}">Saya sudah membayar</button>`:order.status==="confirmed"?`<button class="btn btn-small" data-order-receive="${esc(order.id)}">Pesanan diterima</button> <button class="btn btn-ghost btn-small" data-order-dispute="${esc(order.id)}">Ajukan komplain</button>`:"";
+        const sellerActions=order.status==="pending"||order.status==="payment_reported"?`<button class="btn btn-small" data-shop-order-action="confirmed" data-shop-order="${esc(order.id)}" ${canManageOrders?"":"disabled"}>Konfirmasi</button> <button class="btn btn-ghost btn-small" data-shop-order-action="cancelled" data-shop-order="${esc(order.id)}" ${canManageOrders?"":"disabled"}>Batalkan</button>`:order.status==="in_dispute"&&isAdmin()?`<button class="btn btn-small" data-order-dispute-resolution="confirmed" data-shop-order="${esc(order.id)}">Lanjutkan pesanan</button> <button class="btn btn-ghost btn-small" data-order-dispute-resolution="cancelled" data-shop-order="${esc(order.id)}">Setujui refund / batalkan</button>`:order.status==="in_dispute"?"Menunggu keputusan Admin":"";
+        const reviewAction=!merchantView&&order.status==="completed"&&!state.reviewedOrderIds.includes(order.id)?`<button class="btn btn-ghost btn-small" data-order-review="${esc(order.id)}">Beri ulasan</button>`:"";
+        const receiptAction=["confirmed","completed"].includes(order.status)?`<button class="btn btn-ghost btn-small" data-print-invoice="${esc(order.id)}">Cetak invoice</button>`:"";
+        const rentalInfo=order.rental_start_on&&order.rental_end_on?`<br><small>Sewa ${dateShort(`${order.rental_start_on}T00:00:00`)} – ${dateShort(`${order.rental_end_on}T00:00:00`)} · ${rentalDayCount(order.rental_start_on,order.rental_end_on)} hari</small>`:"";
+        return `<tr><td><b>${esc(order.product_title||order.product_id)}</b>${order.package_name?`<br>${esc(order.package_name)}`:""}<br>${esc(order.id.slice(0,8).toUpperCase())} · <b>${money(order.total_idr)}</b><br><small>Dibuat ${dateTimeShort(order.created_at)}</small>${rentalInfo}${order.payment_qr_image_url&&validHttpsUrl(order.payment_qr_image_url)?`<br><a href="${esc(order.payment_qr_image_url)}" target="_blank" rel="noopener noreferrer">Lihat QRIS</a>`:""}</td><td>${merchantView?`${esc(order.buyer_name)}<br>${esc(order.buyer_contact)}`:esc(order.store_name||order.storefront_id)}</td><td>${order.quantity}${order.warranty_ends_at?`<br><small>Garansi s.d. ${dateShort(order.warranty_ends_at)}</small>`:""}${order.mentorship_ends_at?`<br><small>Pendampingan s.d. ${dateShort(order.mentorship_ends_at)}</small>`:""}</td><td>${paymentLabels[order.payment_method]||esc(order.payment_method)}<br>${esc(order.payment_recipient)}<br>${esc(order.payment_account||"")}</td><td>${badge}<details class="order-tracking"><summary>Pelacakan status · ${history.length} tahap</summary><ol class="order-timeline">${timeline}</ol></details></td><td><div class="order-actions"><button class="btn btn-ghost btn-small" data-order-chat="${esc(order.id)}">${merchantView?"Hubungi pembeli":"Hubungi pedagang"}</button>${merchantView?sellerActions:buyerActions}${reviewAction}${receiptAction}</div></td></tr>`;
+      }).join("")||`<tr><td colspan="6">Belum ada pesanan.</td></tr>`}</tbody></table></div>`;
     }
     function buyerOrdersPage(){
-      return state.user?`<div class="page-title"><h1>Pesanan saya</h1><p>Instruksi pembayaran dan status pesanan marketplace.</p></div><div class="panel">${shopOrdersTable(state.shopOrders,false)}<p class="price-note">Pembayaran dilakukan langsung kepada Pedagang. Tandai “Saya sudah membayar” hanya setelah melakukan transfer. Verifikasi dan konfirmasi dilakukan oleh Pedagang.</p></div>`:`<div class="page-title"><h1>Pesanan saya</h1><p>Masuk untuk melihat pesanan dan instruksi pembayaran.</p></div><div class="panel"><button class="btn" data-action="auth">Masuk / daftar</button></div>`;
+      return state.user?`<div class="page-title"><h1>Pesanan saya</h1><p>Instruksi pembayaran, pelacakan status, dan tindakan pesanan marketplace.</p></div><div class="panel">${shopOrdersTable(state.shopOrders,false)}<p class="price-note">Pembayaran dilakukan langsung kepada Pedagang. Tandai “Saya sudah membayar” hanya setelah transfer. Setelah barang/jasa diterima, konfirmasi penerimaan; jika ada masalah pada pesanan yang dikonfirmasi, ajukan komplain agar pemasukan ditahan sementara di buku kas sambil ditinjau Admin.</p></div>`:`<div class="page-title"><h1>Pesanan saya</h1><p>Masuk untuk melihat pesanan dan instruksi pembayaran.</p></div><div class="panel"><button class="btn" data-action="auth">Masuk / daftar</button></div>`;
     }
     function timelinePage(){
       const month=state.calendarDate,year=month.getFullYear(),monthIndex=month.getMonth(),firstDay=(new Date(year,monthIndex,1).getDay()+6)%7,days=new Date(year,monthIndex+1,0).getDate(),previousDays=new Date(year,monthIndex,0).getDate();
@@ -750,7 +929,7 @@
         const rows=[["Baru","new"],["Dihubungi","contacted"],["Dikerjakan","in_progress"],["Selesai","completed"],["Dibatalkan","cancelled"]];
         body=`<div class="panel"><div class="section-head"><div><h3>Laporan pengelolaan jasa / klien</h3><p>Ringkasan dihitung dari permintaan jasa tersimpan.</p></div><button class="btn btn-ghost btn-small" data-action="export-service-report">Unduh CSV</button></div><div class="admin-kpis"><div class="admin-kpi"><strong>${state.serviceRequests.length}</strong><span>Total permintaan</span></div><div class="admin-kpi"><strong>${state.serviceRequests.filter(r=>r.status==="new"||r.status==="contacted").length}</strong><span>Perlu tindak lanjut</span></div><div class="admin-kpi"><strong>${state.serviceRequests.filter(r=>r.status==="in_progress").length}</strong><span>Sedang dikerjakan</span></div><div class="admin-kpi"><strong>${state.serviceRequests.filter(r=>r.status==="completed").length}</strong><span>Selesai</span></div></div><div class="table-wrap" style="margin-top:20px"><table><thead><tr><th>Status</th><th>Jumlah</th></tr></thead><tbody>${rows.map(([label,status])=>`<tr><td>${label}</td><td>${state.serviceRequests.filter(r=>r.status===status).length}</td></tr>`).join("")}</tbody></table></div><div class="table-wrap" style="margin-top:18px"><table><thead><tr><th>Jenis jasa</th><th>Jumlah permintaan</th></tr></thead><tbody>${["XLSX","Access","Konsultasi"].map(type=>`<tr><td>${type}</td><td>${state.serviceRequests.filter(r=>r.service_type===type).length}</td></tr>`).join("")}</tbody></table></div><div id="report-loader" class="hidden"></div></div>`;
       }
-      if(state.adminTab==="orders")body=`<div class="panel"><h3>Purchase Order & akun berlangganan</h3><p style="font-size:12px;color:var(--muted)">PO yang disetujui akan otomatis membuat akun berlangganan sesuai durasi paket.</p><div id="purchase-orders" class="table-wrap">Memuat Purchase Order...</div></div>`;
+      if(state.adminTab==="orders")body=`<div class="panel"><h3>Purchase Order & akun berlangganan</h3><p style="font-size:12px;color:var(--muted)">PO yang disetujui akan otomatis membuat akun berlangganan sesuai durasi paket.</p><div id="purchase-orders" class="table-wrap">Memuat Purchase Order...</div></div><div class="panel"><h3>Pesanan lapak</h3><p class="price-note">Tinjau status pesanan dan selesaikan komplain yang sedang ditahan.</p><div id="admin-shop-orders" class="table-wrap">Memuat pesanan lapak...</div></div>`;
       if(state.adminTab==="produk")body=productManagementPage(state.adminProducts,state.adminPackages,true);
       if(state.adminTab==="keuangan")body=financeManagementPage(false);
       if(state.adminTab==="pricing")body=subscriptionPricingPage();
@@ -806,6 +985,7 @@
       if(baseRoute==="pesanan"&&state.user&&!state.loadedBuyerOrders)loadBuyerOrders().then(()=>{if(state.loadedBuyerOrders)render();});
     }
     function showModal(title,content){
+      if(state.orderChatChannel)closeOrderChat();
       clearArticleCoverPreview();
       overlay.innerHTML=`<div class="modal-backdrop" data-action="backdrop"><section class="modal" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="modal-head"><h2>${esc(title)}</h2><button class="close" data-action="close-modal" aria-label="Tutup">×</button></div>${content}</section></div>`;
     }
@@ -958,16 +1138,24 @@
       }catch(e){toast("Gagal mengirim bukti pembayaran: "+errText(e),true);}
     }
     async function loadAdminOrders(){
-      const container=document.getElementById("purchase-orders");if(!container||!isAdmin()||!db)return;
+      const container=document.getElementById("purchase-orders"),shopOrdersContainer=document.getElementById("admin-shop-orders");if(!container||!isAdmin()||!db)return;
       try{
         const plansResult=await db.from("subscription_plans").select("id,name,duration_days,mentorship_days,price_idr,description,active").order("duration_days");if(plansResult.error)throw plansResult.error;if(plansResult.data?.length)state.plans=plansResult.data;
         const {data,error}=await db.from("purchase_orders").select("id,user_id,plan_id,price_idr,duration_days,mentorship_days,status,payment_status,payment_url_snapshot,payment_qr_url_snapshot,payment_instructions_snapshot,payment_proof_url,created_at").order("created_at",{ascending:false}).limit(500);if(error)throw error;
         const orders=data||[],ids=[...new Set(orders.map(o=>o.user_id))];let profiles=[];
         if(ids.length){const response=await db.from("profiles").select("id,display_name").in("id",ids);if(response.error)throw response.error;profiles=response.data||[];}
         const profileName=id=>profiles.find(p=>p.id===id)?.display_name||`${id.slice(0,8)}…`;
-        state.purchaseOrders=orders;state.loadedOrders=true;
+        state.purchaseOrders=orders;
         container.innerHTML=`<table><thead><tr><th>Pemesan</th><th>Paket & durasi</th><th>Harga PO</th><th>Status PO / pembayaran</th><th>Bukti pembayaran</th><th>Tanggal</th><th>Aksi</th></tr></thead><tbody>${orders.map(o=>{const p=state.plans.find(x=>x.id===o.plan_id);return `<tr><td>${esc(profileName(o.user_id))}</td><td>${esc(p?.name||o.plan_id)}<br><small>${o.duration_days} hari · pendampingan ${o.mentorship_days} hari</small></td><td>${money(o.price_idr)}</td><td><span class="badge ${o.status==="pending"?"pending":""}">${({"pending":"Menunggu pembayaran","approved":"Aktif","rejected":"Ditolak"}[o.status]||esc(o.status))}</span><br><small>${({"pending":"Belum tervalidasi","reported":"Bukti dikirim","verified":"Terverifikasi","rejected":"Bukti ditolak"}[o.payment_status]||esc(o.payment_status))}</small></td><td>${o.payment_proof_url?`<a class="text-link" href="${esc(o.payment_proof_url)}" target="_blank" rel="noopener noreferrer">Buka bukti</a>`:"—"}</td><td>${dateShort(o.created_at)}</td><td>${o.status==="pending"&&o.payment_status==="reported"?`<button class="btn btn-small" data-order-action="approved" data-order-id="${esc(o.id)}">Validasi & aktifkan</button> <button class="btn btn-ghost btn-small" data-order-action="rejected" data-order-id="${esc(o.id)}">Tolak</button>`:o.status==="pending"?`<button class="btn btn-ghost btn-small" data-order-action="rejected" data-order-id="${esc(o.id)}">Tolak PO</button>`:"—"}</td></tr>`;}).join("")||'<tr><td colspan="7">Belum ada Purchase Order.</td></tr>'}</tbody></table>`;
-      }catch(e){container.textContent="Gagal memuat Purchase Order: "+errText(e);}
+        if(shopOrdersContainer){
+          const shopOrders=await db.from("shop_orders").select("*").order("created_at",{ascending:false}).limit(500);
+          if(shopOrders.error)throw shopOrders.error;
+          state.adminShopOrders=shopOrders.data||[];
+          await loadOrderStatusHistory(state.adminShopOrders);
+          shopOrdersContainer.innerHTML=shopOrdersTable(state.adminShopOrders,true);
+        }
+        state.loadedOrders=true;
+      }catch(e){state.loadedOrders=false;container.textContent="Gagal memuat Purchase Order: "+errText(e);if(shopOrdersContainer)shopOrdersContainer.textContent="Gagal memuat pesanan lapak: "+errText(e);}
     }
     async function reviewPurchaseOrder(id,status){
       if(!isAdmin()||!["approved","rejected"].includes(status))return;
@@ -1124,7 +1312,7 @@
     }
     function scrollChat(){const el=document.getElementById("chat-messages");if(el)el.scrollTop=el.scrollHeight;}
     document.addEventListener("click",async e=>{
-      const target=e.target.closest("[data-action],[data-category],[data-article],[data-open-article],[data-admin-tab],[data-merchant-tab],[data-page-key],[data-catalog-group],[data-save-role],[data-edit-article],[data-delete-article],[data-delete-media],[data-download-media],[data-auth-mode],[data-service],[data-calendar-step],[data-calendar-date],[data-save-service],[data-purchase-plan],[data-order-action],[data-order-id],[data-delete-embed],[data-buy-product],[data-toggle-product],[data-delete-product],[data-edit-shop-product],[data-edit-package],[data-toggle-package],[data-delete-payment],[data-merchant-review],[data-shop-order-action],[data-report-shop-payment]");
+      const target=e.target.closest("[data-action],[data-category],[data-article],[data-open-article],[data-admin-tab],[data-merchant-tab],[data-page-key],[data-catalog-group],[data-save-role],[data-edit-article],[data-delete-article],[data-delete-media],[data-download-media],[data-auth-mode],[data-service],[data-calendar-step],[data-calendar-date],[data-save-service],[data-purchase-plan],[data-order-action],[data-order-id],[data-delete-embed],[data-buy-product],[data-toggle-product],[data-delete-product],[data-edit-shop-product],[data-edit-package],[data-toggle-package],[data-delete-payment],[data-merchant-review],[data-shop-order-action],[data-report-shop-payment],[data-order-chat],[data-order-receive],[data-order-dispute],[data-order-review],[data-print-invoice],[data-order-dispute-resolution]");
       if(!target)return;
       if(target.dataset.action==="browse"){location.hash="#artikel";document.getElementById("main").scrollIntoView({behavior:"smooth"});}
       if(target.dataset.action==="clear-search"){state.articleSearch="";updateSearchResults();const search=document.getElementById("article-search");if(search)search.value="";}
@@ -1136,8 +1324,8 @@
       if(target.dataset.action==="auth")authModal();
       if(target.dataset.pageKey){state.pages[target.dataset.pageKey]=Number(target.dataset.pageNumber)||1;render();}
       if(target.dataset.catalogGroup){state.catalogGroup=target.dataset.catalogGroup;state.pages["catalog-products"]=1;Object.keys(state.pages).filter(key=>key.startsWith("shop-products-")).forEach(key=>state.pages[key]=1);render();}
-      if(target.dataset.action==="close-modal"){clearArticleCoverPreview();overlay.innerHTML="";}
-      if(target.dataset.action==="backdrop"&&e.target===target){clearArticleCoverPreview();overlay.innerHTML="";}
+      if(target.dataset.action==="close-modal"){closeOrderChat();clearArticleCoverPreview();overlay.innerHTML="";}
+      if(target.dataset.action==="backdrop"&&e.target===target){closeOrderChat();clearArticleCoverPreview();overlay.innerHTML="";}
       if(target.dataset.action==="publish"){
         if(!isEditor()){toast(state.user?"Akun Anda belum memiliki akses Editor.":"Masuk dengan akun Editor untuk menulis artikel.",true);if(!state.user)authModal();return;}
         articleFormModal();
@@ -1171,6 +1359,12 @@
       if(target.dataset.merchantReview)await reviewMerchantApplication(target.dataset.application,target.dataset.merchantReview);
       if(target.dataset.shopOrderAction)await updateShopOrder(target.dataset.shopOrder,target.dataset.shopOrderAction);
       if(target.dataset.reportShopPayment)await reportShopPayment(target.dataset.reportShopPayment);
+      if(target.dataset.orderChat)await openOrderChat(target.dataset.orderChat);
+      if(target.dataset.orderReceive)await receiveShopOrder(target.dataset.orderReceive);
+      if(target.dataset.orderDispute)await disputeShopOrder(target.dataset.orderDispute);
+      if(target.dataset.orderReview)orderReviewModal(target.dataset.orderReview);
+      if(target.dataset.printInvoice)printShopInvoice(target.dataset.printInvoice);
+      if(target.dataset.orderDisputeResolution)await resolveShopDispute(target.dataset.shopOrder,target.dataset.orderDisputeResolution);
     });
     document.addEventListener("mousedown",e=>{
       if(e.target.closest(".article-editor-toolbar button"))e.preventDefault();
@@ -1210,6 +1404,8 @@
       if(f.id==="shop-package-edit")await submitShopPackage(f);
       if(f.id==="shop-payment-form")await saveShopPayment(f);
       if(f.id==="shop-order-form")await submitShopOrder(f);
+      if(f.id==="order-chat-form")await sendOrderChatMessage(f);
+      if(f.id==="product-review-form")await submitProductReview(f);
       if(f.id==="finance-entry-form")await submitFinanceEntry(f);
       if(f.classList.contains("purchase-payment-form"))await reportPurchaseOrderPayment(f);
       if(f.classList.contains("plan-price-form"))await saveSubscriptionPlan(f);
@@ -1217,8 +1413,10 @@
     document.addEventListener("input",e=>{
       if(e.target.id==="viewer-search"){state.viewerSearch=e.target.value;loadViewerTable();}
       if(e.target.id==="article-search"||e.target.id==="timeline-search"){state.articleSearch=e.target.value;state.pages.articles=1;updateSearchResults();}
+      if(e.target.closest("#shop-order-form"))updateShopOrderEstimate(e.target.form);
     });
     document.addEventListener("change",e=>{
+      if(e.target.closest("#shop-order-form"))updateShopOrderEstimate(e.target.form);
       if(e.target.matches("[data-article-font]")){
         const editor=document.getElementById("article-body-editor"),fontName=e.target.value;
         if(!editor||!articleFonts[fontName])return;
@@ -1250,17 +1448,17 @@
       account.setCustomValidity("");qr.setCustomValidity("");
     });
     document.getElementById("auth-btn").addEventListener("click",async()=>{
-      if(state.user){if(!db)return;try{const {error}=await db.auth.signOut();if(error)throw error;if(state.chatChannel){await db.removeChannel(state.chatChannel);state.chatChannel=null;}state.user=null;state.profile=null;toast("Anda telah keluar.");render();}catch(e){toast("Gagal keluar: "+errText(e),true);}}
+      if(state.user){if(!db)return;try{const {error}=await db.auth.signOut();if(error)throw error;if(state.chatChannel){await db.removeChannel(state.chatChannel);state.chatChannel=null;}closeOrderChat();state.user=null;state.profile=null;toast("Anda telah keluar.");render();}catch(e){toast("Gagal keluar: "+errText(e),true);}}
       else authModal();
     });
     document.getElementById("admin-nav").addEventListener("click",()=>location.hash="#admin");
     document.getElementById("access-nav").addEventListener("click",()=>location.hash="#log-akses");
     document.getElementById("menu-btn").addEventListener("click",()=>document.getElementById("mobile-nav").classList.toggle("open"));
     window.addEventListener("hashchange",async()=>{const route=location.hash.slice(1);if(route==="timeline"||route==="admin")await loadTimeline();if(route==="chat")await loadMessages();if(route==="aktivasi"||route==="akun"){state.loadedPricing=false;}if(route==="akun"){state.loadedMerchant=false;}if(route==="embed"){state.loadedEmbeds=false;}if(route==="log-akses"||route==="admin"&&state.adminTab==="access-logs"){state.loadedAccessLogs=false;}if(route==="admin"&&state.adminTab==="running-text")loadTicker();render();});
-    window.addEventListener("keydown",e=>{if(e.key==="Escape")overlay.innerHTML="";});
+    window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeOrderChat();clearArticleCoverPreview();overlay.innerHTML="";}});
     document.addEventListener("contextmenu",e=>{if(!e.target.closest("input,textarea,select,[contenteditable='true']"))e.preventDefault();});
     document.addEventListener("keydown",e=>{const key=e.key.toLowerCase(),blocked=e.key==="F12"||e.ctrlKey&&e.shiftKey&&["i","j","c"].includes(key)||e.ctrlKey&&key==="u";if(blocked){e.preventDefault();e.stopPropagation();}},true);
-    if(db){subscribeToProductChanges();db.auth.onAuthStateChange((_event,session)=>{const nextUser=session?.user||null;if(state.user?.id!==nextUser?.id){state.loadedMarketplace=false;state.loadedMerchant=false;state.loadedBuyerOrders=false;state.loadedMerchantApplications=false;state.loadedFinance=false;state.loadedPricing=false;state.financeScope=null;state.loadedAdminProducts=false;state.loadedAdminPlans=false;state.ownStore=null;state.ownApplication=null;state.ownProducts=[];state.ownPackages=[];state.ownPaymentMethods=[];state.ownOrders=[];state.shopOrders=[];state.purchaseOrders=[];state.subscriptions=[];state.merchantActiveSubscription=false;state.merchantWriteAccess=false;}state.user=nextUser;if(!state.user)state.profile=null;if(_event==="SIGNED_IN"&&session?.user)db.rpc("log_access",{p_event_type:"login",p_target_id:null,p_target_name:null}).then(({error})=>{if(error)toast("Gagal mencatat login: "+errText(error),true);});setTimeout(()=>refreshSession(),0);});}
+    if(db){subscribeToProductChanges();db.auth.onAuthStateChange((_event,session)=>{const nextUser=session?.user||null;if(state.user?.id!==nextUser?.id){closeOrderChat();state.loadedMarketplace=false;state.loadedMerchant=false;state.loadedBuyerOrders=false;state.loadedMerchantApplications=false;state.loadedFinance=false;state.loadedPricing=false;state.financeScope=null;state.loadedAdminProducts=false;state.loadedAdminPlans=false;state.ownStore=null;state.ownApplication=null;state.ownProducts=[];state.ownPackages=[];state.ownPaymentMethods=[];state.ownOrders=[];state.shopOrders=[];state.adminShopOrders=[];state.orderStatusHistory={};state.reviewedOrderIds=[];state.productRatings={};state.purchaseOrders=[];state.subscriptions=[];state.merchantActiveSubscription=false;state.merchantWriteAccess=false;}state.user=nextUser;if(!state.user)state.profile=null;if(_event==="SIGNED_IN"&&session?.user)db.rpc("log_access",{p_event_type:"login",p_target_id:null,p_target_name:null}).then(({error})=>{if(error)toast("Gagal mencatat login: "+errText(error),true);});setTimeout(()=>refreshSession(),0);});}
     setupConfigNotice();
     document.getElementById("year").textContent=new Date().getFullYear();
     refreshSession();
