@@ -45,7 +45,12 @@
     .article-content{white-space:pre-wrap;line-height:1.85;font-size:14px;margin-top:18px;overflow-wrap:anywhere}
     .article-content p{margin:0 0 1em}
     .article-content blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--green);color:var(--muted)}
-    @media(max-width:560px){.article-editor[data-columns],.article-editor [data-columns],.article-content [data-columns]{column-count:1}}
+    .article-document{margin-top:20px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#f8faf9}
+    .article-document-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 15px;background:#fff}
+    .article-document-head strong{font-size:13px;overflow-wrap:anywhere}
+    .article-document-frame{display:block;width:100%;height:min(72vh,820px);min-height:420px;border:0;background:#fff}
+    .article-document-note{padding:10px 14px;margin:0;color:var(--muted);font-size:11px;line-height:1.6}
+    @media(max-width:560px){.article-editor[data-columns],.article-editor [data-columns],.article-content [data-columns]{column-count:1}.article-document-frame{height:65vh;min-height:320px}.article-document-head{align-items:flex-start;flex-direction:column}}
     .order-tracking{margin-top:10px}.order-tracking summary{cursor:pointer;color:var(--green);font-size:12px;font-weight:700}
     .order-timeline{list-style:none;margin:13px 0 0;padding:0 0 0 12px;border-left:2px solid var(--line)}
     .order-timeline li{position:relative;padding:0 0 14px 13px;font-size:11px}
@@ -192,7 +197,7 @@
       if(!db){state.articles=[];state.media=[];state.reviews=[];state.messages=[];state.timeline=[];state.stats={articles:0,views:0,media:0,members:0};render();return;}
       try{
         const [arts,files,reviews]=await Promise.all([
-          db.from("articles").select(isAdmin()?"id,title,excerpt,body,category,author_name,created_at,views,cover_url,published":"id,title,excerpt,body,category,author_name,created_at,cover_url,published").eq("published",true).order("created_at",{ascending:false}).limit(60),
+          db.from("articles").select(isAdmin()?"id,title,excerpt,body,category,author_name,created_at,views,cover_url,document_url,document_name,document_type,document_path,published":"id,title,excerpt,body,category,author_name,created_at,cover_url,document_url,document_name,document_type,document_path,published").eq("published",true).order("created_at",{ascending:false}).limit(60),
           db.from("media_files").select("id,name,storage_path,mime_type,size_bytes,created_at,uploaded_by,public_url").order("created_at",{ascending:false}).limit(100),
           db.from("reviews").select("id,display_name,rating,body,created_at").eq("approved",true).order("created_at",{ascending:false}).limit(20)
         ]);
@@ -1397,7 +1402,8 @@
       const editing=Boolean(article);
       const safeBody=articleEditorMarkup(article?.body||"");
       const currentColumns=article?.body?.match(/data-columns=["']([23])["']/)?.[1]||"1";
-      showModal(editing?"Edit artikel":"Tulis artikel",`<form id="article-form" ${editing?`data-article-id="${esc(article.id)}"`:""}><div class="field"><label>Judul artikel</label><input name="title" maxlength="180" required placeholder="Judul yang menarik" value="${esc(article?.title||"")}"></div><div class="field"><label>Ringkasan</label><textarea name="excerpt" maxlength="300" required placeholder="Ringkas isi artikel dalam beberapa kalimat...">${esc(article?.excerpt||"")}</textarea></div><div class="field"><label id="article-editor-label">Isi artikel</label><div class="article-editor-toolbar" role="toolbar" aria-label="Format isi artikel"><select data-article-font aria-label="Jenis font"><option value="">Font</option>${Object.entries(articleFonts).map(([name])=>`<option value="${esc(name)}">${esc(name)}</option>`).join("")}</select><button type="button" data-article-command="bold" aria-label="Tebal"><b>B</b></button><button type="button" data-article-command="italic" aria-label="Miring"><i>I</i></button><button type="button" data-article-command="underline" aria-label="Garis bawah"><u>U</u></button><button type="button" data-article-command="indent" title="Tambah indent" aria-label="Tambah indent">⇥ Indent</button><button type="button" data-article-command="outdent" title="Kurangi indent" aria-label="Kurangi indent">⇤ Kurangi</button><select data-article-columns aria-label="Jumlah kolom isi"><option value="1" ${currentColumns==="1"?"selected":""}>1 kolom</option><option value="2" ${currentColumns==="2"?"selected":""}>2 kolom</option><option value="3" ${currentColumns==="3"?"selected":""}>3 kolom</option></select></div><div id="article-body-editor" class="article-editor" contenteditable="true" role="textbox" aria-labelledby="article-editor-label" aria-multiline="true" data-placeholder="Tulis artikel Anda...">${safeBody}</div></div><div class="panel" style="padding:13px;margin:12px 0;font-size:12px;line-height:1.6;color:var(--muted)">Pastikan tulisan relevan, akurat, dan bermanfaat. Gunakan materi asli atau cantumkan sumber; jangan memuat data pribadi, ujaran kebencian, pelanggaran hak cipta, atau informasi yang belum terverifikasi.</div><div class="form-grid"><div class="field"><label>Kategori</label><select name="category">${["Artikel","Berita","Tutorial","Cerita"].map(c=>`<option ${article?.category===c?"selected":""}>${c}</option>`).join("")}</select></div><div class="field"><label>Gambar ilustrasi / sampul (opsional)</label><input type="file" name="cover" accept="image/png,image/jpeg,image/bmp"><small>Format PNG, JPEG, atau BMP. Maksimal 10 MB. Gambar tampil di kartu dan bagian atas artikel.</small><div id="article-cover-preview" class="cover-preview" data-current-src="${esc(article?.cover_url||"")}">${article?.cover_url?`<img src="${esc(article.cover_url)}" alt="Ilustrasi artikel saat ini"><span>Ilustrasi saat ini</span>`:"<span>Pratinjau gambar akan tampil di sini.</span>"}</div></div></div><button class="btn">${editing?"Simpan perubahan":"Terbitkan artikel"}</button></form>`);
+      const existingDocument=article?.document_url?`<div class="account-alert">Dokumen saat ini: <a href="${esc(article.document_url)}" target="_blank" rel="noopener noreferrer"><b>${esc(article.document_name||"Buka dokumen")}</b></a><label style="display:flex;gap:8px;align-items:center;margin-top:9px"><input type="checkbox" name="remove_document" value="true"> Hapus dokumen dari artikel</label></div>`:"";
+      showModal(editing?"Edit artikel":"Tulis artikel",`<form id="article-form" ${editing?`data-article-id="${esc(article.id)}"`:""}><div class="field"><label>Judul artikel</label><input name="title" maxlength="180" required placeholder="Judul yang menarik" value="${esc(article?.title||"")}"></div><div class="field"><label>Ringkasan</label><textarea name="excerpt" maxlength="300" required placeholder="Ringkas isi artikel dalam beberapa kalimat...">${esc(article?.excerpt||"")}</textarea></div><div class="field"><label id="article-editor-label">Isi artikel</label><div class="article-editor-toolbar" role="toolbar" aria-label="Format isi artikel"><select data-article-font aria-label="Jenis font"><option value="">Font</option>${Object.entries(articleFonts).map(([name])=>`<option value="${esc(name)}">${esc(name)}</option>`).join("")}</select><button type="button" data-article-command="bold" aria-label="Tebal"><b>B</b></button><button type="button" data-article-command="italic" aria-label="Miring"><i>I</i></button><button type="button" data-article-command="underline" aria-label="Garis bawah"><u>U</u></button><button type="button" data-article-command="indent" title="Tambah indent" aria-label="Tambah indent">⇥ Indent</button><button type="button" data-article-command="outdent" title="Kurangi indent" aria-label="Kurangi indent">⇤ Kurangi</button><select data-article-columns aria-label="Jumlah kolom isi"><option value="1" ${currentColumns==="1"?"selected":""}>1 kolom</option><option value="2" ${currentColumns==="2"?"selected":""}>2 kolom</option><option value="3" ${currentColumns==="3"?"selected":""}>3 kolom</option></select></div><div id="article-body-editor" class="article-editor" contenteditable="true" role="textbox" aria-labelledby="article-editor-label" aria-multiline="true" data-placeholder="Tulis artikel Anda...">${safeBody}</div></div><div class="panel" style="padding:13px;margin:12px 0;font-size:12px;line-height:1.6;color:var(--muted)">Pastikan tulisan relevan, akurat, dan bermanfaat. Gunakan materi asli atau cantumkan sumber; jangan memuat data pribadi, ujaran kebencian, pelanggaran hak cipta, atau informasi yang belum terverifikasi.</div><div class="form-grid"><div class="field"><label>Kategori</label><select name="category">${["Artikel","Berita","Tutorial","Cerita"].map(c=>`<option ${article?.category===c?"selected":""}>${c}</option>`).join("")}</select></div><div class="field"><label>Gambar ilustrasi / sampul (opsional)</label><input type="file" name="cover" accept="image/png,image/jpeg,image/bmp"><small>Format PNG, JPEG, atau BMP. Maksimal 10 MB. Gambar tampil di kartu dan bagian atas artikel.</small><div id="article-cover-preview" class="cover-preview" data-current-src="${esc(article?.cover_url||"")}">${article?.cover_url?`<img src="${esc(article.cover_url)}" alt="Ilustrasi artikel saat ini"><span>Ilustrasi saat ini</span>`:"<span>Pratinjau gambar akan tampil di sini.</span>"}</div></div></div><div class="field"><label>Dokumen sumber / artikel utuh (opsional)</label><input type="file" name="document" accept=".pdf,.docx,.ppt,.pptx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"><small>PDF, DOCX, PPT, atau PPTX · maksimal 50 MB. PDF ditampilkan langsung; DOCX/PPT/PPTX memakai pratinjau Microsoft Office Online. Dokumen yang diterbitkan dapat diakses publik.</small>${existingDocument}</div><button class="btn">${editing?"Simpan perubahan":"Terbitkan artikel"}</button></form>`);
       const editor=document.getElementById("article-body-editor");
       const fontWrapper=editor.querySelector("[data-font]");
       if(fontWrapper)editor.innerHTML=fontWrapper.innerHTML;
@@ -1421,19 +1427,54 @@
       let body=sanitizeArticleHtml(editor?.innerHTML||"").trim();
       if(columns!=="1")body=`<div data-columns="${columns}">${body}</div>`;
       if(fontFamily&&articleFonts[fontFamily])body=`<div data-font="${esc(fontFamily)}">${body}</div>`;
-      if(!title||!editor?.textContent?.trim()||!body){toast("Judul dan isi artikel wajib diisi.",true);return;}
+      const documentFile=fd.get("document"),removeDocument=fd.get("remove_document")==="true",existing=state.articles.find(a=>a.id===form.dataset.articleId);
+      if(!title||(!editor?.textContent?.trim()&&!documentFile?.size&&!existing?.document_url)){toast("Isi artikel atau dokumen sumber wajib disertakan.",true);return;}
       if(!db||!state.user){toast("Masuk dengan akun yang memiliki akses publikasi untuk menerbitkan artikel.",true);return;}
+      let uploadedDocumentPath=null,articleSaved=false,documentCleanupWarning="";
       try{
         const articleId=form.dataset.articleId;
         const coverFile=fd.get("cover");let cover_url=state.articles.find(a=>a.id===articleId)?.cover_url||null;
         if(coverFile?.size){validateArticleCover(coverFile);const bucket=cfg.publicCoverBucket||"ruangbagi-public",path=`${state.user.id}/${Date.now()}-${safeName(coverFile.name)}`;const {error:upErr}=await db.storage.from(bucket).upload(path,coverFile,{upsert:false,contentType:coverFile.type||undefined});if(upErr)throw upErr;cover_url=db.storage.from(bucket).getPublicUrl(path).data.publicUrl;}
-        const articleData={title,excerpt:String(fd.get("excerpt")).trim(),body,category:String(fd.get("category")),cover_url,published:true};
+        let document_url=existing?.document_url||null,document_name=existing?.document_name||null,document_type=existing?.document_type||null,document_path=existing?.document_path||null;
+        if(documentFile?.size){
+          validateArticleDocument(documentFile);
+          const bucket=cfg.articleStorageBucket||"ruangbagi-articles",path=`${state.user.id}/${Date.now()}-${safeName(documentFile.name)}`;
+          const {error:upErr}=await db.storage.from(bucket).upload(path,documentFile,{upsert:false,contentType:articleDocumentMime(documentFile.name)});
+          if(upErr)throw upErr;
+          uploadedDocumentPath=path;document_path=path;document_name=documentFile.name;document_type=documentFile.name.split(".").pop().toLowerCase();
+          document_url=db.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+        }else if(removeDocument){document_url=null;document_name=null;document_type=null;document_path=null;}
+        const articleData={title,excerpt:String(fd.get("excerpt")).trim(),body,category:String(fd.get("category")),cover_url,document_url,document_name,document_type,document_path,published:true};
         const {error}=articleId
           ? await db.from("articles").update(articleData).eq("id",articleId)
           : await db.from("articles").insert({...articleData,author_id:state.user.id,author_name:state.profile?.display_name||state.user.email});
         if(error)throw error;
+        articleSaved=true;
+        const previousDocumentPath=existing?.document_path;
+        if(previousDocumentPath&&(document_path!==previousDocumentPath||removeDocument)){
+          const {error:removeError}=await db.storage.from(cfg.articleStorageBucket||"ruangbagi-articles").remove([previousDocumentPath]);
+          if(removeError)documentCleanupWarning="Dokumen lama gagal dibersihkan: "+errText(removeError);
+        }
         clearArticleCoverPreview();overlay.innerHTML="";toast(articleId?"Perubahan artikel tersimpan.":"Artikel berhasil diterbitkan.");await loadContent();if(!articleId)location.hash="#artikel";
-      }catch(e){toast("Gagal menyimpan artikel: "+errText(e),true);}
+        if(documentCleanupWarning)toast("Artikel tersimpan, tetapi "+documentCleanupWarning,true);
+      }catch(e){
+        if(articleSaved){toast("Artikel tersimpan, tetapi proses lanjutan gagal: "+errText(e),true);return;}
+        let message="Gagal menyimpan artikel: "+errText(e);
+        if(uploadedDocumentPath){
+          const {error:cleanupError}=await db.storage.from(cfg.articleStorageBucket||"ruangbagi-articles").remove([uploadedDocumentPath]);
+          if(cleanupError)message+=" Dokumen yang sempat diunggah juga gagal dibersihkan: "+errText(cleanupError);
+        }
+        toast(message,true);
+      }
+    }
+    function articleDocumentMime(name){
+      const ext=String(name).split(".").pop().toLowerCase();
+      return {pdf:"application/pdf",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",ppt:"application/vnd.ms-powerpoint",pptx:"application/vnd.openxmlformats-officedocument.presentationml.presentation"}[ext]||"application/octet-stream";
+    }
+    function validateArticleDocument(file){
+      const ext=file.name.split(".").pop().toLowerCase();
+      if(!["pdf","docx","ppt","pptx"].includes(ext))throw new Error("Dokumen artikel harus berformat PDF, DOCX, PPT, atau PPTX.");
+      if(file.size>50*1024*1024)throw new Error("Ukuran dokumen artikel maksimal 50 MB.");
     }
     function validateFile(file){
       const ext=file.name.split(".").pop().toLowerCase();
@@ -1706,7 +1747,25 @@
     }
     function articleModal(article){
       const rawBody=article.body||article.excerpt||"Konten artikel belum tersedia.",body=sanitizeArticleHtml(rawBody);
-      showModal(article.title,`<div class="meta"><span>${esc(article.author_name||"Kontributor")}</span><span>${dateShort(article.created_at)}${isAdmin()?` · ${Number(article.views||0).toLocaleString("id-ID")} views`:""}</span></div>${article.cover_url?`<img src="${esc(article.cover_url)}" alt="" style="width:100%;max-height:250px;object-fit:cover;border-radius:12px;margin:15px 0">`:""}<div class="article-content">${body||esc(rawBody)}</div>`);
+      showModal(article.title,`<div class="meta"><span>${esc(article.author_name||"Kontributor")}</span><span>${dateShort(article.created_at)}${isAdmin()?` · ${Number(article.views||0).toLocaleString("id-ID")} views`:""}</span></div>${article.cover_url?`<img src="${esc(article.cover_url)}" alt="" style="width:100%;max-height:250px;object-fit:cover;border-radius:12px;margin:15px 0">`:""}<div class="article-content">${body||esc(rawBody)}</div>${articleDocumentMarkup(article)}`);
+    }
+    function articleDocumentMarkup(article){
+      if(!article.document_url)return "";
+      let source;
+      try{
+        const configured=new URL(cfg.supabaseUrl),candidate=new URL(article.document_url);
+        if(candidate.protocol!=="https:"||candidate.host!==configured.host)throw new Error("Alamat dokumen bukan dari penyimpanan publikasi yang tepercaya.");
+        source=candidate.href;
+      }catch(error){
+        return `<div class="account-alert" role="alert">Pratinjau dokumen tidak tersedia: ${esc(errText(error))}</div>`;
+      }
+      const type=String(article.document_type||article.document_name?.split(".").pop()||"").toLowerCase();
+      if(!["pdf","docx","ppt","pptx"].includes(type))return '<div class="account-alert" role="alert">Format dokumen ini tidak didukung untuk pratinjau.</div>';
+      const name=esc(article.document_name||"Dokumen artikel");
+      const frame=type==="pdf"
+        ? `<iframe class="article-document-frame" src="${esc(source)}" title="Pratinjau ${name}" loading="lazy" referrerpolicy="no-referrer"></iframe>`
+        : `<iframe class="article-document-frame" src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(source)}" title="Pratinjau ${name}" loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe>`;
+      return `<section class="article-document" aria-label="Dokumen artikel"><div class="article-document-head"><strong>${name}</strong><a class="btn btn-small btn-ghost" href="${esc(source)}" target="_blank" rel="noopener noreferrer">Buka / unduh dokumen</a></div>${frame}${type==="pdf"?"":'<p class="article-document-note">Pratinjau dokumen Office dimuat dari Microsoft Office Online menggunakan berkas publik ini.</p>'}</section>`;
     }
     function updateSearchResults(){
       const query=state.articleSearch.toLowerCase();
