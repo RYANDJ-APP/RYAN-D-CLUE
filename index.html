@@ -100,7 +100,7 @@
     document.body.appendChild(toastEl);
     const paymentMethods=["qris","bank_transfer","gopay","shopeepay","dana"];
     const emptyPaymentMethodSettings=()=>Object.fromEntries(paymentMethods.map(method=>[method,{recipient:"",account:"",qrUrl:"",instructions:""}]));
-    const state = { user:null,profile:null,articles:[],media:[],samples:[],sampleLoadError:"",reviews:[],messages:[],secureChatRooms:[],secureChatMessages:[],secureChatRoomId:null,secureChatIdentity:null,secureChatError:"",secureChatLoaded:false,secureChatLoading:false,timeline:[],serviceRequests:[],ownServiceRequests:[],loadedOwnServiceRequests:false,purchaseOrders:[],subscriptions:[],accessLogs:[],merchantApplications:[],storefronts:[],ownStore:null,ownApplication:null,ownSubscription:null,merchantActiveSubscription:false,merchantWriteAccess:false,shopProducts:[],shopPackages:[],shopPaymentMethods:[],shopOrders:[],adminShopOrders:[],orderStatusHistory:{},reviewedOrderIds:[],productRatings:{},orderChatMessages:[],orderChatChannel:null,orderChatOrderId:null,ownProducts:[],ownPackages:[],ownPaymentMethods:[],ownOrders:[],adminProducts:[],adminPackages:[],financeEntries:[],financeSummary:{income_idr:0,expense_idr:0,net_idr:0,entry_count:0},financeMonth:new Date().toISOString().slice(0,7),financeScope:null,plans:[{id:"monthly",name:"Bulanan",duration_days:30,mentorship_days:30,price_idr:99000,description:"Akses selama 1 bulan"},{id:"six_month",name:"6 Bulanan",duration_days:180,mentorship_days:180,price_idr:499000,description:"Akses selama 6 bulan"},{id:"yearly",name:"1 Tahunan",duration_days:365,mentorship_days:365,price_idr:899000,description:"Akses selama 1 tahun"}],paymentSettings:emptyPaymentMethodSettings(),paymentSettingsError:"",paymentSettingsLoading:false,externalLinks:[],socialLinks:{},chatChannel:null,marketplaceChannel:null,stats:{articles:0,views:0,media:0,members:0},category:"Semua",sampleCategory:"Semua",sampleSearch:"",catalogGroup:"all",pages:{},adminTab:"dashboard",merchantTab:"overview",viewerSearch:"",articleSearch:"",calendarDate:new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate:"",loadedPricing:false,loadedAdminPlans:false,loadedEmbeds:false,loadedOrders:false,loadedRequests:false,loadedSocial:false,loadedAccessLogs:false,loadedMarketplace:false,loadedSamples:false,loadedMerchant:false,loadedBuyerOrders:false,loadedMerchantApplications:false,loadedAdminProducts:false,loadedFinance:false,loadedPaymentSettings:false,loadingFinance:false,loadingMarketplace:false,loadingMerchant:false,loadingBuyerOrders:false,survey:null,loading:false,articleEditorRange:null };
+    const state = { user:null,profile:null,articles:[],media:[],samples:[],sampleLoadError:"",reviews:[],messages:[],secureChatRooms:[],secureChatMessages:[],secureChatRoomId:null,secureChatIdentity:null,secureChatError:"",secureChatLoaded:false,secureChatLoading:false,adminChatContacts:[],adminChatContactsError:"",adminChatContactsLoaded:false,adminChatContactsLoading:false,adminChatContactSearch:"",timeline:[],serviceRequests:[],ownServiceRequests:[],loadedOwnServiceRequests:false,purchaseOrders:[],subscriptions:[],accessLogs:[],merchantApplications:[],storefronts:[],ownStore:null,ownApplication:null,ownSubscription:null,merchantActiveSubscription:false,merchantWriteAccess:false,shopProducts:[],shopPackages:[],shopPaymentMethods:[],shopOrders:[],adminShopOrders:[],orderStatusHistory:{},reviewedOrderIds:[],productRatings:{},orderChatMessages:[],orderChatChannel:null,orderChatOrderId:null,ownProducts:[],ownPackages:[],ownPaymentMethods:[],ownOrders:[],adminProducts:[],adminPackages:[],financeEntries:[],financeSummary:{income_idr:0,expense_idr:0,net_idr:0,entry_count:0},financeMonth:new Date().toISOString().slice(0,7),financeScope:null,plans:[{id:"monthly",name:"Bulanan",duration_days:30,mentorship_days:30,price_idr:99000,description:"Akses selama 1 bulan"},{id:"six_month",name:"6 Bulanan",duration_days:180,mentorship_days:180,price_idr:499000,description:"Akses selama 6 bulan"},{id:"yearly",name:"1 Tahunan",duration_days:365,mentorship_days:365,price_idr:899000,description:"Akses selama 1 tahun"}],paymentSettings:emptyPaymentMethodSettings(),paymentSettingsError:"",paymentSettingsLoading:false,externalLinks:[],socialLinks:{},chatChannel:null,marketplaceChannel:null,stats:{articles:0,views:0,media:0,members:0},category:"Semua",sampleCategory:"Semua",sampleSearch:"",catalogGroup:"all",pages:{},adminTab:"dashboard",merchantTab:"overview",viewerSearch:"",articleSearch:"",calendarDate:new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate:"",loadedPricing:false,loadedAdminPlans:false,loadedEmbeds:false,loadedOrders:false,loadedRequests:false,loadedSocial:false,loadedAccessLogs:false,loadedMarketplace:false,loadedSamples:false,loadedMerchant:false,loadedBuyerOrders:false,loadedMerchantApplications:false,loadedAdminProducts:false,loadedFinance:false,loadedPaymentSettings:false,loadingFinance:false,loadingMarketplace:false,loadingMerchant:false,loadingBuyerOrders:false,survey:null,loading:false,articleEditorRange:null };
     const socialPlatforms = [
       ["instagram","Instagram","https://www.instagram.com/akun-anda"],
       ["youtube","YouTube","https://www.youtube.com/@channel-anda"],
@@ -378,8 +378,8 @@
           }
           catch{return {...message,body:"Tidak dapat membuka pesan di perangkat ini."};}
         }));
-        if(state.secureChatRoomId===roomId){state.secureChatMessages=messages;if(location.hash==="#chat")render();}
-      }catch(error){state.secureChatError="Gagal memuat percakapan: "+errText(error);if(location.hash==="#chat")render();}
+        if(state.secureChatRoomId===roomId){state.secureChatMessages=messages;if(location.hash==="#chat"||location.hash==="#admin"&&state.adminTab==="private-chat")render();}
+      }catch(error){state.secureChatError="Gagal memuat percakapan: "+errText(error);if(location.hash==="#chat"||location.hash==="#admin"&&state.adminTab==="private-chat")render();}
     }
     async function loadSecureChat(){
       if(!db||!state.user||state.secureChatLoaded||state.secureChatLoading)return;
@@ -415,7 +415,7 @@
         state.secureChatLoaded=true;
         if(!state.chatChannel){
           state.chatChannel=db.channel(`ruangbagi-e2ee-chat:${state.user.id}`).on("postgres_changes",{event:"INSERT",schema:"public",table:"chat_secure_messages"},async event=>{
-            if(location.hash==="#chat"&&event.new?.room_id===state.secureChatRoomId)await loadSecureChatMessages();
+            if((location.hash==="#chat"||location.hash==="#admin"&&state.adminTab==="private-chat")&&event.new?.room_id===state.secureChatRoomId)await loadSecureChatMessages();
           }).subscribe(status=>{if(status==="CHANNEL_ERROR")toast("Koneksi chat privat terputus. Buka kembali halaman chat untuk menyambungkan.",true);});
         }
         await loadSecureChatMessages();
@@ -426,6 +426,59 @@
         state.secureChatLoading=false;
         if(location.hash==="#chat")render();
       }
+    }
+    async function loadAdminChatContacts(){
+      if(!isAdmin()||!db||state.adminChatContactsLoaded||state.adminChatContactsLoading)return;
+      state.adminChatContactsLoading=true;state.adminChatContactsError="";
+      try{
+        const {data:profiles,error:profileError}=await db.from("profiles").select("id,display_name,email,role,created_at").neq("role","superadmin").order("display_name").limit(500);
+        if(profileError)throw profileError;
+        const contacts=profiles||[],userIds=contacts.map(contact=>contact.id);
+        const [devicesResult,roomsResult]=userIds.length?await Promise.all([
+          db.from("chat_device_keys").select("user_id").in("user_id",userIds),
+          db.from("chat_rooms").select("id,direct_user_id,room_type").eq("room_type","admin_member").in("direct_user_id",userIds)
+        ]):[{data:[],error:null},{data:[],error:null}];
+        if(devicesResult.error)throw devicesResult.error;
+        if(roomsResult.error)throw roomsResult.error;
+        const deviceUsers=new Set((devicesResult.data||[]).map(device=>device.user_id));
+        const roomsByUser=new Map((roomsResult.data||[]).map(room=>[room.direct_user_id,room]));
+        state.adminChatContacts=contacts.map(contact=>({...contact,chatDeviceReady:deviceUsers.has(contact.id),chatRoom:roomsByUser.get(contact.id)||null}));
+        state.adminChatContactsLoaded=true;
+      }catch(error){state.adminChatContactsError=errText(error);toast("Gagal memuat daftar kontak chat: "+errText(error),true);}
+      finally{state.adminChatContactsLoading=false;}
+      if(location.hash==="#admin"&&state.adminTab==="private-chat")render();
+    }
+    function adminPrivateChatPage(){
+      if(!isAdmin())return "";
+      const query=state.adminChatContactSearch.trim().toLowerCase();
+      const contacts=state.adminChatContacts.filter(contact=>`${contact.display_name||""} ${contact.email||""} ${contact.role||""}`.toLowerCase().includes(query));
+      const selectedRoom=state.secureChatRooms.find(room=>room.id===state.secureChatRoomId&&room.room_type==="admin_member");
+      const selectedContact=selectedRoom?state.adminChatContacts.find(contact=>contact.id===selectedRoom.direct_user_id):null;
+      const contactList=state.adminChatContactsLoading?'<div class="empty">Memuat daftar pelanggan...</div>':state.adminChatContactsError?`<div class="account-alert" role="alert">Daftar kontak tidak dapat dimuat: ${esc(state.adminChatContactsError)} <button class="btn btn-small" data-action="retry-admin-chat-contacts">Coba lagi</button></div>`:contacts.map(contact=>`<article class="file-item"><span><b>${esc(contact.display_name||"Anggota")}</b><br><small>${esc(contact.email||"Email tidak tersedia")} · ${esc(({viewer:"Viewer",customer:"Pelanggan",merchant:"Pedagang",editor:"Editor"}[contact.role]||"Anggota"))}</small><br><small>${contact.chatDeviceReady?"Perangkat chat siap":"Belum mendaftarkan perangkat chat"}${contact.chatRoom?" · Percakapan tersedia":""}</small></span><button class="btn btn-small" data-admin-chat-contact="${esc(contact.id)}">${contact.chatRoom?"Buka chat":"Hubungi"}</button></article>`).join("")||'<div class="empty">Tidak ada akun pelanggan yang cocok.</div>';
+      const conversation=selectedRoom&&selectedContact?`<section class="panel"><div class="section-head"><div><h3>${esc(selectedContact.display_name||"Anggota")}</h3><p>${esc(selectedContact.email||"")}</p></div><span class="badge">Chat privat</span></div>${state.secureChatError?`<div class="account-alert" role="alert">${esc(state.secureChatError)}</div>`:""}${!selectedContact.chatDeviceReady?'<div class="account-alert">Pelanggan belum membuka Chat Privat pada perangkatnya. Minta pelanggan membuka fitur tersebut agar kunci perangkatnya terdaftar, lalu kirim pesan.</div>':""}<div class="account-alert" role="note">Percakapan terenkripsi end-to-end dan hanya dapat dibuka oleh perangkat peserta yang terdaftar.</div><div class="chat-box"><div id="chat-messages" class="chat-messages">${state.secureChatMessages.map(message=>`<div class="message ${message.sender_id===state.user.id?"mine":""}"><b>${message.sender_id===state.user.id?"Anda":esc(selectedContact.display_name||"Pelanggan")}</b><br>${esc(message.body)}<small>${new Date(message.created_at).toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"})}</small></div>`).join("")||'<div class="empty">Belum ada pesan. Kirim pesan untuk memulai percakapan.</div>'}</div><form id="chat-form" class="chat-form"><input name="body" maxlength="2000" placeholder="Pesan terenkripsi…" required autocomplete="off"><button class="btn btn-small">Kirim</button></form></div></section>`:`<section class="panel"><h3>Pilih pelanggan</h3><p class="price-note">Pilih kontak untuk membuka atau memulai percakapan privat.</p></section>`;
+      return `<div class="panel"><div class="section-head"><div><h3>Kontak pelanggan</h3><p>Daftar akun terdaftar yang dapat dihubungi Pengelola.</p></div><button class="btn btn-ghost btn-small" data-action="refresh-admin-chat-contacts">Perbarui daftar</button></div><div class="field"><label for="admin-chat-contact-search">Cari nama, email, atau role</label><input id="admin-chat-contact-search" type="search" value="${esc(state.adminChatContactSearch)}" placeholder="Cari kontak..."></div><div class="file-list">${contactList}</div></div>${conversation}`;
+    }
+    async function openAdminPrivateChat(userId){
+      if(!isAdmin()||!db)return;
+      const contact=state.adminChatContacts.find(item=>item.id===userId);
+      if(!contact){toast("Kontak tidak ditemukan pada daftar akun.",true);return;}
+      try{
+        await ensureSecureChatIdentity();
+        const {data:roomId,error:roomError}=await db.rpc("ensure_admin_member_chat_for_user",{p_user_id:userId});
+        if(roomError)throw roomError;
+        const {data:room,error}=await db.from("chat_rooms").select("id,room_code,room_type,direct_user_id,title,created_at").eq("id",roomId).single();
+        if(error)throw error;
+        state.secureChatRooms=[room];state.secureChatRoomId=room.id;state.secureChatMessages=[];state.secureChatError="";state.secureChatLoaded=false;
+        if(!state.chatChannel){
+          state.chatChannel=db.channel(`ruangbagi-e2ee-chat:${state.user.id}`).on("postgres_changes",{event:"INSERT",schema:"public",table:"chat_secure_messages"},async event=>{
+            if(location.hash==="#admin"&&state.adminTab==="private-chat"&&event.new?.room_id===state.secureChatRoomId)await loadSecureChatMessages();
+          }).subscribe(status=>{if(status==="CHANNEL_ERROR")toast("Koneksi chat privat terputus. Buka kembali panel chat untuk menyambungkan.",true);});
+        }
+        await loadSecureChatMessages();
+        state.adminChatContacts=state.adminChatContacts.map(item=>item.id===userId?{...item,chatRoom:room}:item);
+        render();
+        if(!contact.chatDeviceReady)toast("Percakapan dibuat. Pelanggan perlu membuka menu Chat Privat sekali untuk mendaftarkan perangkat sebelum dapat bertukar pesan.");
+      }catch(error){toast("Gagal membuka percakapan privat: "+errText(error),true);}
     }
     async function submitSecureChatMessage(form){
       const body=String(new FormData(form).get("body")||"").trim();
@@ -438,6 +491,7 @@
         if(error)throw error;
         form.reset();
         await loadSecureChatMessages();
+        if(location.hash==="#admin"&&state.adminTab==="private-chat")render();
       }catch(error){toast("Pesan tidak terkirim: "+errText(error),true);}
     }
     async function selectSecureChatRoom(roomId){
@@ -1309,7 +1363,7 @@
     }
     function adminPage(){
       if(!isAdmin())return `<div class="page-title"><h1>Panel Pengelola</h1><p>Masuk dengan akun yang memiliki akses pengelolaan untuk membuka halaman ini.</p></div><div class="panel"><button class="btn" data-action="auth">Masuk</button></div>`;
-      const tabs=["dashboard","konten","media","produk","keuangan","pricing","payment","viewer","merchant-apps","klien","jasa","laporan","orders","embed","access-logs","social","rbac","running-text"];
+      const tabs=["dashboard","konten","media","produk","keuangan","pricing","payment","viewer","merchant-apps","klien","jasa","laporan","orders","private-chat","embed","access-logs","social","rbac","running-text"];
       let body="";
       if(state.adminTab==="dashboard")body=`<div class="stats-row"><div class="stat"><span class="stat-icon">✎</span><div><strong>${state.stats.articles}</strong><small>Artikel terbit</small></div></div><div class="stat"><span class="stat-icon">◉</span><div><strong>${state.stats.views}</strong><small>Total views</small></div></div><div class="stat"><span class="stat-icon">▤</span><div><strong>${state.stats.media}</strong><small>Media</small></div></div><div class="stat"><span class="stat-icon">♧</span><div><strong>${state.stats.members}</strong><small>Viewer & anggota</small></div></div></div><div class="dashboard-grid"><div class="panel"><h3>Aktivitas publikasi</h3><div class="timeline">${state.timeline.slice(0,7).map(a=>`<div class="timeline-item"><div class="timeline-icon">✎</div><div class="timeline-copy"><b>${esc(a.title)}</b><small>${dateShort(a.created_at)}</small></div></div>`).join("")||"Belum ada aktivitas."}</div></div><div class="panel"><h3>Ringkasan</h3><p style="color:var(--muted);font-size:13px;line-height:1.7">Pantau performa konten, kelola akses anggota, dan atur informasi berjalan dari satu tempat.</p><button class="btn btn-small" data-admin-tab="konten">Kelola konten →</button></div></div>`;
       if(state.adminTab==="konten")body=`<div class="panel"><div class="section-head"><h3>Manajemen konten</h3><button class="btn btn-small" data-action="publish">＋ Artikel baru</button></div><div class="table-wrap"><table><thead><tr><th>Judul</th><th>Kategori</th><th>Status</th><th>Views</th><th>Dibuat</th><th>Aksi</th></tr></thead><tbody>${state.articles.map(a=>`<tr><td>${esc(a.title)}</td><td>${esc(a.category)}</td><td><span class="badge">Terbit</span></td><td>${Number(a.views||0).toLocaleString("id-ID")}</td><td>${dateShort(a.created_at)}</td><td><button class="btn btn-ghost btn-small" data-edit-article="${esc(a.id)}">Edit</button> <button class="btn btn-ghost btn-small" data-delete-article="${esc(a.id)}">Hapus</button></td></tr>`).join("")||'<tr><td colspan="6">Belum ada konten.</td></tr>'}</tbody></table></div></div>`;
@@ -1323,6 +1377,7 @@
         body=`<div class="panel"><div class="section-head"><div><h3>Laporan pengelolaan jasa / klien</h3><p>Ringkasan dihitung dari permintaan jasa tersimpan.</p></div><button class="btn btn-ghost btn-small" data-action="export-service-report">Unduh CSV</button></div><div class="admin-kpis"><div class="admin-kpi"><strong>${state.serviceRequests.length}</strong><span>Total permintaan</span></div><div class="admin-kpi"><strong>${state.serviceRequests.filter(r=>r.status==="new"||r.status==="contacted").length}</strong><span>Perlu tindak lanjut</span></div><div class="admin-kpi"><strong>${state.serviceRequests.filter(r=>r.status==="in_progress").length}</strong><span>Sedang dikerjakan</span></div><div class="admin-kpi"><strong>${state.serviceRequests.filter(r=>r.status==="completed").length}</strong><span>Selesai</span></div></div><div class="table-wrap" style="margin-top:20px"><table><thead><tr><th>Status</th><th>Jumlah</th></tr></thead><tbody>${rows.map(([label,status])=>`<tr><td>${label}</td><td>${state.serviceRequests.filter(r=>r.status===status).length}</td></tr>`).join("")}</tbody></table></div><div class="table-wrap" style="margin-top:18px"><table><thead><tr><th>Jenis jasa</th><th>Jumlah permintaan</th></tr></thead><tbody>${["XLSX","Access","Konsultasi"].map(type=>`<tr><td>${type}</td><td>${state.serviceRequests.filter(r=>r.service_type===type).length}</td></tr>`).join("")}</tbody></table></div><div id="report-loader" class="hidden"></div></div>`;
       }
       if(state.adminTab==="orders")body=`<div class="panel"><h3>Purchase Order & akun berlangganan</h3><p style="font-size:12px;color:var(--muted)">PO yang disetujui akan otomatis membuat akun berlangganan sesuai durasi paket.</p><div id="purchase-orders" class="table-wrap">Memuat Purchase Order...</div></div><div class="panel"><h3>Pesanan lapak</h3><p class="price-note">Tinjau status pesanan dan selesaikan komplain yang sedang ditahan.</p><div id="admin-shop-orders" class="table-wrap">Memuat pesanan lapak...</div></div>`;
+      if(state.adminTab==="private-chat")body=adminPrivateChatPage();
       if(state.adminTab==="produk")body=productManagementPage(state.adminProducts,state.adminPackages,true);
       if(state.adminTab==="keuangan")body=financeManagementPage(false);
       if(state.adminTab==="pricing")body=subscriptionPricingPage();
@@ -1332,7 +1387,7 @@
       if(state.adminTab==="access-logs")body=accessLogTable(true);
       if(state.adminTab==="social")body=`<div class="panel" style="max-width:720px"><h3>Tautan media sosial</h3><p style="font-size:12px;color:var(--muted)">Masukkan URL profil resmi. Tautan hanya ditampilkan jika URL valid dan memakai HTTPS.</p><form id="social-form">${socialPlatforms.map(([key,label,placeholder])=>`<div class="field"><label>${label}</label><input name="${key}" type="url" maxlength="300" value="${esc(state.socialLinks[key]||"")}" placeholder="${placeholder}"></div>`).join("")}<button class="btn">Simpan tautan</button></form></div>`;
       if(state.adminTab==="running-text")body=`<div class="panel" style="max-width:700px"><h3>Atur running text</h3><form id="ticker-form"><div class="field"><label>Pesan berjalan</label><textarea name="text" maxlength="500" required placeholder="Tulis pengumuman untuk komunitas...">${esc(window.currentTicker||"")}</textarea><small>Pisahkan beberapa pengumuman dengan baris baru.</small></div><button class="btn">Simpan pengumuman</button></form></div>`;
-      const labels={dashboard:["⌂","Ringkasan"],konten:["▤","Manajemen konten"],media:["▧","Media & file"],produk:["▣","Manajemen produk"],keuangan:["▥","Keuangan & pembukuan"],pricing:["◈","Harga paket lapak"],payment:["↗","Pembayaran langganan"],viewer:["♙","Manajemen viewer"],"merchant-apps":["♧","Pengajuan lapak Pedagang"],klien:["♧","Pengguna jasa / klien"],jasa:["◷","Kelola permintaan jasa"],laporan:["▥","Laporan jasa"],orders:["◈","Purchase Order"],embed:["↗","Video pilihan"],"access-logs":["◷","Log akses"],social:["◎","Media sosial"],rbac:["⊞","Hak akses"],"running-text":["≋","Pengumuman"]};
+      const labels={dashboard:["⌂","Ringkasan"],konten:["▤","Manajemen konten"],media:["▧","Media & file"],produk:["▣","Manajemen produk"],keuangan:["▥","Keuangan & pembukuan"],pricing:["◈","Harga paket lapak"],payment:["↗","Pembayaran langganan"],viewer:["♙","Manajemen viewer"],"merchant-apps":["♧","Pengajuan lapak Pedagang"],klien:["♧","Pengguna jasa / klien"],jasa:["◷","Kelola permintaan jasa"],laporan:["▥","Laporan jasa"],orders:["◈","Purchase Order"],"private-chat":["✉","Chat privat"],embed:["↗","Video pilihan"],"access-logs":["◷","Log akses"],social:["◎","Media sosial"],rbac:["⊞","Hak akses"],"running-text":["≋","Pengumuman"]};
       return `<div class="admin-layout"><aside class="admin-sidebar"><div class="admin-side-label">Panel Pengelola</div>${tabs.map(t=>`<button class="admin-side-link ${state.adminTab===t?"active":""}" data-admin-tab="${t}"><span class="side-icon">${labels[t][0]}</span>${labels[t][1]}</button>`).join("")}</aside><section class="admin-main"><div class="page-title"><h1>${esc(labels[state.adminTab][1])}</h1><p>Ryan D Clue – Ruang Berbagi · Halo, ${esc(state.profile?.display_name||state.user.email)}.</p></div>${body}</section></div>`;
     }
     function render(){
@@ -1360,6 +1415,7 @@
       if(paymentForm){paymentForm.elements.qr_image_url.required=paymentForm.elements.method.value==="qris";paymentForm.elements.account_identifier.required=paymentForm.elements.method.value!=="qris";}
       document.getElementById("mobile-nav").classList.remove("open");
       if(route==="admin"&&state.adminTab==="viewer")loadViewerTable();
+      if(route==="admin"&&state.adminTab==="private-chat"&&!state.adminChatContactsLoaded&&!state.adminChatContactsLoading&&!state.adminChatContactsError)loadAdminChatContacts();
       if(route==="admin"&&state.adminTab==="merchant-apps")loadMerchantApplications();
       if(route==="admin"&&state.adminTab==="produk"&&!state.loadedAdminProducts)loadAdminProducts().then(render);
       if(route==="admin"&&state.adminTab==="keuangan"&&(!state.loadedFinance||state.financeScope!==`platform-and-stores:${state.financeMonth}`))loadFinanceData().then(render);
@@ -1782,10 +1838,14 @@
     }
     function scrollChat(){const el=document.getElementById("chat-messages");if(el)el.scrollTop=el.scrollHeight;}
     document.addEventListener("click",async e=>{
-      const target=e.target.closest("[data-action],[data-category],[data-sample-category],[data-delete-sample],[data-article],[data-open-article],[data-admin-tab],[data-merchant-tab],[data-page-key],[data-catalog-group],[data-save-role],[data-edit-article],[data-delete-article],[data-delete-media],[data-download-media],[data-auth-mode],[data-service],[data-calendar-step],[data-calendar-date],[data-save-service],[data-purchase-plan],[data-order-action],[data-order-id],[data-delete-embed],[data-buy-product],[data-toggle-product],[data-delete-product],[data-edit-shop-product],[data-edit-package],[data-toggle-package],[data-delete-payment],[data-merchant-review],[data-shop-order-action],[data-report-shop-payment],[data-order-chat],[data-order-receive],[data-order-dispute],[data-order-review],[data-print-invoice],[data-order-dispute-resolution],[data-chat-room]");
+      const target=e.target.closest("[data-action],[data-category],[data-sample-category],[data-delete-sample],[data-article],[data-open-article],[data-admin-tab],[data-admin-chat-contact],[data-merchant-tab],[data-page-key],[data-catalog-group],[data-save-role],[data-edit-article],[data-delete-article],[data-delete-media],[data-download-media],[data-auth-mode],[data-service],[data-calendar-step],[data-calendar-date],[data-save-service],[data-purchase-plan],[data-order-action],[data-order-id],[data-delete-embed],[data-buy-product],[data-toggle-product],[data-delete-product],[data-edit-shop-product],[data-edit-package],[data-toggle-package],[data-delete-payment],[data-merchant-review],[data-shop-order-action],[data-report-shop-payment],[data-order-chat],[data-order-receive],[data-order-dispute],[data-order-review],[data-print-invoice],[data-order-dispute-resolution],[data-chat-room]");
       if(!target)return;
       if(target.dataset.action==="browse"){location.hash="#artikel";document.getElementById("main").scrollIntoView({behavior:"smooth"});}
       if(target.dataset.action==="retry-payment-settings"){state.loadedPaymentSettings=false;state.paymentSettingsError="";await loadPaymentSettings();render();}
+      if(target.dataset.action==="retry-admin-chat-contacts"||target.dataset.action==="refresh-admin-chat-contacts"){
+        if(!isAdmin())return;
+        state.adminChatContactsLoaded=false;state.adminChatContactsError="";state.adminChatContactsLoading=false;await loadAdminChatContacts();
+      }
       if(target.dataset.action==="clear-search"){state.articleSearch="";updateSearchResults();const search=document.getElementById("article-search");if(search)search.value="";}
       if(target.dataset.action==="calendar-reset"){state.calendarSelectedDate="";render();}
       if(target.dataset.action==="go-embed"){location.hash="#embed";}
@@ -1794,6 +1854,7 @@
       if(target.dataset.action==="export-finance-template")exportFinanceTemplate();
       if(target.dataset.action==="auth")authModal();
       if(target.dataset.chatRoom)await selectSecureChatRoom(target.dataset.chatRoom);
+      if(target.dataset.adminChatContact)await openAdminPrivateChat(target.dataset.adminChatContact);
       if(target.dataset.pageKey){state.pages[target.dataset.pageKey]=Number(target.dataset.pageNumber)||1;render();}
       if(target.dataset.catalogGroup){state.catalogGroup=target.dataset.catalogGroup;state.pages["catalog-products"]=1;Object.keys(state.pages).filter(key=>key.startsWith("shop-products-")).forEach(key=>state.pages[key]=1);render();}
       if(target.dataset.sampleCategory){state.sampleCategory=target.dataset.sampleCategory;state.pages.samples=1;render();}
@@ -1892,6 +1953,11 @@
     });
     document.addEventListener("input",e=>{
       if(e.target.id==="viewer-search"){state.viewerSearch=e.target.value;loadViewerTable();}
+      if(e.target.id==="admin-chat-contact-search"){
+        state.adminChatContactSearch=e.target.value;
+        const start=e.target.selectionStart;render();
+        const search=document.getElementById("admin-chat-contact-search");search?.focus();if(search&&start!==null)search.setSelectionRange(start,start);
+      }
       if(e.target.id==="article-search"||e.target.id==="timeline-search"){state.articleSearch=e.target.value;state.pages.articles=1;updateSearchResults();}
       if(e.target.id==="sample-search"){state.sampleSearch=e.target.value;state.pages.samples=1;updateSampleResults();}
       if(e.target.closest("#shop-order-form"))updateShopOrderEstimate(e.target.form);
@@ -1943,7 +2009,7 @@
     window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeOrderChat();clearArticleCoverPreview();overlay.innerHTML="";}});
     document.addEventListener("contextmenu",e=>{if(!e.target.closest("input,textarea,select,[contenteditable='true']"))e.preventDefault();});
     document.addEventListener("keydown",e=>{const key=e.key.toLowerCase(),blocked=e.key==="F12"||e.ctrlKey&&e.shiftKey&&["i","j","c"].includes(key)||e.ctrlKey&&key==="u";if(blocked){e.preventDefault();e.stopPropagation();}},true);
-    if(db){subscribeToProductChanges();db.auth.onAuthStateChange((_event,session)=>{const nextUser=session?.user||null;if(state.user?.id!==nextUser?.id){closeOrderChat();closeSecureChat();state.loadedMarketplace=false;state.loadedMerchant=false;state.loadedBuyerOrders=false;state.loadedMerchantApplications=false;state.loadedFinance=false;state.loadedPricing=false;state.financeScope=null;state.loadedAdminProducts=false;state.loadedAdminPlans=false;state.ownStore=null;state.ownApplication=null;state.ownProducts=[];state.ownPackages=[];state.ownPaymentMethods=[];state.ownOrders=[];state.shopOrders=[];state.adminShopOrders=[];state.orderStatusHistory={};state.reviewedOrderIds=[];state.productRatings={};state.purchaseOrders=[];state.subscriptions=[];state.merchantActiveSubscription=false;state.merchantWriteAccess=false;}state.user=nextUser;if(!state.user)state.profile=null;if(_event==="SIGNED_IN"&&session?.user)db.rpc("log_access",{p_event_type:"login",p_target_id:null,p_target_name:null}).then(({error})=>{if(error)toast("Gagal mencatat login: "+errText(error),true);});setTimeout(()=>refreshSession(),0);});}
+    if(db){subscribeToProductChanges();db.auth.onAuthStateChange((_event,session)=>{const nextUser=session?.user||null;if(state.user?.id!==nextUser?.id){closeOrderChat();closeSecureChat();state.adminChatContacts=[];state.adminChatContactsLoaded=false;state.adminChatContactsLoading=false;state.adminChatContactsError="";state.adminChatContactSearch="";state.loadedMarketplace=false;state.loadedMerchant=false;state.loadedBuyerOrders=false;state.loadedMerchantApplications=false;state.loadedFinance=false;state.loadedPricing=false;state.financeScope=null;state.loadedAdminProducts=false;state.loadedAdminPlans=false;state.ownStore=null;state.ownApplication=null;state.ownProducts=[];state.ownPackages=[];state.ownPaymentMethods=[];state.ownOrders=[];state.shopOrders=[];state.adminShopOrders=[];state.orderStatusHistory={};state.reviewedOrderIds=[];state.productRatings={};state.purchaseOrders=[];state.subscriptions=[];state.merchantActiveSubscription=false;state.merchantWriteAccess=false;}state.user=nextUser;if(!state.user)state.profile=null;if(_event==="SIGNED_IN"&&session?.user)db.rpc("log_access",{p_event_type:"login",p_target_id:null,p_target_name:null}).then(({error})=>{if(error)toast("Gagal mencatat login: "+errText(error),true);});setTimeout(()=>refreshSession(),0);});}
     setupConfigNotice();
     document.getElementById("year").textContent=new Date().getFullYear();
     refreshSession();
