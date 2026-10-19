@@ -306,8 +306,9 @@
     document.body.appendChild(toastEl);
     const paymentMethods=["qris","bank_transfer","gopay","shopeepay","dana"];
     const emptyPaymentMethodSettings=()=>Object.fromEntries(paymentMethods.map(method=>[method,{recipient:"",account:"",qrUrl:"",instructions:""}]));
-    const state = { user:null,profile:null,articles:[],media:[],samples:[],sampleLoadError:"",reviews:[],messages:[],secureChatRooms:[],secureChatMessages:[],secureChatRoomId:null,secureChatIdentity:null,secureChatError:"",secureChatLoaded:false,secureChatLoading:false,adminChatContacts:[],adminChatContactsError:"",adminChatContactsLoaded:false,adminChatContactsLoading:false,adminChatContactSearch:"",timeline:[],serviceRequests:[],ownServiceRequests:[],loadedOwnServiceRequests:false,purchaseOrders:[],subscriptions:[],accessLogs:[],merchantApplications:[],storefronts:[],ownStore:null,ownApplication:null,ownSubscription:null,merchantActiveSubscription:false,merchantWriteAccess:false,shopProducts:[],shopPackages:[],shopPaymentMethods:[],shopOrders:[],adminShopOrders:[],orderStatusHistory:{},reviewedOrderIds:[],productRatings:{},orderChatMessages:[],orderChatChannel:null,orderChatOrderId:null,ownProducts:[],ownPackages:[],ownPaymentMethods:[],ownOrders:[],adminProducts:[],adminPackages:[],financeEntries:[],financeSummary:{income_idr:0,expense_idr:0,net_idr:0,entry_count:0},financeMonth:new Date().toISOString().slice(0,7),financeScope:null,plans:[{id:"monthly",name:"Bulanan",duration_days:30,mentorship_days:30,price_idr:99000,description:"Akses selama 1 bulan"},{id:"six_month",name:"6 Bulanan",duration_days:180,mentorship_days:180,price_idr:499000,description:"Akses selama 6 bulan"},{id:"yearly",name:"1 Tahunan",duration_days:365,mentorship_days:365,price_idr:899000,description:"Akses selama 1 tahun"}],paymentSettings:emptyPaymentMethodSettings(),paymentSettingsError:"",paymentSettingsLoading:false,externalLinks:[],socialLinks:{},chatChannel:null,marketplaceChannel:null,stats:{articles:0,views:0,media:0,members:0},category:"Semua",sampleCategory:"Semua",sampleSearch:"",catalogGroup:"all",pages:{},adminTab:"dashboard",merchantTab:"overview",viewerSearch:"",articleSearch:"",calendarDate:new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate:"",loadedPricing:false,loadedAdminPlans:false,loadedEmbeds:false,loadedOrders:false,loadedRequests:false,loadedSocial:false,loadedAccessLogs:false,loadedMarketplace:false,loadedSamples:false,loadedMerchant:false,loadedBuyerOrders:false,loadedMerchantApplications:false,loadedAdminProducts:false,loadedFinance:false,loadedPaymentSettings:false,loadingFinance:false,loadingMarketplace:false,loadingMerchant:false,loadingBuyerOrders:false,survey:null,loading:false,articleEditorRange:null };
+    const state = { user:null,profile:null,sessionReady:false,articles:[],media:[],samples:[],sampleLoadError:"",reviews:[],messages:[],secureChatRooms:[],secureChatMessages:[],secureChatRoomId:null,secureChatIdentity:null,secureChatError:"",secureChatLoaded:false,secureChatLoading:false,adminChatContacts:[],adminChatContactsError:"",adminChatContactsLoaded:false,adminChatContactsLoading:false,adminChatContactSearch:"",timeline:[],serviceRequests:[],ownServiceRequests:[],loadedOwnServiceRequests:false,purchaseOrders:[],subscriptions:[],accessLogs:[],merchantApplications:[],storefronts:[],ownStore:null,ownApplication:null,ownSubscription:null,merchantActiveSubscription:false,merchantWriteAccess:false,shopProducts:[],shopPackages:[],shopPaymentMethods:[],shopOrders:[],adminShopOrders:[],orderStatusHistory:{},reviewedOrderIds:[],productRatings:{},orderChatMessages:[],orderChatChannel:null,orderChatOrderId:null,ownProducts:[],ownPackages:[],ownPaymentMethods:[],ownOrders:[],adminProducts:[],adminPackages:[],financeEntries:[],financeSummary:{income_idr:0,expense_idr:0,net_idr:0,entry_count:0},financeMonth:new Date().toISOString().slice(0,7),financeScope:null,plans:[{id:"monthly",name:"Bulanan",duration_days:30,mentorship_days:30,price_idr:99000,description:"Akses selama 1 bulan"},{id:"six_month",name:"6 Bulanan",duration_days:180,mentorship_days:180,price_idr:499000,description:"Akses selama 6 bulan"},{id:"yearly",name:"1 Tahunan",duration_days:365,mentorship_days:365,price_idr:899000,description:"Akses selama 1 tahun"}],paymentSettings:emptyPaymentMethodSettings(),paymentSettingsError:"",paymentSettingsLoading:false,externalLinks:[],socialLinks:{},chatChannel:null,marketplaceChannel:null,stats:{articles:0,views:0,media:0,members:0},category:"Semua",sampleCategory:"Semua",sampleSearch:"",catalogGroup:"all",pages:{},adminTab:"dashboard",merchantTab:"overview",viewerSearch:"",articleSearch:"",calendarDate:new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate:"",loadedPricing:false,loadedAdminPlans:false,loadedEmbeds:false,loadedOrders:false,loadedRequests:false,loadedSocial:false,loadedAccessLogs:false,loadedMarketplace:false,loadedSamples:false,loadedMerchant:false,loadedBuyerOrders:false,loadedMerchantApplications:false,loadedAdminProducts:false,loadedFinance:false,loadedPaymentSettings:false,loadedMedia:false,loadedReviews:false,loadingContent:false,loadingFinance:false,loadingMarketplace:false,loadingMerchant:false,loadingBuyerOrders:false,survey:null,loading:false,articleEditorRange:null };
     state.cart=[];
+    let articleSearchTimer=null,articleSearchRequest=0,viewerSearchTimer=null,adminChatSearchTimer=null;
     const socialPlatforms = [
       ["instagram","Instagram","https://www.instagram.com/akun-anda"],
       ["youtube","YouTube","https://www.youtube.com/@channel-anda"],
@@ -386,53 +387,67 @@
       if(!supabaseReady){const el=document.getElementById("config-alert");el.innerHTML="<strong>Layanan belum siap digunakan.</strong> Beberapa fitur mungkin belum tersedia. Silakan hubungi pengelola untuk bantuan.";el.classList.remove("hidden");}
     }
     async function refreshSession(){
-      if(!db){await loadContent();return;}
+      if(!db){state.sessionReady=true;await loadContent();return;}
       try{
         const previousUserId=state.user?.id||null;
         const {data:{session},error}=await db.auth.getSession(); if(error) throw error;
         state.user=session?.user||null;
         if(state.user){const {data,error:profileError}=await db.from("profiles").select("id,display_name,role,created_at").eq("id",state.user.id).maybeSingle();if(profileError)throw profileError;state.profile=data;}
         else state.profile=null;
+        state.sessionReady=true;
         if(previousUserId!==(state.user?.id||null)){closeOrderChat();closeSecureChat();state.loadedPricing=false;state.loadedOrders=false;state.loadedRequests=false;state.loadedOwnServiceRequests=false;state.ownServiceRequests=[];state.loadedAccessLogs=false;state.loadedMerchant=false;state.loadedBuyerOrders=false;state.loadedFinance=false;state.loadedAdminProducts=false;state.financeScope=null;state.ownStore=null;state.ownApplication=null;state.ownProducts=[];state.ownPackages=[];state.ownPaymentMethods=[];state.ownOrders=[];state.shopOrders=[];state.adminShopOrders=[];state.orderStatusHistory={};state.reviewedOrderIds=[];state.productRatings={};state.financeEntries=[];state.purchaseOrders=[];state.subscriptions=[];state.merchantActiveSubscription=false;state.merchantWriteAccess=false;}
-        await loadContent();
-        if(state.user)await loadPricingData();
-        await loadSocialLinks();
+        await Promise.all([loadContent(),state.user?loadPricingData():Promise.resolve(),loadSocialLinks()]);
         render();
-      }catch(e){toast("Gagal memuat sesi: "+errText(e),true);render();}
+      }catch(e){state.sessionReady=true;toast("Gagal memuat sesi: "+errText(e),true);render();}
     }
     async function loadContent(){
-      if(!db){state.articles=[];state.media=[];state.reviews=[];state.messages=[];state.timeline=[];state.stats={articles:0,views:0,media:0,members:0};render();return;}
+      if(state.loadingContent)return;
+      state.loadingContent=true;
+      if(!db){state.articles=[];state.media=[];state.reviews=[];state.messages=[];state.timeline=[];state.stats={articles:0,views:0,media:0,members:0};state.loadedMedia=true;state.loadedReviews=true;state.loadingContent=false;render();return;}
+      let loadMedia=false,loadReviews=false;
       try{
-        const [arts,files,reviews]=await Promise.all([
-          db.from("articles").select(isAdmin()?"id,title,excerpt,body,category,author_name,created_at,views,cover_url,document_url,document_name,document_type,document_path,published":"id,title,excerpt,body,category,author_name,created_at,cover_url,document_url,document_name,document_type,document_path,published").eq("published",true).order("created_at",{ascending:false}).limit(60),
-          db.from("media_files").select("id,name,storage_path,mime_type,size_bytes,created_at,uploaded_by,public_url").order("created_at",{ascending:false}).limit(100),
-          db.from("reviews").select("id,display_name,rating,body,created_at").eq("approved",true).order("created_at",{ascending:false}).limit(20)
+        const route=(location.hash||"#home").slice(1).split("/")[0];
+        loadMedia=route==="media"||route==="admin"&&state.adminTab==="media";
+        loadReviews=route==="review";
+        const loadStats=isAdmin()&&(route==="home"||route==="admin"&&state.adminTab==="dashboard");
+        const [arts,files,reviews,articleCount,viewCount,memberCount,mediaCount]=await Promise.all([
+          db.from("articles").select(isAdmin()?"id,title,excerpt,category,author_name,created_at,views,cover_url,document_url,document_name,document_type,document_path,published":"id,title,excerpt,category,author_name,created_at,cover_url,document_url,document_name,document_type,document_path,published").eq("published",true).order("created_at",{ascending:false}).limit(60),
+          loadMedia?db.from("media_files").select("id,name,storage_path,mime_type,size_bytes,created_at,uploaded_by,public_url").order("created_at",{ascending:false}).limit(100):Promise.resolve(null),
+          loadReviews?db.from("reviews").select("id,display_name,rating,body,created_at").eq("approved",true).order("created_at",{ascending:false}).limit(20):Promise.resolve(null),
+          loadStats?db.from("articles").select("id",{count:"exact",head:true}).eq("published",true):Promise.resolve(null),
+          loadStats?db.from("articles").select("views").eq("published",true):Promise.resolve(null),
+          loadStats?db.from("profiles").select("id",{count:"exact",head:true}):Promise.resolve(null),
+          loadStats?db.from("media_files").select("id",{count:"exact",head:true}):Promise.resolve(null)
         ]);
-        for(const res of [arts,files,reviews])if(res.error)throw res.error;
-        state.articles=arts.data||[];state.media=files.data||[];state.reviews=reviews.data||[];
-        if(isAdmin()){
-          const [articleCount,viewCount,memberCount]=await Promise.all([
-            db.from("articles").select("id",{count:"exact",head:true}).eq("published",true),
-            db.from("articles").select("views").eq("published",true),
-            db.from("profiles").select("id",{count:"exact",head:true})
-          ]);
-          for(const res of [articleCount,viewCount,memberCount])if(res.error)throw res.error;
-          state.stats={articles:articleCount.count||0,views:(viewCount.data||[]).reduce((n,a)=>n+(a.views||0),0),media:state.media.length,members:memberCount.count||0};
-        }else state.stats={articles:0,views:0,media:0,members:0};
+        for(const res of [arts,files,reviews,articleCount,viewCount,memberCount,mediaCount].filter(Boolean))if(res.error)throw res.error;
+        state.articles=arts.data||[];
+        if(files){state.media=files.data||[];state.loadedMedia=true;}
+        if(reviews){state.reviews=reviews.data||[];state.loadedReviews=true;}
+        if(loadStats)state.stats={articles:articleCount.count||0,views:(viewCount.data||[]).reduce((n,a)=>n+(a.views||0),0),media:mediaCount.count||0,members:memberCount.count||0};
+        else if(!isAdmin())state.stats={articles:0,views:0,media:0,members:0};
         document.getElementById("config-alert").classList.add("hidden");
         if(location.hash==="#timeline"||location.hash==="#admin")await loadTimeline();
       }catch(e){
-        state.articles=[];state.media=[];state.reviews=[];
+        state.articles=[];
+        if(loadMedia)state.loadedMedia=true;
+        if(loadReviews)state.loadedReviews=true;
         const notice=document.getElementById("config-alert");
         notice.innerHTML=`<strong>Data belum dapat dimuat.</strong> Silakan coba kembali beberapa saat lagi atau hubungi pengelola bila kendala berlanjut.`;
         notice.classList.remove("hidden");
         toast("Gagal memuat konten: "+errText(e),true);
-      }
+      }finally{state.loadingContent=false;}
       render();
     }
     async function loadTimeline(){
       if(!db){state.timeline=state.articles.map(a=>({id:a.id,title:a.title,category:a.category,created_at:a.created_at,author_name:a.author_name}));return;}
       try{const {data,error}=await db.from("articles").select("id,title,category,created_at,author_name").eq("published",true).order("created_at",{ascending:false}).limit(30);if(error)throw error;state.timeline=data||[];}catch(e){toast("Gagal memuat timeline: "+errText(e),true);}
+    }
+    async function ensureArticleBody(article){
+      if(Object.prototype.hasOwnProperty.call(article,"body")||!db||String(article.id).startsWith("seed-"))return;
+      const {data,error}=await db.from("articles").select("body").eq("id",article.id).maybeSingle();
+      if(error)throw error;
+      if(!data)throw new Error("Artikel tidak lagi tersedia.");
+      article.body=data.body||"";
     }
     function subscribeToProductChanges(){
       if(!db||state.marketplaceChannel)return;
@@ -711,7 +726,7 @@
       state.secureChatRooms=[];state.secureChatMessages=[];state.secureChatRoomId=null;state.secureChatIdentity=null;state.secureChatError="";state.secureChatLoaded=false;state.secureChatLoading=false;
     }
     function articleCard(a){
-      const cover=a.cover_url?`<img src="${esc(a.cover_url)}" alt="">`:`<span>${a.category==="Tutorial"?"✦":a.category==="Berita"?"◉":"✎"}</span>`;
+      const cover=a.cover_url?`<img src="${esc(a.cover_url)}" alt="" loading="lazy">`:`<span>${a.category==="Tutorial"?"✦":a.category==="Berita"?"◉":"✎"}</span>`;
       return `<article class="article-card" data-article="${esc(a.id)}"><div class="article-cover">${cover}<span class="cover-tag">${esc(a.category||"Artikel")}</span></div><div class="article-body"><div class="meta"><span>${esc(a.author_name||"Kontributor")}</span><span>${dateShort(a.created_at)}</span></div><h3>${esc(a.title)}</h3><p>${esc(a.excerpt||"Baca selengkapnya untuk menemukan wawasan dan inspirasi baru.")}</p><div class="meta">${isAdmin()?`<span>◉ ${Number(a.views||0).toLocaleString("id-ID")} views</span>`:""}<span class="text-link">Baca →</span></div></div></article>`;
     }
     function homePage(){
@@ -1758,6 +1773,8 @@
       document.getElementById("merchant-mobile-nav").classList.toggle("hidden",!state.user);
       if(isSubscriptionDeactivated()&&!["akun","aktivasi"].includes(baseRoute)){main.innerHTML=accountPage();return;}
       main.innerHTML=(pages[baseRoute]||homePage)();
+      if(baseRoute==="artikel"&&state.articleSearch)updateSearchResults();
+      if(state.sessionReady&&!state.loadingContent&&((baseRoute==="media"&&!state.loadedMedia)||(baseRoute==="review"&&!state.loadedReviews)))loadContent();
       if(baseRoute==="jasa"&&state.user&&!state.loadedOwnServiceRequests)loadOwnServiceRequests();
       if(baseRoute==="jasa"&&state.user&&state.loadedOwnServiceRequests)main.insertAdjacentHTML("beforeend",ownServiceRequestsPanel());
       const paymentForm=document.getElementById("shop-payment-form");
@@ -1784,6 +1801,7 @@
       if(route==="embed"&&!state.loadedEmbeds){state.loadedEmbeds=true;loadExternalLinks().then(render);}
       if(route==="chat"&&state.user&&!state.secureChatLoaded&&!state.secureChatLoading)loadSecureChat();
       if(route==="chat"&&state.user)scrollChat();
+      if(state.sessionReady&&(baseRoute==="lapak"||baseRoute==="keranjang"||route==="admin"&&state.adminTab==="produk"||route==="pedagang"&&state.merchantTab==="products"))subscribeToProductChanges();
       if(baseRoute==="lapak"&&!state.loadedMarketplace)loadPublicMarketplace().then(()=>{if(state.loadedMarketplace)render();});
       if(baseRoute==="pedagang"&&state.user&&!state.loadedMerchant)loadMerchantData().then(()=>{if(state.loadedMerchant)render();});
       if(baseRoute==="pesanan"&&state.user&&!state.loadedBuyerOrders)loadBuyerOrders().then(()=>{if(state.loadedBuyerOrders)render();});
@@ -2250,15 +2268,35 @@
       const type=String(article.document_type||article.document_name?.split(".").pop()||"").toLowerCase();
       if(!["pdf","docx","ppt","pptx"].includes(type))return '<div class="account-alert" role="alert">Format dokumen ini tidak didukung untuk pratinjau.</div>';
       const name=esc(article.document_name||"Dokumen artikel");
-      const frame=type==="pdf"
-        ? `<iframe class="article-document-frame" src="${esc(source)}" title="Pratinjau ${name}" loading="lazy" referrerpolicy="no-referrer"></iframe>`
-        : `<iframe class="article-document-frame" src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(source)}" title="Pratinjau ${name}" loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe>`;
-      return `<section class="article-document" aria-label="Dokumen artikel"><div class="article-document-head"><strong>${name}</strong><a class="btn btn-small btn-ghost" href="${esc(source)}" target="_blank" rel="noopener noreferrer">Buka / unduh dokumen</a></div>${frame}${type==="pdf"?"":'<p class="article-document-note">Pratinjau dokumen Office dimuat dari Microsoft Office Online menggunakan berkas publik ini.</p>'}</section>`;
+      const previewUrl=type==="pdf"?source:`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(source)}`;
+      return `<section class="article-document" aria-label="Dokumen artikel"><div class="article-document-head"><strong>${name}</strong><a class="btn btn-small btn-ghost" href="${esc(source)}" target="_blank" rel="noopener noreferrer">Buka / unduh dokumen</a></div><div class="article-document-preview"><button class="btn btn-ghost btn-small" data-action="load-article-preview" data-preview-type="${type==="pdf"?"pdf":"office"}" data-preview-url="${esc(previewUrl)}">Tampilkan pratinjau dokumen</button></div>${type==="pdf"?"":'<p class="article-document-note">Pratinjau dokumen Office dimuat dari Microsoft Office Online saat diminta.</p>'}</section>`;
     }
-    function updateSearchResults(){
-      const query=state.articleSearch.toLowerCase();
+    async function updateSearchResults(){
+      const request=++articleSearchRequest,query=state.articleSearch.trim().toLowerCase();
       const articleResults=document.getElementById("article-results");
-      if(articleResults){const matches=state.articles.filter(a=>(state.category==="Semua"||a.category===state.category)&&`${a.title} ${a.excerpt||""} ${a.body||""} ${a.category||""} ${a.author_name||""}`.toLowerCase().includes(query)),listing=pageSlice(matches,"articles",9);articleResults.innerHTML=listing.items.map(articleCard).join("")||'<div class="empty">Tidak ada artikel yang cocok. Coba topik lain.</div>';const controls=pageControls("articles",listing.page,listing.pages,listing.total),next=articleResults.nextElementSibling;if(next?.classList.contains("pagination")){if(controls)next.outerHTML=controls;else next.remove();}else if(controls)articleResults.insertAdjacentHTML("afterend",controls);}
+      const eligible=state.articles.filter(article=>state.category==="Semua"||article.category===state.category);
+      const searchableMetadata=article=>`${article.title} ${article.excerpt||""} ${article.category||""} ${article.author_name||""}`.toLowerCase();
+      const metadataMatches=eligible.filter(article=>!query||searchableMetadata(article).includes(query));
+      const localBodyMatches=eligible.filter(article=>Object.prototype.hasOwnProperty.call(article,"body")&&(article.body||"").toLowerCase().includes(query));
+      const bodySearchCandidates=eligible.filter(article=>!metadataMatches.includes(article)&&!Object.prototype.hasOwnProperty.call(article,"body")&&!String(article.id).startsWith("seed-"));
+      let remoteBodyMatches=[];
+      if(articleResults&&query&&bodySearchCandidates.length&&db){
+        articleResults.innerHTML=`${[...new Set([...metadataMatches,...localBodyMatches])].map(articleCard).join("")}<div class="empty" role="status">Mencari isi artikel...</div>`;
+        try{
+          const pattern=query.replace(/[\\%_]/g,"\\$&");
+          const {data,error}=await db.from("articles").select("id").eq("published",true).in("id",bodySearchCandidates.map(article=>article.id)).ilike("body",`%${pattern}%`);
+          if(error)throw error;
+          const matchingIds=new Set((data||[]).map(article=>article.id));
+          remoteBodyMatches=bodySearchCandidates.filter(article=>matchingIds.has(article.id));
+        }
+        catch(error){
+          if(request===articleSearchRequest)articleResults.innerHTML=`<div class="empty" role="alert">Pencarian isi artikel gagal: ${esc(errText(error))}</div>`;
+          if(request===articleSearchRequest)toast("Gagal memuat isi artikel untuk pencarian: "+errText(error),true);
+          return;
+        }
+      }
+      if(request!==articleSearchRequest)return;
+      if(articleResults){const matches=[...new Set([...metadataMatches,...localBodyMatches,...remoteBodyMatches])],listing=pageSlice(matches,"articles",9);articleResults.innerHTML=listing.items.map(articleCard).join("")||'<div class="empty">Tidak ada artikel yang cocok. Coba topik lain.</div>';const controls=pageControls("articles",listing.page,listing.pages,listing.total),next=articleResults.nextElementSibling;if(next?.classList.contains("pagination")){if(controls)next.outerHTML=controls;else next.remove();}else if(controls)articleResults.insertAdjacentHTML("afterend",controls);}
       const timelineResults=document.getElementById("timeline-results");
       if(timelineResults){const matches=state.timeline.filter(a=>(!state.calendarSelectedDate||dateKey(a.created_at)===state.calendarSelectedDate)&&`${a.title} ${a.category||""} ${a.author_name||""}`.toLowerCase().includes(query));timelineResults.innerHTML=matches.map(a=>`<div class="timeline-item"><div class="timeline-icon">✎</div><div class="timeline-copy"><b data-open-article="${esc(a.id)}" style="cursor:pointer">${esc(a.title)}</b><br><span style="color:var(--muted)">${esc(a.category||"Artikel")} · ${esc(a.author_name||"Kontributor")}</span><small>${dateShort(a.created_at)}</small></div></div>`).join("")||'<div class="empty">Tidak ada artikel untuk tanggal atau topik ini.</div>';const count=document.querySelector(".calendar-agenda .section-head p");if(count)count.textContent=`${matches.length} artikel ditemukan`;}
     }
@@ -2266,13 +2304,29 @@
     document.addEventListener("click",async e=>{
       const target=e.target.closest("[data-action],[data-cart-add-plan],[data-cart-remove],[data-category],[data-sample-category],[data-delete-sample],[data-article],[data-open-article],[data-admin-tab],[data-admin-chat-contact],[data-merchant-tab],[data-page-key],[data-catalog-group],[data-save-role],[data-edit-article],[data-delete-article],[data-delete-media],[data-download-media],[data-auth-mode],[data-service],[data-calendar-step],[data-calendar-date],[data-save-service],[data-purchase-plan],[data-order-action],[data-order-id],[data-delete-embed],[data-buy-product],[data-toggle-product],[data-delete-product],[data-edit-shop-product],[data-edit-package],[data-toggle-package],[data-delete-payment],[data-merchant-review],[data-shop-order-action],[data-report-shop-payment],[data-order-chat],[data-order-receive],[data-order-dispute],[data-order-review],[data-print-invoice],[data-order-dispute-resolution],[data-chat-room]");
       if(!target)return;
+      if(target.dataset.action==="load-article-preview"){
+        let previewUrl;
+        try{
+          previewUrl=new URL(target.dataset.previewUrl);
+          const valid=previewUrl.protocol==="https:"&&(target.dataset.previewType==="pdf"?previewUrl.host===new URL(cfg.supabaseUrl).host:previewUrl.host==="view.officeapps.live.com"&&previewUrl.pathname==="/op/embed.aspx");
+          if(!valid)throw new Error("Alamat pratinjau dokumen tidak valid.");
+        }catch(error){toast("Pratinjau dokumen tidak dapat dibuka: "+errText(error),true);return;}
+        const frame=document.createElement("iframe");
+        frame.className="article-document-frame";
+        frame.title="Pratinjau dokumen";
+        frame.loading="lazy";
+        frame.referrerPolicy="no-referrer";
+        if(target.dataset.previewType==="office")frame.allowFullscreen=true;
+        frame.src=previewUrl.href;
+        target.replaceWith(frame);
+      }
       if(target.dataset.action==="browse"){location.hash="#artikel";document.getElementById("main").scrollIntoView({behavior:"smooth"});}
       if(target.dataset.action==="retry-payment-settings"){state.loadedPaymentSettings=false;state.paymentSettingsError="";await loadPaymentSettings();render();}
       if(target.dataset.action==="retry-admin-chat-contacts"||target.dataset.action==="refresh-admin-chat-contacts"){
         if(!isAdmin())return;
         state.adminChatContactsLoaded=false;state.adminChatContactsError="";state.adminChatContactsLoading=false;await loadAdminChatContacts();
       }
-      if(target.dataset.action==="clear-search"){state.articleSearch="";updateSearchResults();const search=document.getElementById("article-search");if(search)search.value="";}
+      if(target.dataset.action==="clear-search"){clearTimeout(articleSearchTimer);state.articleSearch="";updateSearchResults();const search=document.getElementById("article-search");if(search)search.value="";}
       if(target.dataset.action==="calendar-reset"){state.calendarSelectedDate="";render();}
       if(target.dataset.action==="go-embed"){location.hash="#embed";}
       if(target.dataset.action==="export-service-report")exportServiceReport();
@@ -2299,8 +2353,8 @@
       if(target.dataset.calendarDate){state.calendarSelectedDate=target.dataset.calendarDate;const chosen=new Date(`${target.dataset.calendarDate}T12:00:00`);if(chosen.getMonth()!==state.calendarDate.getMonth()||chosen.getFullYear()!==state.calendarDate.getFullYear())state.calendarDate=new Date(chosen.getFullYear(),chosen.getMonth(),1);render();}
       if(target.dataset.category){state.category=target.dataset.category;state.pages.articles=1;render();}
       const articleId=target.dataset.article||target.dataset.openArticle;
-      if(articleId){const article=state.articles.find(a=>a.id===articleId);if(article){articleModal(article);if(db&&!String(article.id).startsWith("seed-")){await trackView(article.id);article.views=(article.views||0)+1;}}}
-      if(target.dataset.editArticle){const article=state.articles.find(a=>a.id===target.dataset.editArticle);if(article&&isAdmin())articleFormModal(article);}
+      if(articleId){const article=state.articles.find(a=>a.id===articleId);if(article){try{await ensureArticleBody(article);articleModal(article);if(db&&!String(article.id).startsWith("seed-")){await trackView(article.id);article.views=(article.views||0)+1;}}catch(error){toast("Gagal memuat artikel: "+errText(error),true);}}}
+      if(target.dataset.editArticle){const article=state.articles.find(a=>a.id===target.dataset.editArticle);if(article&&isAdmin()){try{await ensureArticleBody(article);articleFormModal(article);}catch(error){toast("Gagal memuat artikel untuk diedit: "+errText(error),true);}}}
       if(target.dataset.adminTab){state.adminTab=target.dataset.adminTab;render();if(state.adminTab==="running-text")await loadTicker();}
       if(target.dataset.merchantTab){state.merchantTab=target.dataset.merchantTab;render();}
       if(target.dataset.authMode){const mode=target.dataset.authMode;document.querySelectorAll("[data-auth-mode]").forEach(b=>b.classList.toggle("selected",b===target));const form=document.getElementById("auth-form");form.dataset.mode=mode;document.getElementById("auth-name-field").classList.toggle("hidden",mode!=="signup");form.querySelector("button").textContent=mode==="signup"?"Buat akun":"Masuk";form.querySelector('[name="password"]').autocomplete=mode==="signup"?"new-password":"current-password";}
@@ -2381,13 +2435,17 @@
       if(f.classList.contains("plan-price-form"))await saveSubscriptionPlan(f);
     });
     document.addEventListener("input",e=>{
-      if(e.target.id==="viewer-search"){state.viewerSearch=e.target.value;loadViewerTable();}
+      if(e.target.id==="viewer-search"){state.viewerSearch=e.target.value;clearTimeout(viewerSearchTimer);viewerSearchTimer=setTimeout(()=>loadViewerTable(),180);}
       if(e.target.id==="admin-chat-contact-search"){
         state.adminChatContactSearch=e.target.value;
-        const start=e.target.selectionStart;render();
-        const search=document.getElementById("admin-chat-contact-search");search?.focus();if(search&&start!==null)search.setSelectionRange(start,start);
+        const start=e.target.selectionStart;clearTimeout(adminChatSearchTimer);
+        adminChatSearchTimer=setTimeout(()=>{
+          if(location.hash!=="#admin"||state.adminTab!=="private-chat")return;
+          render();
+          const search=document.getElementById("admin-chat-contact-search");search?.focus();if(search&&start!==null)search.setSelectionRange(start,start);
+        },250);
       }
-      if(e.target.id==="article-search"||e.target.id==="timeline-search"){state.articleSearch=e.target.value;state.pages.articles=1;updateSearchResults();}
+      if(e.target.id==="article-search"||e.target.id==="timeline-search"){state.articleSearch=e.target.value;state.pages.articles=1;articleSearchRequest++;clearTimeout(articleSearchTimer);articleSearchTimer=setTimeout(()=>updateSearchResults(),300);}
       if(e.target.id==="sample-search"){state.sampleSearch=e.target.value;state.pages.samples=1;updateSampleResults();}
       if(e.target.closest("#shop-cart-item-form"))updateShopOrderEstimate(e.target.form);
       if(e.target.matches('#purchase-order-form [name="plan_id"]'))updatePurchaseDuration();
@@ -2439,10 +2497,11 @@
     window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeOrderChat();clearArticleCoverPreview();overlay.innerHTML="";}});
     document.addEventListener("contextmenu",e=>{if(!e.target.closest("input,textarea,select,[contenteditable='true']"))e.preventDefault();});
     document.addEventListener("keydown",e=>{const key=e.key.toLowerCase(),blocked=e.key==="F12"||e.ctrlKey&&e.shiftKey&&["i","j","c"].includes(key)||e.ctrlKey&&key==="u";if(blocked){e.preventDefault();e.stopPropagation();}},true);
-    if(db){subscribeToProductChanges();db.auth.onAuthStateChange((_event,session)=>{const nextUser=session?.user||null;if(state.user?.id!==nextUser?.id){closeOrderChat();closeSecureChat();state.adminChatContacts=[];state.adminChatContactsLoaded=false;state.adminChatContactsLoading=false;state.adminChatContactsError="";state.adminChatContactSearch="";state.loadedMarketplace=false;state.loadedMerchant=false;state.loadedBuyerOrders=false;state.loadedMerchantApplications=false;state.loadedFinance=false;state.loadedPricing=false;state.financeScope=null;state.loadedAdminProducts=false;state.loadedAdminPlans=false;state.ownStore=null;state.ownApplication=null;state.ownProducts=[];state.ownPackages=[];state.ownPaymentMethods=[];state.ownOrders=[];state.shopOrders=[];state.adminShopOrders=[];state.orderStatusHistory={};state.reviewedOrderIds=[];state.productRatings={};state.purchaseOrders=[];state.subscriptions=[];state.merchantActiveSubscription=false;state.merchantWriteAccess=false;}state.user=nextUser;if(!state.user)state.profile=null;if(_event==="SIGNED_IN"&&session?.user)db.rpc("log_access",{p_event_type:"login",p_target_id:null,p_target_name:null}).then(({error})=>{if(error)toast("Gagal mencatat login: "+errText(error),true);});setTimeout(()=>refreshSession(),0);});}
+    if(db){db.auth.onAuthStateChange((_event,session)=>{const nextUser=session?.user||null;if(state.user?.id!==nextUser?.id){closeOrderChat();closeSecureChat();state.adminChatContacts=[];state.adminChatContactsLoaded=false;state.adminChatContactsLoading=false;state.adminChatContactsError="";state.adminChatContactSearch="";state.loadedMarketplace=false;state.loadedMerchant=false;state.loadedBuyerOrders=false;state.loadedMerchantApplications=false;state.loadedFinance=false;state.loadedPricing=false;state.financeScope=null;state.loadedAdminProducts=false;state.loadedAdminPlans=false;state.ownStore=null;state.ownApplication=null;state.ownProducts=[];state.ownPackages=[];state.ownPaymentMethods=[];state.ownOrders=[];state.shopOrders=[];state.adminShopOrders=[];state.orderStatusHistory={};state.reviewedOrderIds=[];state.productRatings={};state.purchaseOrders=[];state.subscriptions=[];state.merchantActiveSubscription=false;state.merchantWriteAccess=false;}state.user=nextUser;if(!state.user)state.profile=null;if(_event==="SIGNED_IN"&&session?.user)db.rpc("log_access",{p_event_type:"login",p_target_id:null,p_target_name:null}).then(({error})=>{if(error)toast("Gagal mencatat login: "+errText(error),true);});if(!["INITIAL_SESSION","TOKEN_REFRESHED"].includes(_event))setTimeout(()=>refreshSession(),0);});}
     state.cart=restoreCart();
     setupConfigNotice();
     document.getElementById("year").textContent=new Date().getFullYear();
+    render();
     refreshSession();
     if(location.hash==="#")location.hash="#home";
   })();
