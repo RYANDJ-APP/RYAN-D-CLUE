@@ -308,6 +308,7 @@
     const emptyPaymentMethodSettings=()=>Object.fromEntries(paymentMethods.map(method=>[method,{recipient:"",account:"",qrUrl:"",instructions:""}]));
     const state = { user:null,profile:null,sessionReady:false,articles:[],media:[],samples:[],sampleLoadError:"",reviews:[],messages:[],secureChatRooms:[],secureChatMessages:[],secureChatRoomId:null,secureChatIdentity:null,secureChatError:"",secureChatLoaded:false,secureChatLoading:false,adminChatContacts:[],adminChatContactsError:"",adminChatContactsLoaded:false,adminChatContactsLoading:false,adminChatContactSearch:"",timeline:[],serviceRequests:[],ownServiceRequests:[],loadedOwnServiceRequests:false,purchaseOrders:[],subscriptions:[],accessLogs:[],merchantApplications:[],storefronts:[],ownStore:null,ownApplication:null,ownSubscription:null,merchantActiveSubscription:false,merchantWriteAccess:false,shopProducts:[],shopPackages:[],shopPaymentMethods:[],shopOrders:[],adminShopOrders:[],orderStatusHistory:{},reviewedOrderIds:[],productRatings:{},orderChatMessages:[],orderChatChannel:null,orderChatOrderId:null,ownProducts:[],ownPackages:[],ownPaymentMethods:[],ownOrders:[],adminProducts:[],adminPackages:[],financeEntries:[],financeSummary:{income_idr:0,expense_idr:0,net_idr:0,entry_count:0},financeMonth:new Date().toISOString().slice(0,7),financeScope:null,plans:[{id:"monthly",name:"Bulanan",duration_days:30,mentorship_days:30,price_idr:99000,description:"Akses selama 1 bulan"},{id:"six_month",name:"6 Bulanan",duration_days:180,mentorship_days:180,price_idr:499000,description:"Akses selama 6 bulan"},{id:"yearly",name:"1 Tahunan",duration_days:365,mentorship_days:365,price_idr:899000,description:"Akses selama 1 tahun"}],paymentSettings:emptyPaymentMethodSettings(),paymentSettingsError:"",paymentSettingsLoading:false,externalLinks:[],socialLinks:{},chatChannel:null,marketplaceChannel:null,stats:{articles:0,views:0,media:0,members:0},category:"Semua",sampleCategory:"Semua",sampleSearch:"",catalogGroup:"all",pages:{},adminTab:"dashboard",merchantTab:"overview",viewerSearch:"",articleSearch:"",calendarDate:new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate:"",loadedPricing:false,loadedAdminPlans:false,loadedEmbeds:false,loadedOrders:false,loadedRequests:false,loadedSocial:false,loadedAccessLogs:false,loadedMarketplace:false,loadedSamples:false,loadedMerchant:false,loadedBuyerOrders:false,loadedMerchantApplications:false,loadedAdminProducts:false,loadedFinance:false,loadedPaymentSettings:false,loadedMedia:false,loadedReviews:false,loadingContent:false,loadingFinance:false,loadingMarketplace:false,loadingMerchant:false,loadingBuyerOrders:false,survey:null,loading:false,articleEditorRange:null };
     state.cart=[];
+    state.marketplaceLoadError="";
     let articleSearchTimer=null,articleSearchRequest=0,viewerSearchTimer=null,adminChatSearchTimer=null;
     const socialPlatforms = [
       ["instagram","Instagram","https://www.instagram.com/akun-anda"],
@@ -740,10 +741,10 @@
     }
     function servicesPage(){return `<div class="page-title"><h1>Jasa Excel & Microsoft Access</h1><p>Ryan D Clue membantu merancang file dan aplikasi sederhana yang sesuai dengan kebutuhan aktivitas kerja Anda.</p></div><div class="service-intro"><h2>Dari pekerjaan berulang menjadi alur kerja yang lebih tertata.</h2><p>Ceritakan pekerjaan yang ingin dibantu. Kita bisa membahas kebutuhan, data yang digunakan, proses saat ini, serta hasil yang diharapkan sebelum pengerjaan dimulai.</p></div><div class="service-grid"><article class="service-card"><div class="service-icon">📊</div><span class="eyebrow">MICROSOFT EXCEL</span><h3>Edit & pembuatan file XLSX</h3><p>Spreadsheet yang disusun untuk membantu perhitungan, pencatatan, rekap, dan pelaporan.</p><ul><li>Rumus dan fungsi sesuai alur kebutuhan.</li><li>Rekap otomatis, validasi data, dan format laporan.</li><li>Perbaikan atau pengembangan workbook yang sudah ada.</li><li>Template operasional untuk penggunaan berulang.</li></ul><button class="btn btn-small" data-service="XLSX">Ajukan kebutuhan Excel →</button></article><article class="service-card"><div class="service-icon">🗃️</div><span class="eyebrow">MICROSOFT ACCESS</span><h3>Desain aplikasi Microsoft Access</h3><p>Aplikasi database desktop untuk membantu menyimpan, mencari, dan mengelola data pekerjaan.</p><ul><li>Form input dan pencarian data.</li><li>Tabel, relasi, query, dan laporan.</li><li>Pengelolaan data inventaris, pelanggan, transaksi, atau administrasi.</li><li>Rancangan disesuaikan dengan proses kerja yang diperlukan.</li></ul><button class="btn btn-small" data-service="Access">Ajukan kebutuhan Access →</button></article></div><div class="panel service-request"><h3>Formulir konsultasi / permintaan jasa</h3><p style="font-size:13px;color:var(--muted);line-height:1.7">Permintaan disimpan pada akun Anda. Email akun digunakan untuk menghubungi Anda mengenai kebutuhan jasa.</p>${state.user?`<form id="service-form"><div class="form-grid"><div class="field"><label>Nama pemesan</label><input name="name" maxlength="100" autocomplete="name" value="${esc(state.profile?.display_name||"")}" required></div><div class="field"><label>Email akun</label><input name="email" type="email" maxlength="254" autocomplete="email" value="${esc(state.user.email||"")}" readonly required></div></div><div class="field"><label>Jenis layanan</label><select name="service_type" required><option value="">Pilih layanan</option><option value="XLSX">Excel / XLSX</option><option value="Access">Microsoft Access</option><option value="Konsultasi">Belum yakin / konsultasi</option></select></div><div class="field"><label>Kebutuhan pekerjaan</label><textarea name="details" maxlength="3000" required placeholder="Jelaskan proses kerja, data yang dikelola, hasil yang diinginkan, dan fitur yang diperlukan. Jangan masukkan kata sandi atau data sensitif."></textarea></div><button class="btn">Kirim permintaan</button></form>`:`<div class="account-alert"><p>Masuk atau daftar sebagai Viewer untuk mengajukan permintaan. Email akan terikat pada akun yang sedang aktif.</p><button class="btn" data-action="auth">Masuk / daftar</button></div>`}</div>`;}
     function articlesPage(){const q=state.articleSearch.toLowerCase();const results=state.articles.filter(a=>(state.category==="Semua"||a.category===state.category)&&`${a.title} ${a.excerpt||""} ${a.body||""} ${a.category||""} ${a.author_name||""}`.toLowerCase().includes(q));const listing=pageSlice(results,"articles",9);return `<div class="page-title"><h1>Artikel & wawasan</h1><p>Temukan konten berdasarkan judul, topik, kategori, atau penulis.</p><div style="margin-top:16px"><button class="btn btn-small" data-action="publish">✎ Tulis artikel</button></div></div><div class="search-row"><input id="article-search" type="search" value="${esc(state.articleSearch)}" placeholder="Cari judul, topik, atau penulis..." aria-label="Cari artikel"><button class="btn btn-small" data-action="clear-search">Bersihkan</button><a class="btn btn-ghost btn-small" href="#timeline">Lihat kalender →</a></div><div class="filters">${["Semua","Artikel","Berita","Tutorial","Cerita"].map(c=>`<button class="chip ${state.category===c?"selected":""}" data-category="${c}">${c}</button>`).join("")}</div><div id="article-results" class="content-grid">${listing.items.map(articleCard).join("")||'<div class="empty">Tidak ada artikel yang cocok. Coba topik lain.</div>'}</div>${pageControls("articles",listing.page,listing.pages,listing.total)}`;}
-    function mediaPage(){const listing=pageSlice(state.media,"media",12);return `<div class="page-title"><h1>Ruang media</h1><p>Katalog media dapat dilihat publik. Unduhan tersedia untuk akun Pelanggan dan Pengelola.</p></div>${isEditor()?`<div class="panel"><h3>Unggah media</h3><p style="font-size:12px;color:var(--muted)">Unggahan tersedia untuk Editor/Pengelola. File disimpan privat; hanya Pelanggan dan Pengelola dapat mengunduhnya.</p><div class="field"><input id="media-upload" type="file" accept="video/*,image/png,image/jpeg,image/bmp,.docx,.xlsx,.pdf,.pptx,.accdb,.csv,.txt"><small>Video, PNG/JPEG/BMP, DOCX, XLSX, PDF, PPTX, ACCDB, CSV, TXT.</small></div><button class="btn btn-small" data-action="upload-media">Unggah file</button></div>`:""}<div class="content-grid">${listing.items.map(m=>`<div class="article-card"><div class="article-cover"><span>${iconByExt[m.name.split(".").pop().toLowerCase()]||"📁"}</span></div><div class="article-body"><h3>${esc(m.name)}</h3><div class="meta"><span>${(Number(m.size_bytes||0)/1024/1024).toFixed(2)} MB</span><span>${dateShort(m.created_at)}</span></div><div style="margin-top:13px">${state.profile?.role==="customer"||isAdmin()?`<button class="btn btn-small" data-download-media="${esc(m.id)}">Lihat / unduh →</button>`:`<button class="btn btn-ghost btn-small" data-download-media="${esc(m.id)}">${state.user?"Akses Pelanggan":"Masuk untuk mengunduh"}</button>`}</div></div></div>`).join("")||'<div class="empty">Belum ada media yang dibagikan.</div>'}</div>${pageControls("media",listing.page,listing.pages,listing.total)}`;}
+    function mediaPage(){const listing=pageSlice(state.media,"media",12);return `<div class="page-title"><h1>Ruang media</h1><p>Katalog media dapat dilihat publik. Untuk mengunduh, masuk menggunakan akun Ryan D Clue.</p></div>${isEditor()?`<div class="panel"><h3>Unggah media</h3><p style="font-size:12px;color:var(--muted)">Unggahan tersedia untuk Editor/Pengelola. File disimpan privat dan hanya dapat diunduh oleh akun yang sudah masuk.</p><div class="field"><input id="media-upload" type="file" accept="video/*,image/png,image/jpeg,image/bmp,.docx,.xlsx,.pdf,.pptx,.accdb,.csv,.txt"><small>Video, PNG/JPEG/BMP, DOCX, XLSX, PDF, PPTX, ACCDB, CSV, TXT.</small></div><button class="btn btn-small" data-action="upload-media">Unggah file</button></div>`:""}<div class="content-grid">${listing.items.map(m=>`<div class="article-card"><div class="article-cover"><span>${iconByExt[m.name.split(".").pop().toLowerCase()]||"📁"}</span></div><div class="article-body"><h3>${esc(m.name)}</h3><div class="meta"><span>${(Number(m.size_bytes||0)/1024/1024).toFixed(2)} MB</span><span>${dateShort(m.created_at)}</span></div><div style="margin-top:13px"><button class="btn ${state.user?"":"btn-ghost"} btn-small" data-download-media="${esc(m.id)}">${state.user?"Lihat / unduh →":"Masuk untuk mengunduh"}</button></div></div></div>`).join("")||'<div class="empty">Belum ada media yang dibagikan.</div>'}</div>${pageControls("media",listing.page,listing.pages,listing.total)}`;}
     function sampleProductCard(sample){
-      const ext=sample.file_name.split(".").pop().toLowerCase(),url=db?.storage.from(cfg.sampleStorageBucket||"ruangbagi-samples").getPublicUrl(sample.storage_path).data.publicUrl,downloadUrl=url?`${url}${url.includes("?")?"&":"?"}download=${encodeURIComponent(sample.file_name)}`:"";
-      return `<article class="article-card"><div class="article-cover"><span>${iconByExt[ext]||"📁"}</span></div><div class="article-body"><span class="eyebrow">${esc(sampleCategories.find(([key])=>key===sample.category)?.[1]||sample.category)}</span><h3>${esc(sample.title)}</h3>${sample.description?`<p>${esc(sample.description)}</p>`:""}<div class="meta"><span>${ext.toUpperCase()} · ${(Number(sample.size_bytes||0)/1024/1024).toFixed(2)} MB</span><span>${dateShort(sample.created_at)}</span></div><div style="margin-top:13px">${downloadUrl?`<a class="btn btn-small" href="${esc(downloadUrl)}" download="${esc(sample.file_name)}" target="_blank" rel="noopener">Unduh sampel →</a>`:`<span class="price-note">Tautan unduhan tidak tersedia.</span>`}${isAdmin()?` <button class="btn btn-ghost btn-small" data-delete-sample="${esc(sample.id)}">Hapus</button>`:""}</div></div></article>`;
+      const ext=sample.file_name.split(".").pop().toLowerCase();
+      return `<article class="article-card"><div class="article-cover"><span>${iconByExt[ext]||"📁"}</span></div><div class="article-body"><span class="eyebrow">${esc(sampleCategories.find(([key])=>key===sample.category)?.[1]||sample.category)}</span><h3>${esc(sample.title)}</h3>${sample.description?`<p>${esc(sample.description)}</p>`:""}<div class="meta"><span>${ext.toUpperCase()} · ${(Number(sample.size_bytes||0)/1024/1024).toFixed(2)} MB</span><span>${dateShort(sample.created_at)}</span></div><div style="margin-top:13px"><button class="btn btn-small" data-download-sample="${esc(sample.id)}">${state.user?"Unduh sampel →":"Masuk untuk mengunduh"}</button>${isAdmin()?` <button class="btn btn-ghost btn-small" data-delete-sample="${esc(sample.id)}">Hapus</button>`:""}</div></div></article>`;
     }
     function sampleProductListing(){
       const matches=state.samples.filter(sample=>(state.sampleCategory==="Semua"||sample.category===state.sampleCategory)&&`${sample.title} ${sample.description||""} ${sample.category} ${sample.file_name}`.toLowerCase().includes(state.sampleSearch.toLowerCase()));
@@ -762,7 +763,7 @@
       const {listing,content}=sampleProductListing();
       const filters=["Semua",...sampleCategories.map(([key])=>key)];
       const results=state.loadedSamples?content:'<div class="empty">Memuat sampel produk...</div>';
-      return `<div class="page-title"><h1>Download sampel produk</h1><p>Unduh contoh file latihan, template, e-book, tutorial, desain, serta contoh aplikasi. File sampel tersedia untuk diunduh publik.</p></div>${isEditor()?`<div class="panel"><h3>Unggah sampel produk</h3><p class="price-note">Editor dan Pengelola dapat mengunggah file yang dapat diunduh publik. Unggah hanya file yang Anda miliki atau berhak bagikan. Maksimal 50 MB per file.</p><form id="sample-product-form"><div class="form-grid"><div class="field"><label>Judul sampel</label><input name="title" minlength="2" maxlength="140" required placeholder="Contoh: Template laporan penjualan"></div><div class="field"><label>Kategori</label><select name="category" required>${sampleCategories.map(([key,label])=>`<option value="${key}">${label}</option>`).join("")}</select></div></div><div class="field"><label>Deskripsi (opsional)</label><textarea name="description" maxlength="1000" placeholder="Jelaskan isi dan kegunaan file sampel."></textarea></div><div class="field"><label>File sampel</label><input name="file" type="file" accept=".xlsx,.pdf,.docx,.cdr,.psd,.pptx,.accdb,.mdb" required><small>Format: XLSX, PDF, DOCX, CDR, PSD, PPTX, ACCDB, MDB.</small></div><button class="btn">Unggah sampel</button></form></div>`:""}<div class="panel"><div class="field"><label for="sample-search">Cari sampel</label><input id="sample-search" type="search" value="${esc(state.sampleSearch)}" placeholder="Cari nama file, kategori, atau deskripsi"></div><div class="filters" aria-label="Filter kategori sampel">${filters.map(category=>`<button class="chip ${state.sampleCategory===category?"selected":""}" data-sample-category="${esc(category)}">${category==="Semua"?"Semua":esc(sampleCategories.find(([key])=>key===category)?.[1]||category)}</button>`).join("")}</div></div><div id="sample-results" class="content-grid">${results}</div>${state.loadedSamples?pageControls("samples",listing.page,listing.pages,listing.total):""}`;
+      return `<div class="page-title"><h1>Download sampel produk</h1><p>Contoh file latihan, template, e-book, tutorial, desain, dan aplikasi dapat dilihat publik. Unduhan tersedia setelah masuk menggunakan akun Ryan D Clue.</p></div>${isEditor()?`<div class="panel"><h3>Unggah sampel produk</h3><p class="price-note">Editor dan Pengelola dapat mengunggah file. Unduhan hanya tersedia bagi pengguna yang sudah masuk. Unggah hanya file yang Anda miliki atau berhak bagikan. Maksimal 50 MB per file.</p><form id="sample-product-form"><div class="form-grid"><div class="field"><label>Judul sampel</label><input name="title" minlength="2" maxlength="140" required placeholder="Contoh: Template laporan penjualan"></div><div class="field"><label>Kategori</label><select name="category" required>${sampleCategories.map(([key,label])=>`<option value="${key}">${label}</option>`).join("")}</select></div></div><div class="field"><label>Deskripsi (opsional)</label><textarea name="description" maxlength="1000" placeholder="Jelaskan isi dan kegunaan file sampel."></textarea></div><div class="field"><label>File sampel</label><input name="file" type="file" accept=".xlsx,.pdf,.docx,.cdr,.psd,.pptx,.accdb,.mdb" required><small>Format: XLSX, PDF, DOCX, CDR, PSD, PPTX, ACCDB, MDB.</small></div><button class="btn">Unggah sampel</button></form></div>`:""}<div class="panel"><div class="field"><label for="sample-search">Cari sampel</label><input id="sample-search" type="search" value="${esc(state.sampleSearch)}" placeholder="Cari nama file, kategori, atau deskripsi"></div><div class="filters" aria-label="Filter kategori sampel">${filters.map(category=>`<button class="chip ${state.sampleCategory===category?"selected":""}" data-sample-category="${esc(category)}">${category==="Semua"?"Semua":esc(sampleCategories.find(([key])=>key===category)?.[1]||category)}</button>`).join("")}</div></div><div id="sample-results" class="content-grid">${results}</div>${state.loadedSamples?pageControls("samples",listing.page,listing.pages,listing.total):""}`;
     }
     async function loadSamples(){
       if(!db){state.samples=[];state.sampleLoadError="Konfigurasi Supabase belum tersedia.";state.loadedSamples=true;return;}
@@ -794,7 +795,7 @@
         if(uploadError)throw uploadError;
         const {data,error}=await db.from("sample_products").insert({title,category,description,file_name:file.name,storage_path:path,mime_type:file.type||"application/octet-stream",size_bytes:file.size}).select("id,title,description,category,file_name,storage_path,mime_type,size_bytes,created_at").single();
         if(error){const {error:cleanupError}=await db.storage.from(bucket).remove([path]);if(cleanupError)throw new Error(`${errText(error)} File tersimpan di Storage tetapi pembersihan gagal: ${errText(cleanupError)}`);throw error;}
-        state.samples.unshift(data);state.loadedSamples=true;state.sampleLoadError="";state.sampleCategory=data.category;state.sampleSearch="";state.pages.samples=1;form.reset();render();toast("Sampel produk berhasil diunggah dan dapat diunduh publik.");
+        state.samples.unshift(data);state.loadedSamples=true;state.sampleLoadError="";state.sampleCategory=data.category;state.sampleSearch="";state.pages.samples=1;form.reset();render();toast("Sampel produk berhasil diunggah.");
       }catch(error){toast("Gagal mengunggah sampel produk: "+errText(error),true);}
     }
     async function deleteSampleProduct(id){
@@ -808,6 +809,16 @@
         if(error)throw error;
         state.samples=state.samples.filter(item=>item.id!==id);state.pages.samples=1;render();toast("Sampel produk berhasil dihapus.");
       }catch(error){toast("Gagal menghapus sampel produk: "+errText(error),true);}
+    }
+    async function downloadSampleProduct(id){
+      if(!state.user){toast("Masuk dengan akun Ryan D Clue untuk mengunduh sampel.",true);authModal();return;}
+      const sample=state.samples.find(item=>item.id===id);if(!sample){toast("Sampel tidak ditemukan.",true);return;}
+      try{
+        const {data,error}=await db.storage.from(cfg.sampleStorageBucket||"ruangbagi-samples").createSignedUrl(sample.storage_path,60,{download:sample.file_name});
+        if(error)throw error;
+        if(!data?.signedUrl)throw new Error("Tautan unduhan tidak berhasil dibuat.");
+        const link=document.createElement("a");link.href=data.signedUrl;link.target="_blank";link.rel="noopener";document.body.appendChild(link);link.click();link.remove();
+      }catch(error){toast("Gagal mengunduh sampel: "+errText(error),true);}
     }
     const paymentLabels={qris:"Scan QRIS",bank_transfer:"Transfer bank",gopay:"GoPay",shopeepay:"ShopeePay",dana:"DANA"};
     const slugify=value=>String(value).normalize("NFKD").toLowerCase().replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,80);
@@ -831,9 +842,11 @@
       return `${intro}<div class="catalog-toolbar"><div class="filters">${groupButtons.map(([key,label])=>`<button class="chip ${state.catalogGroup===key?"selected":""}" data-catalog-group="${key}">${label}</button>`).join("")}</div><span class="price-note">${selectedProducts.length} penawaran tersedia</span></div><div class="content-grid">${products}</div>${pageControls(productKey,listing.page,listing.pages,listing.total)}${shopDirectory}<section class="panel"><h3>Ingin membuka lapak?</h3><p class="price-note">Pengajuan memerlukan langganan aktif dan ditinjau oleh Pengelola.</p><a class="btn btn-small" href="#pedagang">Ajukan penyewaan lapak →</a></section>`;
     }
     async function loadPublicMarketplace(){
-      if(!db){state.loadedMarketplace=true;return;}
+      if(!db){state.marketplaceLoadError="Konfigurasi Supabase belum tersedia.";state.loadedMarketplace=true;return;}
       if(state.loadedMarketplace||state.loadingMarketplace)return;
       state.loadingMarketplace=true;
+      state.marketplaceLoadError="";
+      let loadSucceeded=false;
       try{
         const [shops,products,packages,payments]=await Promise.all([
           db.from("storefronts").select("id,owner_id,name,slug,description,created_at").eq("active",true).order("created_at",{ascending:false}).limit(100),
@@ -850,9 +863,9 @@
           if(error)throw error;
           for(const rating of data||[])state.productRatings[rating.product_id]={average:Number(rating.average_rating),count:Number(rating.review_count)};
         }
-        state.loadedMarketplace=true;
-      }catch(e){toast("Gagal memuat lapak: "+errText(e),true);}
-      finally{state.loadingMarketplace=false;}
+        loadSucceeded=true;
+      }catch(e){state.marketplaceLoadError=errText(e);toast("Gagal memuat lapak: "+state.marketplaceLoadError,true);}
+      finally{state.loadedMarketplace=loadSucceeded;state.loadingMarketplace=false;}
     }
     async function loadMerchantData(){
       if(!db||!state.user)return;
@@ -1634,7 +1647,7 @@
         const days=product?.item_type==="rental"?rentalDayCount(item.rental_start_on,item.rental_end_on):1;
         return sum+Number(plan?.price_idr??offer?.price_idr??product?.price_idr??0)*(Number(item.quantity)||0)*days;
       },0);
-      return `<div class="page-title"><h1>Keranjang belanja</h1><p>Centang item yang ingin dibeli sekarang. Setiap item terpilih menjadi PO/pesanan tersendiri; item lain tetap tersimpan di keranjang.</p><a class="text-link" href="#aktivasi">Paket langganan</a> · <a class="text-link" href="#lapak">Katalog Lapak</a></div><div>${rows}</div><section class="panel"><p>Item terpilih: <b>${selected}</b></p><p>Perkiraan total: <b>${money(subtotal)}</b></p>${!state.user?`<p class="account-alert">Masuk atau daftar untuk melanjutkan checkout.</p>`:""}${state.paymentSettingsError?`<p class="account-alert" role="alert">Metode pembayaran paket tidak dapat dimuat: ${esc(state.paymentSettingsError)}</p>`:""}<button class="btn" data-action="checkout-cart" ${selected?"":"disabled"}>Checkout item terpilih</button></section>`;
+      return `<div class="page-title"><h1>Keranjang belanja</h1><p>Centang item yang ingin dibeli sekarang. Setiap item terpilih menjadi PO/pesanan tersendiri; item lain tetap tersimpan di keranjang.</p><a class="text-link" href="#aktivasi">Paket langganan</a> · <a class="text-link" href="#lapak">Katalog Lapak</a></div>${state.marketplaceLoadError?`<div class="account-alert" role="alert">Katalog Lapak belum dapat dimuat. Item produk mungkin belum dapat diverifikasi. ${db?'<button class="btn btn-small" data-action="retry-marketplace">Coba lagi</button>':""}</div>`:""}<div>${rows}</div><section class="panel"><p>Item terpilih: <b>${selected}</b></p><p>Perkiraan total: <b>${money(subtotal)}</b></p>${!state.user?`<p class="account-alert">Masuk atau daftar untuk melanjutkan checkout.</p>`:""}${state.paymentSettingsError?`<p class="account-alert" role="alert">Metode pembayaran paket tidak dapat dimuat: ${esc(state.paymentSettingsError)}</p>`:""}<button class="btn" data-action="checkout-cart" ${selected?"":"disabled"}>Checkout item terpilih</button></section>`;
     }
     async function checkoutCart(){
       if(!state.user){authModal();toast("Masuk atau daftar sebelum checkout.",true);return;}
@@ -1796,7 +1809,7 @@
       if((route==="aktivasi"||route==="akun")&&!state.loadedPricing)loadPricingData().then(render);
       if(route==="keranjang"&&!state.loadedPricing)loadPricingData().then(render);
       if(route==="keranjang"&&!state.loadedPaymentSettings&&!state.paymentSettingsLoading&&!state.paymentSettingsError)loadPaymentSettings().then(render);
-      if(route==="keranjang"&&!state.loadedMarketplace)loadPublicMarketplace().then(render);
+      if(route==="keranjang"&&!state.loadedMarketplace&&!state.loadingMarketplace)loadPublicMarketplace().then(render);
       if(route==="akun"&&state.user&&!state.loadedMerchant)loadMerchantData().then(render);
       if(route==="embed"&&!state.loadedEmbeds){state.loadedEmbeds=true;loadExternalLinks().then(render);}
       if(route==="chat"&&state.user&&!state.secureChatLoaded&&!state.secureChatLoading)loadSecureChat();
@@ -1856,8 +1869,8 @@
       const editing=Boolean(article);
       const safeBody=articleEditorMarkup(article?.body||"");
       const currentColumns=article?.body?.match(/data-columns=["']([23])["']/)?.[1]||"1";
-      const existingDocument=article?.document_url?`<div class="account-alert">Dokumen saat ini: <a href="${esc(article.document_url)}" target="_blank" rel="noopener noreferrer"><b>${esc(article.document_name||"Buka dokumen")}</b></a><label style="display:flex;gap:8px;align-items:center;margin-top:9px"><input type="checkbox" name="remove_document" value="true"> Hapus dokumen dari artikel</label></div>`:"";
-      showModal(editing?"Edit artikel":"Tulis artikel",`<form id="article-form" ${editing?`data-article-id="${esc(article.id)}"`:""}><div class="field"><label>Judul artikel</label><input name="title" maxlength="180" required placeholder="Judul yang menarik" value="${esc(article?.title||"")}"></div><div class="field"><label>Ringkasan</label><textarea name="excerpt" maxlength="300" required placeholder="Ringkas isi artikel dalam beberapa kalimat...">${esc(article?.excerpt||"")}</textarea></div><div class="field"><label id="article-editor-label">Isi artikel</label><div class="article-editor-toolbar" role="toolbar" aria-label="Format isi artikel"><select data-article-font aria-label="Jenis font"><option value="">Font</option>${Object.entries(articleFonts).map(([name])=>`<option value="${esc(name)}">${esc(name)}</option>`).join("")}</select><button type="button" data-article-command="bold" aria-label="Tebal"><b>B</b></button><button type="button" data-article-command="italic" aria-label="Miring"><i>I</i></button><button type="button" data-article-command="underline" aria-label="Garis bawah"><u>U</u></button><button type="button" data-article-command="indent" title="Tambah indent" aria-label="Tambah indent">⇥ Indent</button><button type="button" data-article-command="outdent" title="Kurangi indent" aria-label="Kurangi indent">⇤ Kurangi</button><select data-article-columns aria-label="Jumlah kolom isi"><option value="1" ${currentColumns==="1"?"selected":""}>1 kolom</option><option value="2" ${currentColumns==="2"?"selected":""}>2 kolom</option><option value="3" ${currentColumns==="3"?"selected":""}>3 kolom</option></select></div><div id="article-body-editor" class="article-editor" contenteditable="true" role="textbox" aria-labelledby="article-editor-label" aria-multiline="true" data-placeholder="Tulis artikel Anda...">${safeBody}</div></div><div class="panel" style="padding:13px;margin:12px 0;font-size:12px;line-height:1.6;color:var(--muted)">Pastikan tulisan relevan, akurat, dan bermanfaat. Gunakan materi asli atau cantumkan sumber; jangan memuat data pribadi, ujaran kebencian, pelanggaran hak cipta, atau informasi yang belum terverifikasi.</div><div class="form-grid"><div class="field"><label>Kategori</label><select name="category">${["Artikel","Berita","Tutorial","Cerita"].map(c=>`<option ${article?.category===c?"selected":""}>${c}</option>`).join("")}</select></div><div class="field"><label>Gambar ilustrasi / sampul (opsional)</label><input type="file" name="cover" accept="image/png,image/jpeg,image/bmp"><small>Format PNG, JPEG, atau BMP. Maksimal 10 MB. Gambar tampil di kartu dan bagian atas artikel.</small><div id="article-cover-preview" class="cover-preview" data-current-src="${esc(article?.cover_url||"")}">${article?.cover_url?`<img src="${esc(article.cover_url)}" alt="Ilustrasi artikel saat ini"><span>Ilustrasi saat ini</span>`:"<span>Pratinjau gambar akan tampil di sini.</span>"}</div></div></div><div class="field"><label>Dokumen sumber / artikel utuh (opsional)</label><input type="file" name="document" accept=".pdf,.docx,.ppt,.pptx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"><small>PDF, DOCX, PPT, atau PPTX · maksimal 50 MB. PDF ditampilkan langsung; DOCX/PPT/PPTX memakai pratinjau Microsoft Office Online. Dokumen yang diterbitkan dapat diakses publik.</small>${existingDocument}</div><button class="btn">${editing?"Simpan perubahan":"Terbitkan artikel"}</button></form>`);
+      const existingDocument=article?.document_path||article?.document_url?`<div class="account-alert">Dokumen tersimpan: <b>${esc(article.document_name||"Dokumen artikel")}</b><label style="display:flex;gap:8px;align-items:center;margin-top:9px"><input type="checkbox" name="remove_document" value="true"> Hapus dokumen dari artikel</label></div>`:"";
+      showModal(editing?"Edit artikel":"Tulis artikel",`<form id="article-form" ${editing?`data-article-id="${esc(article.id)}"`:""}><div class="field"><label>Judul artikel</label><input name="title" maxlength="180" required placeholder="Judul yang menarik" value="${esc(article?.title||"")}"></div><div class="field"><label>Ringkasan</label><textarea name="excerpt" maxlength="300" required placeholder="Ringkas isi artikel dalam beberapa kalimat...">${esc(article?.excerpt||"")}</textarea></div><div class="field"><label id="article-editor-label">Isi artikel</label><div class="article-editor-toolbar" role="toolbar" aria-label="Format isi artikel"><select data-article-font aria-label="Jenis font"><option value="">Font</option>${Object.entries(articleFonts).map(([name])=>`<option value="${esc(name)}">${esc(name)}</option>`).join("")}</select><button type="button" data-article-command="bold" aria-label="Tebal"><b>B</b></button><button type="button" data-article-command="italic" aria-label="Miring"><i>I</i></button><button type="button" data-article-command="underline" aria-label="Garis bawah"><u>U</u></button><button type="button" data-article-command="indent" title="Tambah indent" aria-label="Tambah indent">⇥ Indent</button><button type="button" data-article-command="outdent" title="Kurangi indent" aria-label="Kurangi indent">⇤ Kurangi</button><select data-article-columns aria-label="Jumlah kolom isi"><option value="1" ${currentColumns==="1"?"selected":""}>1 kolom</option><option value="2" ${currentColumns==="2"?"selected":""}>2 kolom</option><option value="3" ${currentColumns==="3"?"selected":""}>3 kolom</option></select></div><div id="article-body-editor" class="article-editor" contenteditable="true" role="textbox" aria-labelledby="article-editor-label" aria-multiline="true" data-placeholder="Tulis artikel Anda...">${safeBody}</div></div><div class="panel" style="padding:13px;margin:12px 0;font-size:12px;line-height:1.6;color:var(--muted)">Pastikan tulisan relevan, akurat, dan bermanfaat. Gunakan materi asli atau cantumkan sumber; jangan memuat data pribadi, ujaran kebencian, pelanggaran hak cipta, atau informasi yang belum terverifikasi.</div><div class="form-grid"><div class="field"><label>Kategori</label><select name="category">${["Artikel","Berita","Tutorial","Cerita"].map(c=>`<option ${article?.category===c?"selected":""}>${c}</option>`).join("")}</select></div><div class="field"><label>Gambar ilustrasi / sampul (opsional)</label><input type="file" name="cover" accept="image/png,image/jpeg,image/bmp"><small>Format PNG, JPEG, atau BMP. Maksimal 10 MB. Gambar tampil di kartu dan bagian atas artikel.</small><div id="article-cover-preview" class="cover-preview" data-current-src="${esc(article?.cover_url||"")}">${article?.cover_url?`<img src="${esc(article.cover_url)}" alt="Ilustrasi artikel saat ini"><span>Ilustrasi saat ini</span>`:"<span>Pratinjau gambar akan tampil di sini.</span>"}</div></div></div><div class="field"><label>Dokumen sumber / artikel utuh (opsional)</label><input type="file" name="document" accept=".pdf,.docx,.ppt,.pptx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"><small>PDF, DOCX, PPT, atau PPTX · maksimal 50 MB. Dokumen hanya dapat diunduh setelah pengguna masuk ke akun Ryan D Clue.</small>${existingDocument}</div><button class="btn">${editing?"Simpan perubahan":"Terbitkan artikel"}</button></form>`);
       const editor=document.getElementById("article-body-editor");
       const fontWrapper=editor.querySelector("[data-font]");
       if(fontWrapper)editor.innerHTML=fontWrapper.innerHTML;
@@ -1882,21 +1895,20 @@
       if(columns!=="1")body=`<div data-columns="${columns}">${body}</div>`;
       if(fontFamily&&articleFonts[fontFamily])body=`<div data-font="${esc(fontFamily)}">${body}</div>`;
       const documentFile=fd.get("document"),removeDocument=fd.get("remove_document")==="true",existing=state.articles.find(a=>a.id===form.dataset.articleId);
-      if(!title||(!editor?.textContent?.trim()&&!documentFile?.size&&!existing?.document_url)){toast("Isi artikel atau dokumen sumber wajib disertakan.",true);return;}
+      if(!title||(!editor?.textContent?.trim()&&!documentFile?.size&&!(existing?.document_path||existing?.document_url))){toast("Isi artikel atau dokumen sumber wajib disertakan.",true);return;}
       if(!db||!state.user){toast("Masuk dengan akun yang memiliki akses publikasi untuk menerbitkan artikel.",true);return;}
       let uploadedDocumentPath=null,articleSaved=false,documentCleanupWarning="";
       try{
         const articleId=form.dataset.articleId;
         const coverFile=fd.get("cover");let cover_url=state.articles.find(a=>a.id===articleId)?.cover_url||null;
         if(coverFile?.size){validateArticleCover(coverFile);const bucket=cfg.publicCoverBucket||"ruangbagi-public",path=`${state.user.id}/${Date.now()}-${safeName(coverFile.name)}`;const {error:upErr}=await db.storage.from(bucket).upload(path,coverFile,{upsert:false,contentType:coverFile.type||undefined});if(upErr)throw upErr;cover_url=db.storage.from(bucket).getPublicUrl(path).data.publicUrl;}
-        let document_url=existing?.document_url||null,document_name=existing?.document_name||null,document_type=existing?.document_type||null,document_path=existing?.document_path||null;
+        let document_url=existing?.document_path?null:existing?.document_url||null,document_name=existing?.document_name||null,document_type=existing?.document_type||null,document_path=existing?.document_path||null;
         if(documentFile?.size){
           validateArticleDocument(documentFile);
           const bucket=cfg.articleStorageBucket||"ruangbagi-articles",path=`${state.user.id}/${Date.now()}-${safeName(documentFile.name)}`;
           const {error:upErr}=await db.storage.from(bucket).upload(path,documentFile,{upsert:false,contentType:articleDocumentMime(documentFile.name)});
           if(upErr)throw upErr;
           uploadedDocumentPath=path;document_path=path;document_name=documentFile.name;document_type=documentFile.name.split(".").pop().toLowerCase();
-          document_url=db.storage.from(bucket).getPublicUrl(path).data.publicUrl;
         }else if(removeDocument){document_url=null;document_name=null;document_type=null;document_path=null;}
         const articleData={title,excerpt:String(fd.get("excerpt")).trim(),body,category:String(fd.get("category")),cover_url,document_url,document_name,document_type,document_path,published:true};
         const {error}=articleId
@@ -2234,8 +2246,7 @@
       }catch(e){toast("Gagal memuat log akses: "+errText(e),true);}
     }
     async function downloadMedia(id){
-      if(!state.user){toast("Masuk dengan akun Pelanggan untuk mengunduh media.",true);authModal();return;}
-      if(state.profile?.role!=="customer"&&!isAdmin()){toast("Unduhan hanya tersedia untuk akun Pelanggan. Hubungi Pengelola untuk mengubah akses.",true);return;}
+      if(!state.user){toast("Masuk dengan akun Ryan D Clue untuk mengunduh media.",true);authModal();return;}
       const file=state.media.find(item=>item.id===id);if(!file){toast("File tidak ditemukan di katalog.",true);return;}
       try{
         const bucket=cfg.storageBucket||"ruangbagi-media";
@@ -2255,21 +2266,39 @@
       const rawBody=article.body||article.excerpt||"Konten artikel belum tersedia.",body=sanitizeArticleHtml(rawBody);
       showModal(article.title,`<div class="meta"><span>${esc(article.author_name||"Kontributor")}</span><span>${dateShort(article.created_at)}${isAdmin()?` · ${Number(article.views||0).toLocaleString("id-ID")} views`:""}</span></div>${article.cover_url?`<img src="${esc(article.cover_url)}" alt="" style="width:100%;max-height:250px;object-fit:cover;border-radius:12px;margin:15px 0">`:""}<div class="article-content">${body||esc(rawBody)}</div>${articleDocumentMarkup(article)}`);
     }
+    function articleDocumentStoragePath(article){
+      if(article.document_path)return article.document_path;
+      if(!article.document_url)throw new Error("Lokasi dokumen artikel tidak tersedia.");
+      const bucket=cfg.articleStorageBucket||"ruangbagi-articles",configured=new URL(cfg.supabaseUrl),candidate=new URL(article.document_url);
+      const prefix=`/storage/v1/object/public/${bucket}/`;
+      if(candidate.protocol!=="https:"||candidate.host!==configured.host||!candidate.pathname.startsWith(prefix))throw new Error("Lokasi dokumen lama tidak dapat diverifikasi. Minta Pengelola mengunggah ulang dokumen ini.");
+      return decodeURIComponent(candidate.pathname.slice(prefix.length));
+    }
     function articleDocumentMarkup(article){
-      if(!article.document_url)return "";
-      let source;
-      try{
-        const configured=new URL(cfg.supabaseUrl),candidate=new URL(article.document_url);
-        if(candidate.protocol!=="https:"||candidate.host!==configured.host)throw new Error("Alamat dokumen bukan dari penyimpanan publikasi yang tepercaya.");
-        source=candidate.href;
-      }catch(error){
-        return `<div class="account-alert" role="alert">Pratinjau dokumen tidak tersedia: ${esc(errText(error))}</div>`;
-      }
+      if(!article.document_path&&!article.document_url)return "";
       const type=String(article.document_type||article.document_name?.split(".").pop()||"").toLowerCase();
       if(!["pdf","docx","ppt","pptx"].includes(type))return '<div class="account-alert" role="alert">Format dokumen ini tidak didukung untuk pratinjau.</div>';
       const name=esc(article.document_name||"Dokumen artikel");
-      const previewUrl=type==="pdf"?source:`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(source)}`;
-      return `<section class="article-document" aria-label="Dokumen artikel"><div class="article-document-head"><strong>${name}</strong><a class="btn btn-small btn-ghost" href="${esc(source)}" target="_blank" rel="noopener noreferrer">Buka / unduh dokumen</a></div><div class="article-document-preview"><button class="btn btn-ghost btn-small" data-action="load-article-preview" data-preview-type="${type==="pdf"?"pdf":"office"}" data-preview-url="${esc(previewUrl)}">Tampilkan pratinjau dokumen</button></div>${type==="pdf"?"":'<p class="article-document-note">Pratinjau dokumen Office dimuat dari Microsoft Office Online saat diminta.</p>'}</section>`;
+      return `<section class="article-document" aria-label="Dokumen artikel"><div class="article-document-head"><strong>${name}</strong>${state.user?`<button class="btn btn-small btn-ghost" data-download-article="${esc(article.id)}">Unduh dokumen</button>`:'<button class="btn btn-small" data-action="auth">Masuk untuk mengunduh</button>'}</div>${state.user?`<div class="article-document-preview"><button class="btn btn-ghost btn-small" data-action="load-article-preview" data-article-id="${esc(article.id)}" data-preview-type="${type==="pdf"?"pdf":"office"}">Tampilkan pratinjau dokumen</button></div>${type==="pdf"?"":'<p class="article-document-note">Pratinjau Office dimuat dari Microsoft Office Online saat diminta.</p>'}`:"<p class=\"article-document-note\">Masuk atau daftar untuk mengunduh dokumen publikasi ini.</p>"}</section>`;
+    }
+    async function createArticleDocumentUrl(article,download=false){
+      if(!state.user){authModal();throw new Error("Masuk dengan akun Ryan D Clue untuk mengakses dokumen.");}
+      if(!db)throw new Error("Layanan penyimpanan belum tersedia.");
+      const bucket=cfg.articleStorageBucket||"ruangbagi-articles",path=articleDocumentStoragePath(article);
+      const options=download?{download:article.document_name||true}:undefined;
+      const {data,error}=await db.storage.from(bucket).createSignedUrl(path,60,options);
+      if(error)throw error;
+      if(!data?.signedUrl)throw new Error("Tautan dokumen tidak berhasil dibuat.");
+      return data.signedUrl;
+    }
+    async function downloadArticleDocument(id){
+      if(!state.user){authModal();return;}
+      const article=state.articles.find(item=>item.id===id);
+      if(!article?.document_path&&!article?.document_url){toast("Dokumen publikasi tidak ditemukan.",true);return;}
+      try{
+        const signedUrl=await createArticleDocumentUrl(article,true),link=document.createElement("a");
+        link.href=signedUrl;link.target="_blank";link.rel="noopener";document.body.appendChild(link);link.click();link.remove();
+      }catch(error){toast("Gagal mengunduh dokumen: "+errText(error),true);}
     }
     async function updateSearchResults(){
       const request=++articleSearchRequest,query=state.articleSearch.trim().toLowerCase();
@@ -2302,25 +2331,33 @@
     }
     function scrollChat(){const el=document.getElementById("chat-messages");if(el)el.scrollTop=el.scrollHeight;}
     document.addEventListener("click",async e=>{
-      const target=e.target.closest("[data-action],[data-cart-add-plan],[data-cart-remove],[data-category],[data-sample-category],[data-delete-sample],[data-article],[data-open-article],[data-admin-tab],[data-admin-chat-contact],[data-merchant-tab],[data-page-key],[data-catalog-group],[data-save-role],[data-edit-article],[data-delete-article],[data-delete-media],[data-download-media],[data-auth-mode],[data-service],[data-calendar-step],[data-calendar-date],[data-save-service],[data-purchase-plan],[data-order-action],[data-order-id],[data-delete-embed],[data-buy-product],[data-toggle-product],[data-delete-product],[data-edit-shop-product],[data-edit-package],[data-toggle-package],[data-delete-payment],[data-merchant-review],[data-shop-order-action],[data-report-shop-payment],[data-order-chat],[data-order-receive],[data-order-dispute],[data-order-review],[data-print-invoice],[data-order-dispute-resolution],[data-chat-room]");
+      const target=e.target.closest("[data-action],[data-cart-add-plan],[data-cart-remove],[data-category],[data-sample-category],[data-delete-sample],[data-download-sample],[data-download-article],[data-article],[data-open-article],[data-admin-tab],[data-admin-chat-contact],[data-merchant-tab],[data-page-key],[data-catalog-group],[data-save-role],[data-edit-article],[data-delete-article],[data-delete-media],[data-download-media],[data-auth-mode],[data-service],[data-calendar-step],[data-calendar-date],[data-save-service],[data-purchase-plan],[data-order-action],[data-order-id],[data-delete-embed],[data-buy-product],[data-toggle-product],[data-delete-product],[data-edit-shop-product],[data-edit-package],[data-toggle-package],[data-delete-payment],[data-merchant-review],[data-shop-order-action],[data-report-shop-payment],[data-order-chat],[data-order-receive],[data-order-dispute],[data-order-review],[data-print-invoice],[data-order-dispute-resolution],[data-chat-room]");
       if(!target)return;
       if(target.dataset.action==="load-article-preview"){
-        let previewUrl;
         try{
-          previewUrl=new URL(target.dataset.previewUrl);
+          if(!state.user){authModal();return;}
+          const article=state.articles.find(item=>item.id===target.dataset.articleId);
+          if(!article)throw new Error("Artikel tidak ditemukan.");
+          const signedUrl=await createArticleDocumentUrl(article),previewUrl=target.dataset.previewType==="pdf"
+            ?new URL(signedUrl)
+            :new URL(`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(signedUrl)}`);
           const valid=previewUrl.protocol==="https:"&&(target.dataset.previewType==="pdf"?previewUrl.host===new URL(cfg.supabaseUrl).host:previewUrl.host==="view.officeapps.live.com"&&previewUrl.pathname==="/op/embed.aspx");
           if(!valid)throw new Error("Alamat pratinjau dokumen tidak valid.");
+          const frame=document.createElement("iframe");
+          frame.className="article-document-frame";
+          frame.title="Pratinjau dokumen";
+          frame.loading="lazy";
+          frame.referrerPolicy="no-referrer";
+          if(target.dataset.previewType==="office")frame.allowFullscreen=true;
+          frame.src=previewUrl.href;
+          target.replaceWith(frame);
         }catch(error){toast("Pratinjau dokumen tidak dapat dibuka: "+errText(error),true);return;}
-        const frame=document.createElement("iframe");
-        frame.className="article-document-frame";
-        frame.title="Pratinjau dokumen";
-        frame.loading="lazy";
-        frame.referrerPolicy="no-referrer";
-        if(target.dataset.previewType==="office")frame.allowFullscreen=true;
-        frame.src=previewUrl.href;
-        target.replaceWith(frame);
       }
       if(target.dataset.action==="browse"){location.hash="#artikel";document.getElementById("main").scrollIntoView({behavior:"smooth"});}
+      if(target.dataset.action==="retry-marketplace"){
+        state.loadedMarketplace=false;state.marketplaceLoadError="";
+        await loadPublicMarketplace();render();
+      }
       if(target.dataset.action==="retry-payment-settings"){state.loadedPaymentSettings=false;state.paymentSettingsError="";await loadPaymentSettings();render();}
       if(target.dataset.action==="retry-admin-chat-contacts"||target.dataset.action==="refresh-admin-chat-contacts"){
         if(!isAdmin())return;
@@ -2363,6 +2400,8 @@
       if(target.dataset.deleteArticle)await deleteArticle(target.dataset.deleteArticle);
       if(target.dataset.deleteMedia)await deleteMedia(target.dataset.deleteMedia);
       if(target.dataset.deleteSample)await deleteSampleProduct(target.dataset.deleteSample);
+      if(target.dataset.downloadSample)await downloadSampleProduct(target.dataset.downloadSample);
+      if(target.dataset.downloadArticle)await downloadArticleDocument(target.dataset.downloadArticle);
       if(target.dataset.downloadMedia)await downloadMedia(target.dataset.downloadMedia);
       if(target.dataset.purchasePlan){
         const select=document.querySelector('#purchase-order-form [name="plan_id"]');
