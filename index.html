@@ -273,6 +273,8 @@
       .brand{font-size:12px;min-width:0}
       .brand>span:last-child{min-width:0;white-space:nowrap}
       .top-actions{gap:6px}
+      .merchant-ready-catalog .section-head{align-items:flex-start;flex-direction:column;gap:12px}
+      .merchant-ready-catalog .section-head>div:last-child{display:flex;flex-wrap:wrap;gap:8px}
     }
   </style>
 </head>
@@ -309,6 +311,10 @@
     const state = { user:null,profile:null,sessionReady:false,articles:[],media:[],samples:[],sampleLoadError:"",reviews:[],messages:[],secureChatRooms:[],secureChatMessages:[],secureChatRoomId:null,secureChatIdentity:null,secureChatError:"",secureChatLoaded:false,secureChatLoading:false,adminChatContacts:[],adminChatContactsError:"",adminChatContactsLoaded:false,adminChatContactsLoading:false,adminChatContactSearch:"",timeline:[],serviceRequests:[],ownServiceRequests:[],loadedOwnServiceRequests:false,purchaseOrders:[],subscriptions:[],accessLogs:[],merchantApplications:[],storefronts:[],ownStore:null,ownApplication:null,ownSubscription:null,merchantActiveSubscription:false,merchantWriteAccess:false,shopProducts:[],shopPackages:[],shopPaymentMethods:[],shopOrders:[],adminShopOrders:[],orderStatusHistory:{},reviewedOrderIds:[],productRatings:{},orderChatMessages:[],orderChatChannel:null,orderChatOrderId:null,ownProducts:[],ownPackages:[],ownPaymentMethods:[],ownOrders:[],adminProducts:[],adminPackages:[],financeEntries:[],financeSummary:{income_idr:0,expense_idr:0,net_idr:0,entry_count:0},financeMonth:new Date().toISOString().slice(0,7),financeScope:null,plans:[{id:"monthly",name:"Bulanan",duration_days:30,mentorship_days:30,price_idr:99000,description:"Akses selama 1 bulan"},{id:"six_month",name:"6 Bulanan",duration_days:180,mentorship_days:180,price_idr:499000,description:"Akses selama 6 bulan"},{id:"yearly",name:"1 Tahunan",duration_days:365,mentorship_days:365,price_idr:899000,description:"Akses selama 1 tahun"}],paymentSettings:emptyPaymentMethodSettings(),paymentSettingsError:"",paymentSettingsLoading:false,externalLinks:[],socialLinks:{},chatChannel:null,marketplaceChannel:null,stats:{articles:0,views:0,media:0,members:0},category:"Semua",sampleCategory:"Semua",sampleSearch:"",catalogGroup:"all",pages:{},adminTab:"dashboard",merchantTab:"overview",viewerSearch:"",articleSearch:"",calendarDate:new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectedDate:"",loadedPricing:false,loadedAdminPlans:false,loadedEmbeds:false,loadedOrders:false,loadedRequests:false,loadedSocial:false,loadedAccessLogs:false,loadedMarketplace:false,loadedSamples:false,loadedMerchant:false,loadedBuyerOrders:false,loadedMerchantApplications:false,loadedAdminProducts:false,loadedFinance:false,loadedPaymentSettings:false,loadedMedia:false,loadedReviews:false,loadingContent:false,loadingFinance:false,loadingMarketplace:false,loadingMerchant:false,loadingBuyerOrders:false,survey:null,loading:false,articleEditorRange:null };
     state.cart=[];
     state.marketplaceLoadError="";
+    state.loadingPricing=false;
+    state.pricingLoadError="";
+    state.paymentProofUploadOrderId="";
+    state.merchantLoadError="";
     let articleSearchTimer=null,articleSearchRequest=0,viewerSearchTimer=null,adminChatSearchTimer=null;
     const socialPlatforms = [
       ["instagram","Instagram","https://www.instagram.com/akun-anda"],
@@ -846,6 +852,7 @@
       if(state.loadedMarketplace||state.loadingMarketplace)return;
       state.loadingMarketplace=true;
       state.marketplaceLoadError="";
+      if(location.hash==="#keranjang")render();
       let loadSucceeded=false;
       try{
         const [shops,products,packages,payments]=await Promise.all([
@@ -868,9 +875,12 @@
       finally{state.loadedMarketplace=loadSucceeded;state.loadingMarketplace=false;}
     }
     async function loadMerchantData(){
-      if(!db||!state.user)return;
+      if(!state.user)return;
+      if(!db){state.loadedMerchant=true;state.merchantLoadError="Layanan lapak belum terhubung.";return;}
       if(state.loadedMerchant||state.loadingMerchant)return;
       state.loadingMerchant=true;
+      state.merchantLoadError="";
+      if(location.hash==="#pedagang"||location.hash==="#akun")render();
       try{
         const [applications,shops,subscriptions]=await Promise.all([
           db.from("merchant_applications").select("id,user_id,shop_name,slug,description,contact_name,contact_email,contact_phone,business_type,business_location,products_summary,business_registration,proof_url,legal_acknowledged,status,review_note,created_at").eq("user_id",state.user.id).maybeSingle(),
@@ -893,7 +903,7 @@
           if(ids.length){const result=await db.from("shop_packages").select("id,product_id,name,description,price_idr,active").in("product_id",ids);if(result.error)throw result.error;state.ownPackages=result.data||[];}
         }
         state.loadedMerchant=true;
-      }catch(e){toast("Gagal memuat dashboard Pedagang: "+errText(e),true);}
+      }catch(e){state.loadedMerchant=true;state.merchantLoadError=errText(e);toast("Gagal memuat dashboard Pedagang: "+state.merchantLoadError,true);}
       finally{state.loadingMerchant=false;}
     }
     async function loadAdminProducts(){
@@ -1438,8 +1448,24 @@
       }
       return `<div class="page-title"><h1>Lapak Pedagang</h1><p>Temukan jasa dan produk yang ditawarkan Pedagang terdaftar. Setiap lapak mengelola katalog, harga, dan metode pembayarannya sendiri.</p></div><div class="content-grid">${state.storefronts.map(shop=>{const count=state.shopProducts.filter(product=>product.storefront_id===shop.id).length;return `<article class="service-card"><span class="eyebrow">LAPAK TERDAFTAR</span><h3>${esc(shop.name)}</h3><p>${esc(shop.description)}</p><div class="meta"><span>${count} penawaran</span><span>${state.shopPaymentMethods.filter(method=>method.storefront_id===shop.id).map(method=>paymentLabels[method.method]).join(" · ")||"Metode pembayaran belum diatur"}</span></div><div style="margin-top:16px"><a class="btn btn-small" href="#lapak/${encodeURIComponent(shop.slug)}">Kunjungi lapak →</a></div></article>`;}).join("")||'<div class="empty">Belum ada lapak aktif. Lapak akan tampil setelah pengajuan ditinjau.</div>'}</div><div class="panel" style="margin-top:24px"><h3>Ingin membuka lapak?</h3><p style="font-size:13px;color:var(--muted)">Masuk dan pastikan langganan masih aktif. Pengelola akan meninjau informasi usaha sebelum lapak ditampilkan.</p><a class="btn btn-small" href="#pedagang">Ajukan penyewaan lapak →</a></div>`;
     }
+    function merchantReadyCatalogPanel(){
+      const products=state.ownProducts.filter(product=>product.storefront_id===state.ownStore?.id);
+      const methods=state.ownPaymentMethods.filter(method=>method.storefront_id===state.ownStore?.id);
+      const storefrontReady=Boolean(state.ownStore?.active&&state.merchantActiveSubscription&&methods.length);
+      const readyCount=products.filter(product=>storefrontReady&&productAvailable(product)).length;
+      const cards=products.map(product=>{
+        const offers=state.ownPackages.filter(offer=>offer.product_id===product.id&&offer.active);
+        const ready=storefrontReady&&productAvailable(product);
+        const issue=!product.published?"Belum diterbitkan":product.track_inventory&&Number(product.stock_quantity)<=0?"Stok/slot habis":!state.merchantActiveSubscription?"Langganan perlu diperpanjang":!state.ownStore.active?"Lapak belum aktif":!methods.length?"Tambahkan metode pembayaran":"";
+        return `<article class="service-card"><span class="badge ${ready?"":"pending"}">${ready?"Siap dijual":esc(issue||"Belum tersedia")}</span><h3>${esc(product.title)}</h3><p>${esc(product.description||"")}</p><p class="price-note">${money(product.price_idr)}${product.track_inventory?` · Stok ${Number(product.stock_quantity)} unit/slot`:" · Stok tanpa batas"}</p>${offers.length?`<div class="mini-list">${offers.map(offer=>`<div class="mini-item"><span><b>${esc(offer.name)}</b></span><span>${money(offer.price_idr)}</span></div>`).join("")}</div>`:""}</article>`;
+      }).join("");
+      const help=!state.merchantActiveSubscription?"Perpanjang langganan agar lapak dan produk dapat tampil untuk pembeli.":!state.ownStore.active?"Lapak belum aktif. Hubungi Pengelola jika langganan sudah aktif.":!methods.length?"Tambahkan metode pembayaran agar pembeli dapat menyelesaikan pesanan.":!products.length?"Tambahkan produk atau jasa lalu terbitkan agar mulai tampil di katalog.":"Produk terbit dan stok tersedia dapat dipesan melalui katalog publik.";
+      return `<section class="panel merchant-ready-catalog"><div class="section-head"><div><h3>Katalog siap dijual</h3><p>${readyCount} dari ${products.length} produk/jasa siap menerima pesanan.</p></div><div><a class="btn btn-ghost btn-small" href="#lapak/${encodeURIComponent(state.ownStore.slug)}">Lihat lapak publik →</a> <button class="btn btn-small" data-merchant-tab="products">Kelola katalog</button></div></div><p class="price-note">${help}</p><div class="content-grid">${cards||'<div class="empty">Belum ada produk atau jasa. Tambahkan penawaran pada menu Produk & harga.</div>'}</div></section>`;
+    }
     function merchantPage(){
       if(!state.user)return `<div class="page-title"><h1>Lapak Pedagang</h1><p>Masuk dan pastikan akun memiliki langganan aktif untuk mengajukan lapak.</p></div><div class="panel"><button class="btn" data-action="auth">Masuk / daftar</button></div>`;
+      if(state.merchantLoadError)return `<div class="page-title"><h1>Dashboard Pedagang</h1><p>Data lapak belum berhasil dimuat.</p></div><div class="account-alert" role="alert">${esc(state.merchantLoadError)} <button class="btn btn-small" data-action="retry-merchant-data">Coba lagi</button></div>`;
+      if(state.loadingMerchant||!state.loadedMerchant)return `<div class="page-title"><h1>Dashboard Pedagang</h1><p>Memuat status akun dan data lapak...</p></div><div class="panel" role="status">Mohon tunggu, data sedang dimuat.</div>`;
       if(!state.ownStore){
         if(state.ownApplication&&state.ownApplication.status!=="rejected")return `<div class="page-title"><h1>Pengajuan lapak</h1><p>Status: <span class="badge ${state.ownApplication.status==="pending"?"pending":""}">${({pending:"Menunggu tinjauan",approved:"Disetujui",rejected:"Ditolak"}[state.ownApplication.status])}</span></p></div><div class="panel"><h3>${esc(state.ownApplication.shop_name)}</h3><p>${esc(state.ownApplication.description)}</p><p style="font-size:12px;color:var(--muted)">Informasi lapak sedang ditinjau. Status akan diperbarui di halaman ini.</p></div>`;
         if(!state.merchantActiveSubscription)return `<div class="page-title"><h1>Daftar menjadi Pedagang</h1><p>Pengajuan lapak memerlukan akun berlangganan yang masih aktif.</p></div><div class="panel"><h3>Aktifkan paket langganan terlebih dahulu</h3><a class="btn" href="#akun">Buka akun dan ajukan aktivasi</a></div>`;
@@ -1522,20 +1548,22 @@
         const destination=order.payment_recipient_snapshot?`<p>Metode: <b>${esc(paymentLabels[order.payment_method]||order.payment_method)}</b><br>Penerima: <b>${esc(order.payment_recipient_snapshot)}</b>${order.payment_account_snapshot?`<br>Nomor tujuan: <b>${esc(order.payment_account_snapshot)}</b>`:""}</p>`:"<p class='price-note'>Tujuan pembayaran PO lama tidak tercatat. Hubungi Pengelola untuk memastikan tujuan transfer.</p>";
         const proofUrl=order.payment_proof_signed_url||(validHttpsUrl(order.payment_proof_url)?order.payment_proof_url:"");
         const proof=proofUrl?`<p><a class="text-link" href="${esc(proofUrl)}" target="_blank" rel="noopener noreferrer">Lihat bukti${order.payment_proof_name?` · ${esc(order.payment_proof_name)}`:""} ↗</a></p>`:"";
-        const reportForm=order.status==="pending"&&order.payment_status!=="reported"&&order.payment_status!=="verified"?`<form class="purchase-payment-form" data-payment-order-id="${esc(order.id)}"><div class="field"><label>Unggah bukti transfer</label><input name="payment_proof" type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg" required><small>PDF, PNG, atau JPEG · maksimal 10 MB. Bukti hanya dapat dilihat oleh Anda dan Pengelola.</small></div><button class="btn btn-small">${order.payment_status==="rejected"?"Kirim ulang bukti":"Kirim bukti untuk divalidasi"}</button></form>`:"";
+        const proofLinkError=order.payment_proof_link_error?`<div class="account-alert" role="alert">Bukti tersimpan, tetapi tautan pratinjau gagal dimuat: ${esc(order.payment_proof_link_error)} <button type="button" class="btn btn-small" data-action="retry-payment-proof-links">Coba lagi</button></div>`:"";
+        const reportForm=order.status==="pending"&&order.payment_status!=="reported"&&order.payment_status!=="verified"?`<form class="purchase-payment-form" data-payment-order-id="${esc(order.id)}"><div class="field"><label>Unggah bukti transfer</label><input name="payment_proof" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp,application/pdf,image/png,image/jpeg,image/webp" required><small>PDF, PNG, JPEG, atau WebP · maksimal 10 MB. Bukti hanya dapat dilihat oleh Anda dan Pengelola.</small></div><p data-payment-upload-status role="status" aria-live="polite"></p><button class="btn btn-small" type="submit">${order.payment_status==="rejected"?"Kirim ulang bukti":"Kirim bukti untuk divalidasi"}</button></form>`:"";
         const instructions=order.payment_method_instructions_snapshot||order.payment_instructions_snapshot||"Ikuti detail tujuan pembayaran di atas.";
-        return `<article class="panel"><div class="section-head"><div><h3>${esc(planName(order.plan_id))} · ${money(order.price_idr)}</h3><p>Dibuat ${dateShort(order.created_at)} · ${order.duration_days} hari · pendampingan ${order.mentorship_days} hari</p></div><span class="badge ${order.status==="pending"?"pending":""}">${labels[order.status]||esc(order.status)}</span></div><p class="price-note">Pembayaran: ${paymentStatusLabels[order.payment_status]||esc(order.payment_status)} · Metode ${esc(paymentLabels[order.payment_method]||"")}</p>${order.status==="pending"?`<div class="panel"><h3>Instruksi pembayaran</h3>${destination}<p>${esc(instructions)}</p>${legacyPaymentLink}${qr}${proof}${reportForm}</div>`:""}</article>`;
+        return `<article class="panel"><div class="section-head"><div><h3>${esc(planName(order.plan_id))} · ${money(order.price_idr)}</h3><p>Dibuat ${dateShort(order.created_at)} · ${order.duration_days} hari · pendampingan ${order.mentorship_days} hari</p></div><span class="badge ${order.status==="pending"?"pending":""}">${labels[order.status]||esc(order.status)}</span></div><p class="price-note">Pembayaran: ${paymentStatusLabels[order.payment_status]||esc(order.payment_status)} · Metode ${esc(paymentLabels[order.payment_method]||"")}</p>${order.status==="pending"?`<div class="panel"><h3>Instruksi pembayaran</h3>${destination}<p>${esc(instructions)}</p>${legacyPaymentLink}${qr}${proof}${proofLinkError}${reportForm}</div>`:""}</article>`;
       }).join("")||'<div class="empty">Belum ada PO untuk akun ini.</div>';
     }
     function accountPage(){
       if(!state.user)return `<div class="page-title"><h1>Akun saya</h1><p>Masuk untuk melihat role akun, status langganan, pembayaran, dan riwayat akses.</p></div><div class="panel"><button class="btn" data-action="auth">Masuk / daftar</button></div>`;
+      if(state.loadingPricing)return `<div class="page-title"><h1>Akun saya</h1><p>Memuat status akun, langganan, dan pembayaran...</p></div><div class="panel" role="status">Mohon tunggu, data akun sedang dimuat.</div>`;
       const subscription=accountSubscription(),endDate=subscription?new Date(subscription.ends_at):null,daysLeft=endDate?remainingDays(endDate):null;
       const expiredDays=endDate&&daysLeft<=0?Math.floor((Date.now()-endDate.getTime())/86400000):null;
       const active=Boolean(subscription&&daysLeft>0),grace=Boolean(subscription&&daysLeft<=0&&expiredDays<=5),locked=Boolean(subscription&&expiredDays>5&&expiredDays<30),disabled=Boolean(subscription&&expiredDays>=30);
       const baseRole=state.profile?.role==="superadmin"?"Pengelola":state.profile?.role==="editor"?"Editor":state.profile?.role==="merchant"?"Pedagang":state.profile?.role==="customer"?"Pelanggan":"Viewer";
       const accountRole=active&&(state.ownStore||state.profile?.role==="merchant")?`Pelanggan Lapak · ${planName(subscription.plan_id)}`:active?`Pelanggan · ${planName(subscription.plan_id)}`:baseRole;
       const notice=active&&daysLeft<=5?`Perhatian: sisa masa berlangganan ${daysLeft} hari. Segera ajukan perpanjangan agar layanan tidak terputus.`:grace?"Masa langganan baru saja berakhir. Akun dalam masa tenggang hingga 5 hari; fitur perubahan data masih tersedia sementara.":locked?"Masa tenggang 5 hari telah lewat. Fitur tulis, ubah, penjualan baru, dan pengelolaan lapak dikunci. Perpanjang untuk membuka kembali akses.":disabled?"Langganan tidak diperpanjang selama 30 hari. Fitur berbayar dan lapak dinonaktifkan; Anda tetap dapat masuk untuk memperpanjang.":"";
-      return `<div class="page-title"><h1>Akun saya</h1><p>Ringkasan status akun, masa sewa lapak, pendampingan, dan transaksi.</p></div>${notice?`<div class="account-alert" role="status">${esc(notice)}</div>`:""}<section class="panel"><div class="account-status-grid"><div class="account-status-card"><small>Status akun</small><strong>${esc(accountRole)}</strong></div><div class="account-status-card"><small>Status akses</small><strong>${active?"Aktif":grace?"Masa tenggang":locked?"Dibatasi":disabled?"Dinonaktifkan":"Viewer"}</strong></div><div class="account-status-card"><small>${state.ownStore?"Masa sewa lapak":"Masa berlangganan"}</small><strong>${active?`${daysLeft} hari lagi · ${dateShort(subscription.ends_at)}`:subscription?`Berakhir ${dateShort(subscription.ends_at)}`:"Belum berlangganan"}</strong></div></div>${subscription?.mentorship_ends_at?`<p class="price-note" style="margin-top:16px">Pendampingan/bimbingan berlaku sampai ${dateShort(subscription.mentorship_ends_at)}${new Date(subscription.mentorship_ends_at)>new Date()?` · sisa ${remainingDays(subscription.mentorship_ends_at)} hari`:" · telah berakhir"}.</p>`:""}<div style="margin-top:18px"><a class="btn" href="#aktivasi">${active?"Perpanjang / ubah paket":"Ajukan pembelian atau penyewaan"} →</a>${state.ownStore?` <a class="btn btn-ghost" href="#pedagang">Dashboard lapak</a>`:""}</div></section><section class="panel"><h3>Purchase Order dan pembayaran</h3><p class="price-note">Metode dan tujuan pembayaran tersimpan pada setiap PO. Akses berlangganan baru aktif setelah bukti diverifikasi Pengelola.</p>${accountPurchaseOrders()}</section><section class="panel"><h3>Riwayat masa berlaku</h3><div class="file-list">${state.subscriptions.map(item=>`<div class="file-item"><span><b>${esc(planName(item.plan_id))}</b><br>${dateShort(item.starts_at)} – ${dateShort(item.ends_at)} · pendampingan sampai ${dateShort(item.mentorship_ends_at)}</span><span class="badge ${new Date(item.ends_at)>new Date()?"":"pending"}">${new Date(item.ends_at)>new Date()?"Aktif":"Berakhir"}</span></div>`).join("")||"<p class='price-note'>Belum ada riwayat langganan.</p>"}</div></section>`;
+      return `<div class="page-title"><h1>Akun saya</h1><p>Ringkasan status akun, masa sewa lapak, pendampingan, dan transaksi.</p></div>${state.pricingLoadError?`<div class="account-alert" role="alert">Data akun belum dapat dimuat: ${esc(state.pricingLoadError)} <button type="button" class="btn btn-small" data-action="retry-account-data">Coba lagi</button></div>`:""}${notice?`<div class="account-alert" role="status">${esc(notice)}</div>`:""}<section class="panel"><div class="account-status-grid"><div class="account-status-card"><small>Status akun</small><strong>${esc(accountRole)}</strong></div><div class="account-status-card"><small>Status akses</small><strong>${active?"Aktif":grace?"Masa tenggang":locked?"Dibatasi":disabled?"Dinonaktifkan":"Viewer"}</strong></div><div class="account-status-card"><small>${state.ownStore?"Masa sewa lapak":"Masa berlangganan"}</small><strong>${active?`${daysLeft} hari lagi · ${dateShort(subscription.ends_at)}`:subscription?`Berakhir ${dateShort(subscription.ends_at)}`:"Belum berlangganan"}</strong></div></div>${subscription?.mentorship_ends_at?`<p class="price-note" style="margin-top:16px">Pendampingan/bimbingan berlaku sampai ${dateShort(subscription.mentorship_ends_at)}${new Date(subscription.mentorship_ends_at)>new Date()?` · sisa ${remainingDays(subscription.mentorship_ends_at)} hari`:" · telah berakhir"}.</p>`:""}<div style="margin-top:18px"><a class="btn" href="#aktivasi">${active?"Perpanjang / ubah paket":"Ajukan pembelian atau penyewaan"} →</a>${state.ownStore?` <a class="btn btn-ghost" href="#pedagang">Dashboard lapak</a>`:""}</div></section><section class="panel"><h3>Purchase Order dan pembayaran</h3><p class="price-note">Metode dan tujuan pembayaran tersimpan pada setiap PO. Akses berlangganan baru aktif setelah bukti diverifikasi Pengelola.</p>${accountPurchaseOrders()}</section><section class="panel"><h3>Riwayat masa berlaku</h3><div class="file-list">${state.subscriptions.map(item=>`<div class="file-item"><span><b>${esc(planName(item.plan_id))}</b><br>${dateShort(item.starts_at)} – ${dateShort(item.ends_at)} · pendampingan sampai ${dateShort(item.mentorship_ends_at)}</span><span class="badge ${new Date(item.ends_at)>new Date()?"":"pending"}">${new Date(item.ends_at)>new Date()?"Aktif":"Berakhir"}</span></div>`).join("")||"<p class='price-note'>Belum ada riwayat langganan.</p>"}</div></section>`;
     }
     function paymentDestinationMarkup(method){
       const config=state.paymentSettings[method]||{};
@@ -1786,6 +1814,14 @@
       document.getElementById("merchant-mobile-nav").classList.toggle("hidden",!state.user);
       if(isSubscriptionDeactivated()&&!["akun","aktivasi"].includes(baseRoute)){main.innerHTML=accountPage();return;}
       main.innerHTML=(pages[baseRoute]||homePage)();
+      if((baseRoute==="akun"||baseRoute==="aktivasi")&&state.loadingPricing)main.insertAdjacentHTML("afterbegin",'<div class="account-alert" role="status">Memuat status akun, paket, dan pembayaran...</div>');
+      if(baseRoute==="akun"&&state.loadingMerchant)main.insertAdjacentHTML("afterbegin",'<div class="account-alert" role="status">Memuat informasi lapak dan status Pedagang...</div>');
+      if(route==="keranjang"&&state.loadingMarketplace)main.insertAdjacentHTML("afterbegin",'<div class="account-alert" role="status">Memuat katalog untuk memverifikasi item keranjang...</div>');
+      if(baseRoute==="akun"&&state.merchantLoadError)main.insertAdjacentHTML("afterbegin",`<div class="account-alert" role="alert">Data lapak belum dapat dimuat: ${esc(state.merchantLoadError)} <button class="btn btn-small" data-action="retry-merchant-data">Coba lagi</button></div>`);
+      if(route==="pedagang"&&state.ownStore&&state.merchantTab==="overview"){
+        const tabs=main.querySelector(".admin-tabs");
+        if(tabs)tabs.insertAdjacentHTML("afterend",merchantReadyCatalogPanel());
+      }
       if(baseRoute==="artikel"&&state.articleSearch)updateSearchResults();
       if(state.sessionReady&&!state.loadingContent&&((baseRoute==="media"&&!state.loadedMedia)||(baseRoute==="review"&&!state.loadedReviews)))loadContent();
       if(baseRoute==="jasa"&&state.user&&!state.loadedOwnServiceRequests)loadOwnServiceRequests();
@@ -1806,17 +1842,16 @@
       if(route==="admin"&&(state.adminTab==="jasa"||state.adminTab==="klien")&&!state.loadedRequests)loadServiceRequests();
       if(route==="admin"&&state.adminTab==="laporan"&&!state.loadedRequests)loadServiceRequests();
       if(route==="admin"&&state.adminTab==="orders"&&!state.loadedOrders)loadAdminOrders();
-      if((route==="aktivasi"||route==="akun")&&!state.loadedPricing)loadPricingData().then(render);
-      if(route==="keranjang"&&!state.loadedPricing)loadPricingData().then(render);
+      if((route==="aktivasi"||route==="akun")&&!state.loadedPricing&&!state.loadingPricing)loadPricingData().then(render);
+      if(route==="keranjang"&&!state.loadedPricing&&!state.loadingPricing)loadPricingData().then(render);
       if(route==="keranjang"&&!state.loadedPaymentSettings&&!state.paymentSettingsLoading&&!state.paymentSettingsError)loadPaymentSettings().then(render);
-      if(route==="keranjang"&&!state.loadedMarketplace&&!state.loadingMarketplace)loadPublicMarketplace().then(render);
-      if(route==="akun"&&state.user&&!state.loadedMerchant)loadMerchantData().then(render);
+      if(route==="keranjang"&&!state.loadedMarketplace&&!state.loadingMarketplace&&!state.marketplaceLoadError)loadPublicMarketplace().then(render);
+      if((route==="akun"||route==="pedagang")&&state.user&&!state.loadedMerchant&&!state.loadingMerchant)loadMerchantData().then(render);
       if(route==="embed"&&!state.loadedEmbeds){state.loadedEmbeds=true;loadExternalLinks().then(render);}
       if(route==="chat"&&state.user&&!state.secureChatLoaded&&!state.secureChatLoading)loadSecureChat();
       if(route==="chat"&&state.user)scrollChat();
       if(state.sessionReady&&(baseRoute==="lapak"||baseRoute==="keranjang"||route==="admin"&&state.adminTab==="produk"||route==="pedagang"&&state.merchantTab==="products"))subscribeToProductChanges();
       if(baseRoute==="lapak"&&!state.loadedMarketplace)loadPublicMarketplace().then(()=>{if(state.loadedMarketplace)render();});
-      if(baseRoute==="pedagang"&&state.user&&!state.loadedMerchant)loadMerchantData().then(()=>{if(state.loadedMerchant)render();});
       if(baseRoute==="pesanan"&&state.user&&!state.loadedBuyerOrders)loadBuyerOrders().then(()=>{if(state.loadedBuyerOrders)render();});
       if(baseRoute==="sampel"&&!state.loadedSamples)loadSamples().then(()=>{if((location.hash||"").slice(1).split("/")[0]==="sampel")render();});
     }
@@ -1955,10 +1990,10 @@
     }
     function validatePaymentProof(file){
       const ext=file.name.split(".").pop().toLowerCase();
-      const mimeByExtension={pdf:"application/pdf",png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg"};
+      const mimeByExtension={pdf:"application/pdf",png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",webp:"image/webp"};
       const mime=mimeByExtension[ext];
-      if(!mime)throw new Error("Bukti transfer harus berformat PDF, PNG, atau JPEG.");
-      if(file.type&&file.type!==mime)throw new Error("Tipe isi file tidak sesuai dengan ekstensi. Pilih file PDF, PNG, atau JPEG yang valid.");
+      if(!mime)throw new Error("Bukti transfer harus berformat PDF, PNG, JPEG, atau WebP.");
+      if(file.type&&file.type!==mime)throw new Error("Tipe isi file tidak sesuai dengan ekstensi. Pilih file PDF, PNG, JPEG, atau WebP yang valid.");
       if(file.size>10*1024*1024)throw new Error("Ukuran bukti transfer maksimal 10 MB.");
       return mime;
     }
@@ -2023,7 +2058,11 @@
       catch(e){toast("Gagal memperbarui data klien: "+errText(e),true);}
     }
     async function loadPricingData(){
-      if(!db){state.loadedPricing=true;return;}
+      if(state.loadedPricing||state.loadingPricing)return;
+      if(!db){state.loadedPricing=true;state.pricingLoadError="Layanan akun belum terhubung.";return;}
+      state.loadingPricing=true;
+      state.pricingLoadError="";
+      if(["#akun","#aktivasi"].includes(location.hash))render();
       try{
         const {data:plans,error:planError}=await db.from("subscription_plans").select("id,name,duration_days,mentorship_days,price_idr,description,active").eq("active",true).order("duration_days");if(planError)throw planError;
         if(plans?.length)state.plans=plans;state.loadedPricing=true;
@@ -2035,16 +2074,19 @@
           if(orders.error)throw orders.error;if(subs.error)throw subs.error;
           state.purchaseOrders=await paymentProofSignedLinks(orders.data||[]);state.subscriptions=subs.data||[];
         }
-      }catch(e){state.loadedPricing=true;toast("Gagal memuat paket/akun berlangganan: "+errText(e),true);}
+      }catch(e){state.loadedPricing=true;state.pricingLoadError=errText(e);toast("Gagal memuat paket/akun berlangganan: "+state.pricingLoadError,true);}
+      finally{state.loadingPricing=false;}
     }
     async function paymentProofSignedLinks(orders){
       const bucket=cfg.paymentProofBucket||"ruangbagi-payment-proofs";
       return Promise.all(orders.map(async order=>{
         if(!order.payment_proof_path||order.status!=="pending")return order;
-        const {data,error}=await db.storage.from(bucket).createSignedUrl(order.payment_proof_path,600);
-        if(error)throw error;
-        if(!data?.signedUrl)throw new Error("Tautan sementara untuk bukti transfer tidak berhasil dibuat.");
-        return {...order,payment_proof_signed_url:data.signedUrl,payment_proof_url:data.signedUrl};
+        try{
+          const {data,error}=await db.storage.from(bucket).createSignedUrl(order.payment_proof_path,600);
+          if(error)throw error;
+          if(!data?.signedUrl)throw new Error("Tautan sementara untuk bukti transfer tidak berhasil dibuat.");
+          return {...order,payment_proof_signed_url:data.signedUrl,payment_proof_url:data.signedUrl,payment_proof_link_error:""};
+        }catch(error){return {...order,payment_proof_link_error:errText(error)};}
       }));
     }
     function updatePurchaseDuration(){
@@ -2064,13 +2106,24 @@
       catch(e){toast("Gagal membuat Purchase Order: "+errText(e),true);}
     }
     async function reportPurchaseOrderPayment(form){
-      if(!state.user)return;
+      if(!state.user){toast("Masuk kembali untuk mengirim bukti pembayaran.",true);return;}
+      if(!db){toast("Layanan pembayaran belum tersedia.",true);return;}
+      if(state.paymentProofUploadOrderId){toast("Pengiriman bukti lain masih berlangsung. Tunggu hingga selesai.",true);return;}
       const orderId=form.dataset.paymentOrderId,file=new FormData(form).get("payment_proof");
+      const previousOrder=state.purchaseOrders.find(order=>order.id===orderId);
+      if(!previousOrder||previousOrder.status!=="pending"){toast("Purchase Order tidak dapat menerima bukti pembayaran.",true);return;}
       if(!(file instanceof File)||!file.size){toast("Pilih file bukti transfer terlebih dahulu.",true);return;}
+      const submitButton=form.querySelector('button[type="submit"],button:not([type])');
+      const originalButtonText=submitButton?.textContent||"";
+      const status=form.querySelector("[data-payment-upload-status]");
+      state.paymentProofUploadOrderId=orderId;
+      form.setAttribute("aria-busy","true");
+      if(submitButton){submitButton.disabled=true;submitButton.textContent="Mengunggah bukti...";}
+      if(status)status.textContent="Bukti sedang diunggah dan dikirim untuk validasi. Jangan tutup halaman.";
       let uploadedPath=null,cleanupWarning="";
       try{
         const mime=validatePaymentProof(file),bucket=cfg.paymentProofBucket||"ruangbagi-payment-proofs";
-        const previousOrder=state.purchaseOrders.find(order=>order.id===orderId),path=`${state.user.id}/${orderId}/${Date.now()}-${safeName(file.name)}`;
+        const path=`${state.user.id}/${orderId}/${Date.now()}-${safeName(file.name)}`;
         const {error:uploadError}=await db.storage.from(bucket).upload(path,file,{upsert:false,contentType:mime});
         if(uploadError)throw uploadError;
         uploadedPath=path;
@@ -2090,9 +2143,14 @@
         if(uploadedPath){
           const {error:cleanupError}=await db.storage.from(cfg.paymentProofBucket||"ruangbagi-payment-proofs").remove([uploadedPath]);
           toast(`Gagal mengirim bukti pembayaran: ${errText(e)}${cleanupError?` (Berkas sementara gagal dibersihkan: ${errText(cleanupError)})`:""}`,true);
-          return;
+        }else{
+          toast("Gagal mengirim bukti pembayaran: "+errText(e),true);
         }
-        toast("Gagal mengirim bukti pembayaran: "+errText(e),true);
+      }finally{
+        state.paymentProofUploadOrderId="";
+        form.removeAttribute("aria-busy");
+        if(form.isConnected&&submitButton){submitButton.disabled=false;submitButton.textContent=originalButtonText;}
+        if(form.isConnected&&status)status.textContent="";
       }
     }
     async function loadAdminOrders(){
@@ -2109,7 +2167,8 @@
           const actions=order.status!=="pending"?"—":order.payment_status==="reported"
             ?`<button class="btn btn-small" data-order-action="approved" data-order-id="${esc(order.id)}">Validasi & aktifkan</button> <button class="btn btn-ghost btn-small" data-order-action="payment-rejected" data-order-id="${esc(order.id)}">Tolak bukti</button>`
             :`<button class="btn btn-ghost btn-small" data-order-action="rejected" data-order-id="${esc(order.id)}">Tolak PO</button>`;
-          return `<tr><td>${esc(order.purchaser_name||profileName(order.user_id))}<br><a class="text-link" href="mailto:${esc(order.purchaser_email||"")}">${esc(order.purchaser_email||"Email lama tidak tersedia")}</a></td><td>${esc(plan?.name||order.plan_id)}<br><small>${order.duration_days} hari · pendampingan ${order.mentorship_days} hari</small></td><td>${money(order.price_idr)}<br><small>${esc(paymentLabels[order.payment_method]||"")}</small></td><td><span class="badge ${order.status==="pending"?"pending":""}">${({"pending":"Menunggu pembayaran","approved":"Aktif","rejected":"Ditolak"}[order.status]||esc(order.status))}</span><br><small>${({"pending":"Belum tervalidasi","reported":"Bukti dikirim","verified":"Terverifikasi","rejected":"Bukti ditolak"}[order.payment_status]||esc(order.payment_status))}</small></td><td>${order.payment_proof_url?`<a class="text-link" href="${esc(order.payment_proof_url)}" target="_blank" rel="noopener noreferrer">Buka bukti${order.payment_proof_name?` · ${esc(order.payment_proof_name)}`:""}</a>`:"—"}</td><td>${dateShort(order.created_at)}</td><td>${actions}</td></tr>`;
+          const proofLink=order.payment_proof_link_error?`<div class="account-alert">Tautan bukti gagal dimuat: ${esc(order.payment_proof_link_error)} <button type="button" class="btn btn-small" data-action="retry-payment-proof-links">Coba lagi</button></div>`:order.payment_proof_url?`<a class="text-link" href="${esc(order.payment_proof_url)}" target="_blank" rel="noopener noreferrer">Buka bukti${order.payment_proof_name?` · ${esc(order.payment_proof_name)}`:""}</a>`:"—";
+          return `<tr><td>${esc(order.purchaser_name||profileName(order.user_id))}<br><a class="text-link" href="mailto:${esc(order.purchaser_email||"")}">${esc(order.purchaser_email||"Email lama tidak tersedia")}</a></td><td>${esc(plan?.name||order.plan_id)}<br><small>${order.duration_days} hari · pendampingan ${order.mentorship_days} hari</small></td><td>${money(order.price_idr)}<br><small>${esc(paymentLabels[order.payment_method]||"")}</small></td><td><span class="badge ${order.status==="pending"?"pending":""}">${({"pending":"Menunggu pembayaran","approved":"Aktif","rejected":"Ditolak"}[order.status]||esc(order.status))}</span><br><small>${({"pending":"Belum tervalidasi","reported":"Bukti dikirim","verified":"Terverifikasi","rejected":"Bukti ditolak"}[order.payment_status]||esc(order.payment_status))}</small></td><td>${proofLink}</td><td>${dateShort(order.created_at)}</td><td>${actions}</td></tr>`;
         }).join("")||'<tr><td colspan="7">Belum ada Purchase Order.</td></tr>'}</tbody></table>`;
         if(shopOrdersContainer){
           const shopOrders=await db.from("shop_orders").select("*").order("created_at",{ascending:false}).limit(500);
@@ -2357,6 +2416,19 @@
       if(target.dataset.action==="retry-marketplace"){
         state.loadedMarketplace=false;state.marketplaceLoadError="";
         await loadPublicMarketplace();render();
+      }
+      if(target.dataset.action==="retry-account-data"){
+        state.loadedPricing=false;state.pricingLoadError="";
+        await loadPricingData();render();
+      }
+      if(target.dataset.action==="retry-merchant-data"){
+        state.loadedMerchant=false;state.merchantLoadError="";
+        await loadMerchantData();render();
+      }
+      if(target.dataset.action==="retry-payment-proof-links"){
+        if(location.hash==="#admin"&&isAdmin()){state.loadedOrders=false;await loadAdminOrders();}
+        else{state.loadedPricing=false;state.pricingLoadError="";await loadPricingData();}
+        render();
       }
       if(target.dataset.action==="retry-payment-settings"){state.loadedPaymentSettings=false;state.paymentSettingsError="";await loadPaymentSettings();render();}
       if(target.dataset.action==="retry-admin-chat-contacts"||target.dataset.action==="refresh-admin-chat-contacts"){
