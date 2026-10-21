@@ -19,6 +19,7 @@
     .service-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:18px 0 52px}.service-card{background:white;border:1px solid var(--line);border-radius:18px;padding:25px;box-shadow:var(--shadow)}.service-card .service-icon{font-size:28px;width:52px;height:52px;border-radius:15px;background:var(--mint);display:grid;place-items:center;margin-bottom:17px}.service-card h3{font:700 19px Manrope;margin:0 0 9px}.service-card p,.service-card li{font-size:13px;color:var(--muted);line-height:1.7}.service-card ul{padding-left:18px;margin:14px 0 18px}.service-intro{padding:30px;border-radius:20px;background:linear-gradient(120deg,#e3f1e8,#f4f8f5);margin-bottom:24px}.service-intro h2{font:800 25px Manrope;margin:0 0 8px}.service-intro p{color:var(--muted);line-height:1.8;margin:0}.brand{white-space:nowrap}.service-request{max-width:780px}
     @media(max-width:850px){.service-grid{grid-template-columns:1fr}.brand{font-size:16px}}
     .admin-layout{display:grid;grid-template-columns:238px minmax(0,1fr);gap:22px;align-items:start}.admin-sidebar{position:sticky;top:96px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:var(--shadow)}.admin-side-label{padding:7px 11px;color:#94a19b;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase}.admin-side-link{width:100%;border:0;background:transparent;color:#596b63;border-radius:10px;padding:11px 12px;display:flex;align-items:center;gap:11px;text-align:left;font-size:12px;font-weight:600;margin:2px 0}.admin-side-link:hover,.admin-side-link.active{background:var(--mint);color:var(--green)}.admin-side-link .side-icon{width:20px;text-align:center;font-size:15px}.admin-main{min-width:0}.admin-layout .page-title{background:linear-gradient(120deg,#e5f2e9,#f3f8f4);border-radius:18px;padding:23px;margin-bottom:17px}.admin-layout .page-title h1{font-size:27px}.admin-mobile-select{display:none}.calendar-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(240px,.8fr);gap:18px}.calendar-card,.calendar-agenda{background:white;border:1px solid var(--line);border-radius:16px;padding:18px}.calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.calendar-head h2{font:700 17px Manrope;margin:0}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.calendar-weekday,.calendar-day{min-height:43px;display:grid;place-items:center;font-size:11px}.calendar-weekday{color:var(--muted);font-weight:700}.calendar-day{border:0;border-radius:9px;background:#f8faf9;color:var(--ink);position:relative}.calendar-day.muted{color:#b5bfba;background:white}.calendar-day.today{outline:1px solid #7ab596}.calendar-day.selected{background:var(--green);color:white}.calendar-day.has-event:after{content:"";position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:#ed9a52}.calendar-day.selected.has-event:after{background:white}.search-row{display:flex;gap:9px;margin:15px 0}.search-row input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:11px 13px}.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.price-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow)}.price-card.featured{border:2px solid var(--green);transform:translateY(-5px)}.price-card h3{font:700 18px Manrope;margin:5px 0}.price-amount{font:800 30px Manrope;letter-spacing:-1px;margin:14px 0 3px}.price-card p,.price-card li{font-size:12px;line-height:1.7;color:var(--muted)}.price-card ul{min-height:96px;padding-left:17px}.price-note{font-size:11px;color:var(--muted);margin:15px 0}.embed-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.embed-frame{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#edf3ef}.status-select{border:1px solid var(--line);background:white;border-radius:8px;padding:7px;font-size:11px}.admin-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.admin-kpi{border:1px solid var(--line);background:#fff;border-radius:13px;padding:15px}.admin-kpi strong{display:block;font:800 21px Manrope}.admin-kpi span{color:var(--muted);font-size:11px}
+    .public-store-dashboard .admin-kpis{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:18px}
     @media(max-width:950px){.admin-layout{grid-template-columns:1fr}.admin-sidebar{position:static;display:flex;gap:6px;overflow:auto;padding:9px}.admin-side-label{display:none}.admin-side-link{width:auto;white-space:nowrap}.admin-main{min-width:0}}
     @media(max-width:680px){.calendar-layout{grid-template-columns:1fr}.pricing-grid,.embed-grid{grid-template-columns:1fr}.account-status-grid{grid-template-columns:1fr}.price-card.featured{transform:none}.admin-kpis{grid-template-columns:repeat(2,1fr)}.calendar-day{min-height:38px}.search-row{flex-direction:column}}
     @media(max-width:1100px){.nav{gap:12px;font-size:11px}.topbar{padding-left:22px;padding-right:22px}.brand{font-size:16px}.brand-mark{width:32px;height:32px}}
@@ -275,6 +276,8 @@
       .top-actions{gap:6px}
       .merchant-ready-catalog .section-head{align-items:flex-start;flex-direction:column;gap:12px}
       .merchant-ready-catalog .section-head>div:last-child{display:flex;flex-wrap:wrap;gap:8px}
+      .merchant-owner-links{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}
+      .public-store-dashboard .section-head{align-items:flex-start;flex-direction:column;gap:10px}
     }
   </style>
 </head>
@@ -315,7 +318,7 @@
     state.pricingLoadError="";
     state.paymentProofUploadOrderId="";
     state.merchantLoadError="";
-    let articleSearchTimer=null,articleSearchRequest=0,viewerSearchTimer=null,adminChatSearchTimer=null;
+    let articleSearchTimer=null,articleSearchRequest=0;
     const socialPlatforms = [
       ["instagram","Instagram","https://www.instagram.com/akun-anda"],
       ["youtube","YouTube","https://www.youtube.com/@channel-anda"],
@@ -388,7 +391,7 @@
     const errText = err => err?.message || "Terjadi kesalahan. Silakan coba lagi.";
     const isAdmin = () => state.profile?.role === "superadmin";
     const isEditor = () => ["superadmin","editor"].includes(state.profile?.role);
-    const canManageMerchantData = () => isAdmin() || state.merchantWriteAccess;
+    const canManageMerchantData = () => !isAdmin() && state.merchantWriteAccess;
     const remainingDays = value => Math.ceil((new Date(value).getTime()-Date.now())/86400000);
     function setupConfigNotice(){
       if(!supabaseReady){const el=document.getElementById("config-alert");el.innerHTML="<strong>Layanan belum siap digunakan.</strong> Beberapa fitur mungkin belum tersedia. Silakan hubungi pengelola untuk bantuan.";el.classList.remove("hidden");}
@@ -417,20 +420,19 @@
         loadMedia=route==="media"||route==="admin"&&state.adminTab==="media";
         loadReviews=route==="review";
         const loadStats=isAdmin()&&(route==="home"||route==="admin"&&state.adminTab==="dashboard");
-        const [arts,files,reviews,articleCount,viewCount,memberCount,mediaCount]=await Promise.all([
+        const [arts,files,reviews,articleCount,viewCount,mediaCount]=await Promise.all([
           db.from("articles").select(isAdmin()?"id,title,excerpt,category,author_name,created_at,views,cover_url,document_url,document_name,document_type,document_path,published":"id,title,excerpt,category,author_name,created_at,cover_url,document_url,document_name,document_type,document_path,published").eq("published",true).order("created_at",{ascending:false}).limit(60),
           loadMedia?db.from("media_files").select("id,name,storage_path,mime_type,size_bytes,created_at,uploaded_by,public_url").order("created_at",{ascending:false}).limit(100):Promise.resolve(null),
           loadReviews?db.from("reviews").select("id,display_name,rating,body,created_at").eq("approved",true).order("created_at",{ascending:false}).limit(20):Promise.resolve(null),
           loadStats?db.from("articles").select("id",{count:"exact",head:true}).eq("published",true):Promise.resolve(null),
           loadStats?db.from("articles").select("views").eq("published",true):Promise.resolve(null),
-          loadStats?db.from("profiles").select("id",{count:"exact",head:true}):Promise.resolve(null),
           loadStats?db.from("media_files").select("id",{count:"exact",head:true}):Promise.resolve(null)
         ]);
-        for(const res of [arts,files,reviews,articleCount,viewCount,memberCount,mediaCount].filter(Boolean))if(res.error)throw res.error;
+        for(const res of [arts,files,reviews,articleCount,viewCount,mediaCount].filter(Boolean))if(res.error)throw res.error;
         state.articles=arts.data||[];
         if(files){state.media=files.data||[];state.loadedMedia=true;}
         if(reviews){state.reviews=reviews.data||[];state.loadedReviews=true;}
-        if(loadStats)state.stats={articles:articleCount.count||0,views:(viewCount.data||[]).reduce((n,a)=>n+(a.views||0),0),media:mediaCount.count||0,members:memberCount.count||0};
+        if(loadStats)state.stats={articles:articleCount.count||0,views:(viewCount.data||[]).reduce((n,a)=>n+(a.views||0),0),media:mediaCount.count||0,members:0};
         else if(!isAdmin())state.stats={articles:0,views:0,media:0,members:0};
         document.getElementById("config-alert").classList.add("hidden");
         if(location.hash==="#timeline"||location.hash==="#admin")await loadTimeline();
@@ -462,7 +464,6 @@
         state.loadedMarketplace=false;state.loadedAdminProducts=false;state.loadedMerchant=false;
         const route=(location.hash||"").slice(1);
         if(route.startsWith("lapak")){await loadPublicMarketplace();render();}
-        else if(route==="admin"&&state.adminTab==="produk"){await loadAdminProducts();render();}
         else if(route==="pedagang"&&state.merchantTab==="products"){await loadMerchantData();render();}
       }).subscribe(status=>{if(status==="CHANNEL_ERROR")toast("Pembaruan stok langsung terputus. Muat ulang katalog untuk melihat ketersediaan terbaru.",true);});
     }
@@ -607,44 +608,28 @@
           }
           catch{return {...message,body:"Tidak dapat membuka pesan di perangkat ini."};}
         }));
-        if(state.secureChatRoomId===roomId){state.secureChatMessages=messages;if(location.hash==="#chat"||location.hash==="#admin"&&state.adminTab==="private-chat")render();}
-      }catch(error){state.secureChatError="Gagal memuat percakapan: "+errText(error);if(location.hash==="#chat"||location.hash==="#admin"&&state.adminTab==="private-chat")render();}
+        if(state.secureChatRoomId===roomId){state.secureChatMessages=messages;if(location.hash==="#chat")render();}
+      }catch(error){state.secureChatError="Gagal memuat percakapan: "+errText(error);if(location.hash==="#chat")render();}
     }
     async function loadSecureChat(){
       if(!db||!state.user||state.secureChatLoaded||state.secureChatLoading)return;
+      if(isAdmin()){state.secureChatLoaded=true;state.secureChatError="Chat pelanggan tidak tersedia bagi Pengelola.";return;}
       state.secureChatLoading=true;state.secureChatError="";
       try{
         if(!state.loadedPricing)await loadPricingData();
+        const active=state.subscriptions.some(subscription=>subscription.status==="active"&&new Date(subscription.ends_at)>new Date());
+        if(!active){state.secureChatRooms=[];state.secureChatRoomId=null;state.secureChatLoaded=true;return;}
         await ensureSecureChatIdentity();
-        let rooms=[];
-        if(isAdmin()){
-          const {data,error}=await db.from("chat_rooms").select("id,room_code,room_type,direct_user_id,title,created_at").order("created_at",{ascending:false});
-          if(error)throw error;
-          rooms=data||[];
-          const {data:subscriberRoomId,error:subscriberError}=await db.rpc("ensure_subscriber_chat_membership");
-          if(subscriberError)throw subscriberError;
-          state.secureChatRoomId=state.secureChatRoomId||subscriberRoomId;
-        }else{
-          const {data:directRoomId,error:directError}=await db.rpc("ensure_admin_member_chat");
-          if(directError)throw directError;
-          const ids=[directRoomId];
-          const active=state.subscriptions.some(subscription=>subscription.status==="active"&&new Date(subscription.ends_at)>new Date());
-          if(active){
-            const {data:subscriberRoomId,error:subscriberError}=await db.rpc("ensure_subscriber_chat_membership");
-            if(subscriberError)throw subscriberError;
-            ids.push(subscriberRoomId);
-          }
-          const {data,error}=await db.from("chat_rooms").select("id,room_code,room_type,direct_user_id,title,created_at").in("id",ids).order("created_at",{ascending:false});
-          if(error)throw error;
-          rooms=data||[];
-          state.secureChatRoomId=state.secureChatRoomId||directRoomId;
-        }
+        const {data:roomId,error:membershipError}=await db.rpc("ensure_subscriber_chat_membership");
+        if(membershipError)throw membershipError;
+        const {data:rooms,error}=await db.from("chat_rooms").select("id,room_code,room_type,direct_user_id,title,created_at").eq("id",roomId);
+        if(error)throw error;
         state.secureChatRooms=rooms;
         if(!rooms.some(room=>room.id===state.secureChatRoomId))state.secureChatRoomId=rooms[0]?.id||null;
         state.secureChatLoaded=true;
         if(!state.chatChannel){
           state.chatChannel=db.channel(`ruangbagi-e2ee-chat:${state.user.id}`).on("postgres_changes",{event:"INSERT",schema:"public",table:"chat_secure_messages"},async event=>{
-            if((location.hash==="#chat"||location.hash==="#admin"&&state.adminTab==="private-chat")&&event.new?.room_id===state.secureChatRoomId)await loadSecureChatMessages();
+            if(location.hash==="#chat"&&event.new?.room_id===state.secureChatRoomId)await loadSecureChatMessages();
           }).subscribe(status=>{if(status==="CHANNEL_ERROR")toast("Koneksi chat privat terputus. Buka kembali halaman chat untuk menyambungkan.",true);});
         }
         await loadSecureChatMessages();
@@ -655,59 +640,6 @@
         state.secureChatLoading=false;
         if(location.hash==="#chat")render();
       }
-    }
-    async function loadAdminChatContacts(){
-      if(!isAdmin()||!db||state.adminChatContactsLoaded||state.adminChatContactsLoading)return;
-      state.adminChatContactsLoading=true;state.adminChatContactsError="";
-      try{
-        const {data:profiles,error:profileError}=await db.from("profiles").select("id,display_name,email,role,created_at").neq("role","superadmin").order("display_name").limit(500);
-        if(profileError)throw profileError;
-        const contacts=profiles||[],userIds=contacts.map(contact=>contact.id);
-        const [devicesResult,roomsResult]=userIds.length?await Promise.all([
-          db.from("chat_device_keys").select("user_id").in("user_id",userIds),
-          db.from("chat_rooms").select("id,direct_user_id,room_type").eq("room_type","admin_member").in("direct_user_id",userIds)
-        ]):[{data:[],error:null},{data:[],error:null}];
-        if(devicesResult.error)throw devicesResult.error;
-        if(roomsResult.error)throw roomsResult.error;
-        const deviceUsers=new Set((devicesResult.data||[]).map(device=>device.user_id));
-        const roomsByUser=new Map((roomsResult.data||[]).map(room=>[room.direct_user_id,room]));
-        state.adminChatContacts=contacts.map(contact=>({...contact,chatDeviceReady:deviceUsers.has(contact.id),chatRoom:roomsByUser.get(contact.id)||null}));
-        state.adminChatContactsLoaded=true;
-      }catch(error){state.adminChatContactsError=errText(error);toast("Gagal memuat daftar kontak chat: "+errText(error),true);}
-      finally{state.adminChatContactsLoading=false;}
-      if(location.hash==="#admin"&&state.adminTab==="private-chat")render();
-    }
-    function adminPrivateChatPage(){
-      if(!isAdmin())return "";
-      const query=state.adminChatContactSearch.trim().toLowerCase();
-      const contacts=state.adminChatContacts.filter(contact=>`${contact.display_name||""} ${contact.email||""} ${contact.role||""}`.toLowerCase().includes(query));
-      const selectedRoom=state.secureChatRooms.find(room=>room.id===state.secureChatRoomId&&room.room_type==="admin_member");
-      const selectedContact=selectedRoom?state.adminChatContacts.find(contact=>contact.id===selectedRoom.direct_user_id):null;
-      const contactList=state.adminChatContactsLoading?'<div class="empty">Memuat daftar pelanggan...</div>':state.adminChatContactsError?`<div class="account-alert" role="alert">Daftar kontak tidak dapat dimuat: ${esc(state.adminChatContactsError)} <button class="btn btn-small" data-action="retry-admin-chat-contacts">Coba lagi</button></div>`:contacts.map(contact=>`<article class="file-item"><span><b>${esc(contact.display_name||"Anggota")}</b><br><small>${esc(contact.email||"Email tidak tersedia")} · ${esc(({viewer:"Viewer",customer:"Pelanggan",merchant:"Pedagang",editor:"Editor"}[contact.role]||"Anggota"))}</small><br><small>${contact.chatDeviceReady?"Perangkat chat siap":"Belum mendaftarkan perangkat chat"}${contact.chatRoom?" · Percakapan tersedia":""}</small></span><button class="btn btn-small" data-admin-chat-contact="${esc(contact.id)}">${contact.chatRoom?"Buka chat":"Hubungi"}</button></article>`).join("")||'<div class="empty">Tidak ada akun pelanggan yang cocok.</div>';
-      const conversation=selectedRoom&&selectedContact?`<section class="panel"><div class="section-head"><div><h3>${esc(selectedContact.display_name||"Anggota")}</h3><p>${esc(selectedContact.email||"")}</p></div><span class="badge">Chat privat</span></div>${state.secureChatError?`<div class="account-alert" role="alert">${esc(state.secureChatError)}</div>`:""}${!selectedContact.chatDeviceReady?'<div class="account-alert">Pelanggan belum membuka Chat Privat pada perangkatnya. Minta pelanggan membuka fitur tersebut agar kunci perangkatnya terdaftar, lalu kirim pesan.</div>':""}<div class="account-alert" role="note">Percakapan terenkripsi end-to-end dan hanya dapat dibuka oleh perangkat peserta yang terdaftar.</div><div class="chat-box"><div id="chat-messages" class="chat-messages">${state.secureChatMessages.map(message=>`<div class="message ${message.sender_id===state.user.id?"mine":""}"><b>${message.sender_id===state.user.id?"Anda":esc(selectedContact.display_name||"Pelanggan")}</b><br>${esc(message.body)}<small>${new Date(message.created_at).toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"})}</small></div>`).join("")||'<div class="empty">Belum ada pesan. Kirim pesan untuk memulai percakapan.</div>'}</div><form id="chat-form" class="chat-form"><input name="body" maxlength="2000" placeholder="Pesan terenkripsi…" required autocomplete="off"><button class="btn btn-small">Kirim</button></form></div></section>`:`<section class="panel"><h3>Pilih pelanggan</h3><p class="price-note">Pilih kontak untuk membuka atau memulai percakapan privat.</p></section>`;
-      return `<div class="panel"><div class="section-head"><div><h3>Kontak pelanggan</h3><p>Daftar akun terdaftar yang dapat dihubungi Pengelola.</p></div><button class="btn btn-ghost btn-small" data-action="refresh-admin-chat-contacts">Perbarui daftar</button></div><div class="field"><label for="admin-chat-contact-search">Cari nama, email, atau role</label><input id="admin-chat-contact-search" type="search" value="${esc(state.adminChatContactSearch)}" placeholder="Cari kontak..."></div><div class="file-list">${contactList}</div></div>${conversation}`;
-    }
-    async function openAdminPrivateChat(userId){
-      if(!isAdmin()||!db)return;
-      const contact=state.adminChatContacts.find(item=>item.id===userId);
-      if(!contact){toast("Kontak tidak ditemukan pada daftar akun.",true);return;}
-      try{
-        await ensureSecureChatIdentity();
-        const {data:roomId,error:roomError}=await db.rpc("ensure_admin_member_chat_for_user",{p_user_id:userId});
-        if(roomError)throw roomError;
-        const {data:room,error}=await db.from("chat_rooms").select("id,room_code,room_type,direct_user_id,title,created_at").eq("id",roomId).single();
-        if(error)throw error;
-        state.secureChatRooms=[room];state.secureChatRoomId=room.id;state.secureChatMessages=[];state.secureChatError="";state.secureChatLoaded=false;
-        if(!state.chatChannel){
-          state.chatChannel=db.channel(`ruangbagi-e2ee-chat:${state.user.id}`).on("postgres_changes",{event:"INSERT",schema:"public",table:"chat_secure_messages"},async event=>{
-            if(location.hash==="#admin"&&state.adminTab==="private-chat"&&event.new?.room_id===state.secureChatRoomId)await loadSecureChatMessages();
-          }).subscribe(status=>{if(status==="CHANNEL_ERROR")toast("Koneksi chat privat terputus. Buka kembali panel chat untuk menyambungkan.",true);});
-        }
-        await loadSecureChatMessages();
-        state.adminChatContacts=state.adminChatContacts.map(item=>item.id===userId?{...item,chatRoom:room}:item);
-        render();
-        if(!contact.chatDeviceReady)toast("Percakapan dibuat. Pelanggan perlu membuka menu Chat Privat sekali untuk mendaftarkan perangkat sebelum dapat bertukar pesan.");
-      }catch(error){toast("Gagal membuka percakapan privat: "+errText(error),true);}
     }
     async function submitSecureChatMessage(form){
       const body=String(new FormData(form).get("body")||"").trim();
@@ -720,7 +652,6 @@
         if(error)throw error;
         form.reset();
         await loadSecureChatMessages();
-        if(location.hash==="#admin"&&state.adminTab==="private-chat")render();
       }catch(error){toast("Pesan tidak terkirim: "+errText(error),true);}
     }
     async function selectSecureChatRoom(roomId){
@@ -745,7 +676,7 @@
         <section class="service-intro"><span class="eyebrow">LAYANAN RYAN D CLUE</span><h2>Butuh alat kerja digital yang sesuai kebutuhan?</h2><p>Saya membantu membuat atau mengembangkan spreadsheet Excel dan aplikasi Microsoft Access untuk mendukung pencatatan, pengolahan data, pelaporan, serta alur kerja sehari-hari.</p><div style="margin-top:17px"><a class="btn btn-small" href="#jasa">Lihat jasa & ajukan kebutuhan →</a></div></section>
         <section class="feature-row"><div class="feature-box"><span class="eyebrow">✦ PEDOMAN PUBLIKASI</span><h3>Informasi yang jelas, relevan, dan bermanfaat.</h3><p>Publikasi ditujukan untuk berbagi pengetahuan, berita, dan tutorial yang relevan. Kontributor diminta memakai materi asli atau mencantumkan sumber, memeriksa fakta, menjaga privasi, dan menghindari konten berbahaya atau menyesatkan.</p><div style="margin-top:17px"><a class="btn btn-small" href="#survey">Isi survey kepuasan →</a></div></div><div class="feature-box"><span class="eyebrow">◌ AKTIVITAS TERBARU</span><div class="mini-list">${recent.slice(0,3).map(a=>`<div class="mini-item"><b>${esc(a.title)}</b><span>${dateShort(a.created_at)}</span></div>`).join("")||"<div class='mini-item'>Publikasi yang telah terbit akan tampil di sini.</div>"}</div></div></section>`;
     }
-    function servicesPage(){return `<div class="page-title"><h1>Jasa Excel & Microsoft Access</h1><p>Ryan D Clue membantu merancang file dan aplikasi sederhana yang sesuai dengan kebutuhan aktivitas kerja Anda.</p></div><div class="service-intro"><h2>Dari pekerjaan berulang menjadi alur kerja yang lebih tertata.</h2><p>Ceritakan pekerjaan yang ingin dibantu. Kita bisa membahas kebutuhan, data yang digunakan, proses saat ini, serta hasil yang diharapkan sebelum pengerjaan dimulai.</p></div><div class="service-grid"><article class="service-card"><div class="service-icon">📊</div><span class="eyebrow">MICROSOFT EXCEL</span><h3>Edit & pembuatan file XLSX</h3><p>Spreadsheet yang disusun untuk membantu perhitungan, pencatatan, rekap, dan pelaporan.</p><ul><li>Rumus dan fungsi sesuai alur kebutuhan.</li><li>Rekap otomatis, validasi data, dan format laporan.</li><li>Perbaikan atau pengembangan workbook yang sudah ada.</li><li>Template operasional untuk penggunaan berulang.</li></ul><button class="btn btn-small" data-service="XLSX">Ajukan kebutuhan Excel →</button></article><article class="service-card"><div class="service-icon">🗃️</div><span class="eyebrow">MICROSOFT ACCESS</span><h3>Desain aplikasi Microsoft Access</h3><p>Aplikasi database desktop untuk membantu menyimpan, mencari, dan mengelola data pekerjaan.</p><ul><li>Form input dan pencarian data.</li><li>Tabel, relasi, query, dan laporan.</li><li>Pengelolaan data inventaris, pelanggan, transaksi, atau administrasi.</li><li>Rancangan disesuaikan dengan proses kerja yang diperlukan.</li></ul><button class="btn btn-small" data-service="Access">Ajukan kebutuhan Access →</button></article></div><div class="panel service-request"><h3>Formulir konsultasi / permintaan jasa</h3><p style="font-size:13px;color:var(--muted);line-height:1.7">Permintaan disimpan pada akun Anda. Email akun digunakan untuk menghubungi Anda mengenai kebutuhan jasa.</p>${state.user?`<form id="service-form"><div class="form-grid"><div class="field"><label>Nama pemesan</label><input name="name" maxlength="100" autocomplete="name" value="${esc(state.profile?.display_name||"")}" required></div><div class="field"><label>Email akun</label><input name="email" type="email" maxlength="254" autocomplete="email" value="${esc(state.user.email||"")}" readonly required></div></div><div class="field"><label>Jenis layanan</label><select name="service_type" required><option value="">Pilih layanan</option><option value="XLSX">Excel / XLSX</option><option value="Access">Microsoft Access</option><option value="Konsultasi">Belum yakin / konsultasi</option></select></div><div class="field"><label>Kebutuhan pekerjaan</label><textarea name="details" maxlength="3000" required placeholder="Jelaskan proses kerja, data yang dikelola, hasil yang diinginkan, dan fitur yang diperlukan. Jangan masukkan kata sandi atau data sensitif."></textarea></div><button class="btn">Kirim permintaan</button></form>`:`<div class="account-alert"><p>Masuk atau daftar sebagai Viewer untuk mengajukan permintaan. Email akan terikat pada akun yang sedang aktif.</p><button class="btn" data-action="auth">Masuk / daftar</button></div>`}</div>`;}
+    function servicesPage(){return `<div class="page-title"><h1>Jasa Excel & Microsoft Access</h1><p>Ryan D Clue membantu merancang file dan aplikasi sederhana yang sesuai dengan kebutuhan aktivitas kerja Anda.</p></div><div class="service-intro"><h2>Dari pekerjaan berulang menjadi alur kerja yang lebih tertata.</h2><p>Pilih layanan yang tersedia di katalog dan selesaikan pemesanan melalui checkout agar pembayaran, status, dan akses hasil tercatat pada transaksi.</p></div><div class="service-grid"><article class="service-card"><div class="service-icon">📊</div><span class="eyebrow">MICROSOFT EXCEL</span><h3>Edit & pembuatan file XLSX</h3><p>Spreadsheet yang disusun untuk membantu perhitungan, pencatatan, rekap, dan pelaporan.</p><ul><li>Rumus dan fungsi sesuai alur kebutuhan.</li><li>Rekap otomatis, validasi data, dan format laporan.</li><li>Perbaikan atau pengembangan workbook yang sudah ada.</li><li>Template operasional untuk penggunaan berulang.</li></ul></article><article class="service-card"><div class="service-icon">🗃️</div><span class="eyebrow">MICROSOFT ACCESS</span><h3>Desain aplikasi Microsoft Access</h3><p>Aplikasi database desktop untuk membantu menyimpan, mencari, dan mengelola data pekerjaan.</p><ul><li>Form input dan pencarian data.</li><li>Tabel, relasi, query, dan laporan.</li><li>Pengelolaan data inventaris, pelanggan, transaksi, atau administrasi.</li><li>Rancangan disesuaikan dengan proses kerja yang diperlukan.</li></ul></article></div><div class="panel service-request"><h3>Pemesanan jasa</h3><p style="font-size:13px;color:var(--muted);line-height:1.7">Permintaan jasa lepas melalui formulir tidak tersedia saat ini. Jika jasa tersebut tercantum di katalog, pesan melalui keranjang untuk memastikan pembayaran dan tindak lanjut tercatat sebagai transaksi.</p><a class="btn" href=\"#lapak\">Lihat katalog & layanan</a></div>`;}
     function articlesPage(){const q=state.articleSearch.toLowerCase();const results=state.articles.filter(a=>(state.category==="Semua"||a.category===state.category)&&`${a.title} ${a.excerpt||""} ${a.body||""} ${a.category||""} ${a.author_name||""}`.toLowerCase().includes(q));const listing=pageSlice(results,"articles",9);return `<div class="page-title"><h1>Artikel & wawasan</h1><p>Temukan konten berdasarkan judul, topik, kategori, atau penulis.</p><div style="margin-top:16px"><button class="btn btn-small" data-action="publish">✎ Tulis artikel</button></div></div><div class="search-row"><input id="article-search" type="search" value="${esc(state.articleSearch)}" placeholder="Cari judul, topik, atau penulis..." aria-label="Cari artikel"><button class="btn btn-small" data-action="clear-search">Bersihkan</button><a class="btn btn-ghost btn-small" href="#timeline">Lihat kalender →</a></div><div class="filters">${["Semua","Artikel","Berita","Tutorial","Cerita"].map(c=>`<button class="chip ${state.category===c?"selected":""}" data-category="${c}">${c}</button>`).join("")}</div><div id="article-results" class="content-grid">${listing.items.map(articleCard).join("")||'<div class="empty">Tidak ada artikel yang cocok. Coba topik lain.</div>'}</div>${pageControls("articles",listing.page,listing.pages,listing.total)}`;}
     function mediaPage(){const listing=pageSlice(state.media,"media",12);return `<div class="page-title"><h1>Ruang media</h1><p>Katalog media dapat dilihat publik. Untuk mengunduh, masuk menggunakan akun Ryan D Clue.</p></div>${isEditor()?`<div class="panel"><h3>Unggah media</h3><p style="font-size:12px;color:var(--muted)">Unggahan tersedia untuk Editor/Pengelola. File disimpan privat dan hanya dapat diunduh oleh akun yang sudah masuk.</p><div class="field"><input id="media-upload" type="file" accept="video/*,image/png,image/jpeg,image/bmp,.docx,.xlsx,.pdf,.pptx,.accdb,.csv,.txt"><small>Video, PNG/JPEG/BMP, DOCX, XLSX, PDF, PPTX, ACCDB, CSV, TXT.</small></div><button class="btn btn-small" data-action="upload-media">Unggah file</button></div>`:""}<div class="content-grid">${listing.items.map(m=>`<div class="article-card"><div class="article-cover"><span>${iconByExt[m.name.split(".").pop().toLowerCase()]||"📁"}</span></div><div class="article-body"><h3>${esc(m.name)}</h3><div class="meta"><span>${(Number(m.size_bytes||0)/1024/1024).toFixed(2)} MB</span><span>${dateShort(m.created_at)}</span></div><div style="margin-top:13px"><button class="btn ${state.user?"":"btn-ghost"} btn-small" data-download-media="${esc(m.id)}">${state.user?"Lihat / unduh →":"Masuk untuk mengunduh"}</button></div></div></div>`).join("")||'<div class="empty">Belum ada media yang dibagikan.</div>'}</div>${pageControls("media",listing.page,listing.pages,listing.total)}`;}
     function sampleProductCard(sample){
@@ -833,7 +764,7 @@
     function catalogProductCard(product){
       const shop=state.storefronts.find(item=>item.id===product.storefront_id),offers=state.shopPackages.filter(item=>item.product_id===product.id&&item.active);
       const rating=state.productRatings[product.id],ratingText=rating?`<p class="price-note" aria-label="Rating ${rating.average.toFixed(1)} dari 5 dari ${rating.count} ulasan"><span style="color:var(--orange)">★ ${rating.average.toFixed(1)}</span> · ${rating.count} ulasan</p>`:`<p class="price-note">Belum ada ulasan</p>`;
-      return `<article class="service-card catalog-product"><span class="eyebrow">${salesGroup(product)==="jasa"?"JASA":salesGroup(product)==="penyewaan"?"PENYEWAAN":"PEMBELIAN"} · ${esc(itemTypeLabels[product.item_type]||product.category)}</span><h3>${esc(product.title)}</h3>${ratingText}<p>${esc(product.description)}</p><p class="price-note">Lapak: <a class="text-link" href="#lapak/${encodeURIComponent(shop?.slug||"")}">${esc(shop?.name||"Lapak")}</a>${product.track_inventory?` · Stok ${Number(product.stock_quantity)} unit/slot`:""}</p>${offers.length?`<div class="mini-list">${offers.map(offer=>`<div class="mini-item"><span><b>${esc(offer.name)}</b><br>${esc(offer.description||"")}</span><span><b>${money(offer.price_idr)}</b><br><button class="btn btn-small" data-buy-product="${esc(product.id)}" data-buy-package="${esc(offer.id)}">Tambah ke keranjang</button></span></div>`).join("")}</div>`:`<p><b>${money(product.price_idr)}</b></p><button class="btn btn-small" data-buy-product="${esc(product.id)}">Tambah ke keranjang</button>`}</article>`;
+      return `<article class="service-card catalog-product"><span class="eyebrow">${salesGroup(product)==="jasa"?"JASA":salesGroup(product)==="penyewaan"?"PENYEWAAN":"PEMBELIAN"} · ${esc(itemTypeLabels[product.item_type]||product.category)}</span><h3>${esc(product.title)}</h3>${ratingText}<p>${esc(product.description)}</p><p class="price-note">Lapak: <a class="text-link" href="#lapak/${encodeURIComponent(shop?.slug||"")}">${esc(shop?.name||"Lapak")}</a>${product.track_inventory?` · Stok ${Number(product.stock_quantity)} unit/slot`:""}</p><p><b>Harga dasar ${money(product.price_idr)}</b></p>${offers.length?`<h4>Paket & tarif</h4><div class="mini-list">${offers.map(offer=>`<div class="mini-item"><span><b>${esc(offer.name)}</b><br>${esc(offer.description||"")}</span><span><b>${money(offer.price_idr)}</b><br><button class="btn btn-small" data-buy-product="${esc(product.id)}" data-buy-package="${esc(offer.id)}">Tambah ke keranjang</button></span></div>`).join("")}</div>`:`<button class="btn btn-small" data-buy-product="${esc(product.id)}">Tambah ke keranjang</button>`}</article>`;
     }
     function catalogPage(route="lapak"){
       const slug=route.startsWith("lapak/")?decodeURIComponent(route.slice("lapak/".length)):"",shop=slug?state.storefronts.find(item=>item.slug===slug):null;
@@ -842,10 +773,14 @@
       const productKey=shop?`shop-products-${shop.id}`:"catalog-products",listing=pageSlice(selectedProducts,productKey,9);
       const shops=state.storefronts,shopListing=pageSlice(shops,"catalog-shops",9);
       const groupButtons=[["all","Semua"],["jasa","Jasa"],["penyewaan","Penyewaan"],["pembelian","Pembelian"]];
-      const intro=shop?`<div class="page-title"><h1>${esc(shop.name)}</h1><p>${esc(shop.description)}</p><a class="text-link" href="#lapak">← Semua katalog</a></div>`:`<div class="page-title"><h1>Katalog produk & paket penjualan</h1><p>Jelajahi semua penawaran aktif dari lapak terdaftar. Pilih jenis penawaran untuk menyaring katalog.</p></div>`;
+      const shopProducts=shop?state.shopProducts.filter(product=>product.storefront_id===shop.id&&productAvailable(product)):[];
+      const shopMethods=shop?state.shopPaymentMethods.filter(method=>method.storefront_id===shop.id):[];
+      const shopOffers=shop?state.shopPackages.filter(offer=>offer.active&&shopProducts.some(product=>product.id===offer.product_id)):[];
+      const shopPrices=shop?[...shopProducts.map(product=>Number(product.price_idr)),...shopOffers.map(offer=>Number(offer.price_idr))].filter(price=>Number.isFinite(price)&&price>0):[];
+      const intro=shop?`<div class="page-title"><h1>${esc(shop.name)}</h1><p>${esc(shop.description)}</p><a class="text-link" href="#lapak">← Semua katalog</a></div><section class="panel public-store-dashboard"><div class="admin-kpis"><div class="admin-kpi"><strong>${shopProducts.length}</strong><span>Produk / jasa tersedia</span></div><div class="admin-kpi"><strong>${shopOffers.length}</strong><span>Paket & tarif aktif</span></div><div class="admin-kpi"><strong>${shopPrices.length?money(Math.min(...shopPrices)):"—"}</strong><span>Harga mulai dari</span></div></div><div class="section-head"><div><h3>Katalog dan pembayaran</h3><p class="price-note">Pilih penawaran untuk melihat paket dan melanjutkan pemesanan. Pembayaran dilakukan langsung kepada Pedagang.</p></div><a class="btn btn-small" href="#keranjang">Buka keranjang (${state.cart.length})</a></div><div class="filters">${shopMethods.map(method=>`<span class="badge">${esc(paymentLabels[method.method]||method.method)}</span>`).join("")||'<span class="price-note">Metode pembayaran belum diatur.</span>'}</div></section>`:`<div class="page-title"><h1>Katalog produk & paket penjualan</h1><p>Jelajahi semua penawaran aktif dari lapak terdaftar. Pilih jenis penawaran untuk menyaring katalog.</p></div>`;
       const products=listing.items.length?listing.items.map(catalogProductCard).join(""):'<div class="empty">Belum ada penawaran pada kelompok ini.</div>';
       const shopDirectory=shop?"":`<section><h2 class="catalog-group">Lapak terdaftar</h2><div class="content-grid">${shopListing.items.map(store=>`<article class="service-card"><span class="eyebrow">LAPAK TERDAFTAR</span><h3>${esc(store.name)}</h3><p>${esc(store.description)}</p><a class="btn btn-small" href="#lapak/${encodeURIComponent(store.slug)}">Lihat penawaran →</a></article>`).join("")||'<div class="empty">Belum ada lapak aktif.</div>'}</div>${pageControls("catalog-shops",shopListing.page,shopListing.pages,shopListing.total)}</section>`;
-      return `${intro}<div class="catalog-toolbar"><div class="filters">${groupButtons.map(([key,label])=>`<button class="chip ${state.catalogGroup===key?"selected":""}" data-catalog-group="${key}">${label}</button>`).join("")}</div><span class="price-note">${selectedProducts.length} penawaran tersedia</span></div><div class="content-grid">${products}</div>${pageControls(productKey,listing.page,listing.pages,listing.total)}${shopDirectory}<section class="panel"><h3>Ingin membuka lapak?</h3><p class="price-note">Pengajuan memerlukan langganan aktif dan ditinjau oleh Pengelola.</p><a class="btn btn-small" href="#pedagang">Ajukan penyewaan lapak →</a></section>`;
+      return `${intro}<div id="store-catalog" class="catalog-toolbar"><div><h2>${shop?"Katalog produk & jasa":"Katalog semua lapak"}</h2><div class="filters">${groupButtons.map(([key,label])=>`<button class="chip ${state.catalogGroup===key?"selected":""}" data-catalog-group="${key}">${label}</button>`).join("")}</div></div><span class="price-note">${selectedProducts.length} penawaran tersedia</span></div><div class="content-grid">${products}</div>${pageControls(productKey,listing.page,listing.pages,listing.total)}${shopDirectory}<section class="panel"><h3>Ingin membuka lapak?</h3><p class="price-note">Pengajuan memerlukan langganan aktif dan ditinjau oleh Pengelola.</p><a class="btn btn-small" href="#pedagang">Ajukan penyewaan lapak →</a></section>`;
     }
     async function loadPublicMarketplace(){
       if(!db){state.marketplaceLoadError="Konfigurasi Supabase belum tersedia.";state.loadedMarketplace=true;return;}
@@ -906,24 +841,10 @@
       }catch(e){state.loadedMerchant=true;state.merchantLoadError=errText(e);toast("Gagal memuat dashboard Pedagang: "+state.merchantLoadError,true);}
       finally{state.loadingMerchant=false;}
     }
-    async function loadAdminProducts(){
-      if(!db||!isAdmin()||state.loadedAdminProducts)return;
-      try{
-        const [products,stores,packages]=await Promise.all([
-          db.from("shop_products").select("id,storefront_id,title,description,category,item_type,price_idr,published,track_inventory,stock_quantity,warranty_days,mentorship_days,created_at").order("created_at",{ascending:false}).limit(500),
-          db.from("storefronts").select("id,name,owner_id").order("name"),
-          db.from("shop_packages").select("id,product_id,name,description,price_idr,active").order("created_at",{ascending:false}).limit(1000)
-        ]);
-        if(products.error)throw products.error;if(stores.error)throw stores.error;if(packages.error)throw packages.error;
-        state.adminProducts=(products.data||[]).map(product=>({...product,store_name:stores.data?.find(store=>store.id===product.storefront_id)?.name||"Lapak"}));
-        state.adminPackages=packages.data||[];state.storefronts=stores.data||state.storefronts;state.loadedAdminProducts=true;
-      }catch(e){state.loadedAdminProducts=true;toast("Gagal memuat katalog produk: "+errText(e),true);}
-    }
     async function loadFinanceData(){
-      if(!db||!state.user||state.loadingFinance)return;
-      const adminView=isAdmin(),storefrontId=adminView?null:state.ownStore?.id;
-      if(!adminView&&!storefrontId)return;
-      const scope=adminView?"platform-and-stores":storefrontId;
+      if(!db||!state.user||!state.ownStore||state.loadingFinance)return;
+      const storefrontId=state.ownStore.id;
+      const scope=storefrontId;
       const cacheKey=`${scope}:${state.financeMonth}`;
       if(state.loadedFinance&&state.financeScope===cacheKey)return;
       state.loadingFinance=true;
@@ -934,14 +855,12 @@
         const summaryRequest=db.rpc("get_finance_summary",{p_start_date:startDate,p_end_date:endDate,p_storefront_id:storefrontId});
         let entriesRequest=db.from("finance_entries").select("id,storefront_id,entry_type,category,amount_idr,description,occurred_on,source_type,is_frozen,created_at").gte("occurred_on",startDate).lt("occurred_on",endDate).order("occurred_on",{ascending:false}).order("created_at",{ascending:false}).limit(500);
         if(storefrontId)entriesRequest=entriesRequest.eq("storefront_id",storefrontId);
-        const requests=[summaryRequest,entriesRequest];
-        if(adminView)requests.push(db.from("storefronts").select("id,name,owner_id").order("name"));
-        const [summary,entries,stores]=await Promise.all(requests);
-        if(summary.error)throw summary.error;if(entries.error)throw entries.error;if(stores?.error)throw stores.error;
-        const currentScope=isAdmin()?"platform-and-stores":state.ownStore?.id;
+        const [summary,entries]=await Promise.all([summaryRequest,entriesRequest]);
+        if(summary.error)throw summary.error;if(entries.error)throw entries.error;
+        const currentScope=state.ownStore?.id;
         if(cacheKey!==`${currentScope}:${state.financeMonth}`)return;
         state.financeSummary=(Array.isArray(summary.data)?summary.data[0]:summary.data)||{income_idr:0,expense_idr:0,net_idr:0,entry_count:0};
-        state.financeEntries=entries.data||[];if(stores)state.storefronts=stores.data||state.storefronts;state.financeScope=cacheKey;state.loadedFinance=true;
+        state.financeEntries=entries.data||[];state.financeScope=cacheKey;state.loadedFinance=true;
       }catch(e){state.financeSummary={income_idr:0,expense_idr:0,net_idr:0,entry_count:0};state.financeEntries=[];state.financeScope=cacheKey;state.loadedFinance=true;toast("Gagal memuat pembukuan: "+errText(e),true);}
       finally{state.loadingFinance=false;}
     }
@@ -1012,9 +931,7 @@
         const {data,error}=await db.from("merchant_applications").select("id,user_id,shop_name,slug,description,contact_name,contact_email,contact_phone,business_type,business_location,products_summary,business_registration,proof_url,status,review_note,created_at").order("created_at",{ascending:false}).limit(200);
         if(error)throw error;
         state.merchantApplications=data||[];
-        const ids=[...new Set((data||[]).map(application=>application.user_id))];let profiles=[];
-        if(ids.length){const result=await db.from("profiles").select("id,display_name,email").in("id",ids);if(result.error)throw result.error;profiles=result.data||[];}
-        container.innerHTML=`<table><thead><tr><th>Kontak</th><th>Lapak</th><th>Penawaran & area</th><th>Legalitas & referensi</th><th>Status / catatan</th><th>Tinjau</th></tr></thead><tbody>${(data||[]).map(application=>{const profile=profiles.find(item=>item.id===application.user_id);const proof=validHttpsUrl(application.proof_url)?`<br><a href="${esc(application.proof_url)}" target="_blank" rel="noopener noreferrer">Lihat referensi publik</a>`:"";return `<tr><td>${esc(application.contact_name||profile?.display_name||"Anggota")}<br>${esc(application.contact_email||profile?.email||"")}<br>${esc(application.contact_phone||"Kontak belum tersedia")}</td><td><b>${esc(application.shop_name)}</b><br><small>/${esc(application.slug)}</small><br>${esc(application.description)}</td><td>${esc(application.business_type||"—")} · ${esc(application.business_location||"—")}<br><span style="white-space:normal">${esc(application.products_summary||"—")}</span></td><td>${application.business_registration?`No. registrasi usaha: ${esc(application.business_registration)}`:"Tanpa nomor registrasi"}${proof}<br><small>Pernyataan kepatuhan: diterima</small></td><td>${esc(application.status)}${application.review_note?`<br><small>Catatan: ${esc(application.review_note)}</small>`:""}</td><td>${application.status==="pending"?`<button class="btn btn-small" data-merchant-review="approved" data-application="${esc(application.id)}">Setujui</button> <button class="btn btn-ghost btn-small" data-merchant-review="rejected" data-application="${esc(application.id)}">Tolak</button>`:"—"}</td></tr>`;}).join("")||'<tr><td colspan="6">Belum ada pengajuan pedagang.</td></tr>'}</tbody></table>`;
+        container.innerHTML=`<table><thead><tr><th>Kontak</th><th>Lapak</th><th>Penawaran & area</th><th>Legalitas & referensi</th><th>Status / catatan</th><th>Tinjau</th></tr></thead><tbody>${(data||[]).map(application=>{const proof=validHttpsUrl(application.proof_url)?`<br><a href="${esc(application.proof_url)}" target="_blank" rel="noopener noreferrer">Lihat referensi publik</a>`:"";return `<tr><td>${esc(application.contact_name||`${application.user_id.slice(0,8)}…`)}<br>${esc(application.contact_email||"")}<br>${esc(application.contact_phone||"Kontak belum tersedia")}</td><td><b>${esc(application.shop_name)}</b><br><small>/${esc(application.slug)}</small><br>${esc(application.description)}</td><td>${esc(application.business_type||"—")} · ${esc(application.business_location||"—")}<br><span style="white-space:normal">${esc(application.products_summary||"—")}</span></td><td>${application.business_registration?`No. registrasi usaha: ${esc(application.business_registration)}`:"Tanpa nomor registrasi"}${proof}<br><small>Pernyataan kepatuhan: diterima</small></td><td>${esc(application.status)}${application.review_note?`<br><small>Catatan: ${esc(application.review_note)}</small>`:""}</td><td>${application.status==="pending"?`<button class="btn btn-small" data-merchant-review="approved" data-application="${esc(application.id)}">Setujui</button> <button class="btn btn-ghost btn-small" data-merchant-review="rejected" data-application="${esc(application.id)}">Tolak</button>`:"—"}</td></tr>`;}).join("")||'<tr><td colspan="6">Belum ada pengajuan pedagang.</td></tr>'}</tbody></table>`;
         state.loadedMerchantApplications=true;
       }catch(e){container.textContent="Gagal memuat pengajuan Pedagang: "+errText(e);}
     }
@@ -1081,6 +998,7 @@
       if(product)showModal("Ubah produk / jasa",shopProductFormMarkup(product,isAdmin(),"shop-product-edit"));
     }
     async function submitShopProduct(form){
+      if(isAdmin()){toast("Pengelola tidak dapat mengelola katalog lapak.",true);return;}
       const adminMode=isAdmin(),productId=form.dataset.productId;
       if(!adminMode&&(!state.ownStore||!state.merchantWriteAccess)){toast("Pengubahan katalog dinonaktifkan setelah masa tenggang lima hari. Perpanjang langganan untuk melanjutkan.",true);return;}
       const fields=new FormData(form),title=String(fields.get("title")).trim(),description=String(fields.get("description")).trim();
@@ -1102,7 +1020,7 @@
           : await db.from("shop_products").insert({...values,storefront_id,legal_acknowledged:Boolean(fields.get("legal_acknowledged")),published:false});
         if(result.error)throw result.error;
         overlay.innerHTML="";state.loadedMerchant=false;state.loadedMarketplace=false;state.loadedAdminProducts=false;
-        if(state.ownStore)await loadMerchantData();if(adminMode)await loadAdminProducts();
+        if(state.ownStore)await loadMerchantData();
         render();toast(productId?"Perubahan produk tersimpan.":"Produk tersimpan sebagai draft.");
       }catch(e){toast("Gagal menyimpan produk: "+errText(e),true);}
     }
@@ -1115,7 +1033,7 @@
         const result=packageId?await db.from("shop_packages").update(values).eq("id",packageId):await db.from("shop_packages").insert({product_id:String(fields.get("product_id")),...values,active:true});
         if(result.error)throw result.error;
         overlay.innerHTML="";form.reset();state.loadedMerchant=false;state.loadedMarketplace=false;state.loadedAdminProducts=false;
-        if(state.ownStore)await loadMerchantData();if(isAdmin())await loadAdminProducts();
+        if(state.ownStore)await loadMerchantData();
         render();toast(packageId?"Harga paket diperbarui.":"Paket harga ditambahkan.");
       }catch(e){toast("Gagal menambahkan paket harga: "+errText(e),true);}
     }
@@ -1129,7 +1047,7 @@
       try{
         const {error}=await db.from("shop_packages").update({active:!active}).eq("id",id);if(error)throw error;
         state.loadedMerchant=false;state.loadedMarketplace=false;
-        if(state.ownStore)await loadMerchantData();if(isAdmin()){state.loadedAdminProducts=false;await loadAdminProducts();}
+        if(state.ownStore)await loadMerchantData();
         render();toast(active?"Paket dinonaktifkan.":"Paket harga diaktifkan.");
       }catch(e){toast("Gagal mengubah paket harga: "+errText(e),true);}
     }
@@ -1139,7 +1057,7 @@
         const {error}=await db.from("shop_products").update({published:!published,updated_at:new Date().toISOString()}).eq("id",id);
         if(error)throw error;
         state.loadedMerchant=false;state.loadedMarketplace=false;state.loadedAdminProducts=false;
-        if(state.ownStore)await loadMerchantData();if(isAdmin())await loadAdminProducts();
+        if(state.ownStore)await loadMerchantData();
         render();toast(published?"Penawaran ditarik dari katalog.":"Penawaran diterbitkan.");
       }catch(e){toast("Gagal mengubah status penawaran: "+errText(e),true);}
     }
@@ -1149,7 +1067,7 @@
       try{
         const {error}=await db.from("shop_products").delete().eq("id",id);if(error)throw error;
         state.loadedMerchant=false;state.loadedMarketplace=false;state.loadedAdminProducts=false;
-        if(state.ownStore)await loadMerchantData();if(isAdmin())await loadAdminProducts();
+        if(state.ownStore)await loadMerchantData();
         render();toast("Penawaran dihapus.");
       }catch(e){toast("Gagal menghapus penawaran: "+errText(e),true);}
     }
@@ -1480,7 +1398,7 @@
       const nav=[["overview","Ringkasan"],["products","Produk & harga"],["finance","Penjualan & pembukuan"]];
       const expiredDays=state.ownSubscription?Math.floor((Date.now()-new Date(state.ownSubscription.ends_at).getTime())/86400000):null;
       const subscriptionMessage=state.merchantActiveSubscription?`Langganan aktif sampai ${dateShort(state.ownSubscription.ends_at)}.`:state.merchantWriteAccess?`Masa tenggang pembaruan katalog hingga ${dateShort(new Date(new Date(state.ownSubscription.ends_at).getTime()+5*86400000))}; perpanjang sekarang.`:expiredDays!==null&&expiredDays<30?`Masa tenggang lima hari telah lewat. Data lapak hanya dapat dilihat; katalog, pesanan, dan pengaturan tidak dapat diubah.`:"Masa langganan lebih dari 30 hari terlewati; lapak dinonaktifkan sampai perpanjangan.";
-      const heading=`<div class="page-title"><h1>Dashboard Pedagang · ${esc(state.ownStore.name)}</h1><p>${subscriptionMessage} Lapak publik dihentikan setelah 30 hari tanpa perpanjangan.</p></div>${!state.merchantActiveSubscription?`<div class="account-alert"><a class="btn btn-small" href="#akun">Perpanjang langganan</a></div>`:""}<div class="admin-tabs">${nav.map(([key,label])=>`<button class="admin-tab ${state.merchantTab===key?"active":""}" data-merchant-tab="${key}">${label}</button>`).join("")}</div>`;
+      const heading=`<div class="page-title"><h1>Dashboard Pedagang · ${esc(state.ownStore.name)}</h1><p>${subscriptionMessage} Lapak publik dihentikan setelah 30 hari tanpa perpanjangan.</p></div>${!state.merchantActiveSubscription?`<div class="account-alert"><a class="btn btn-small" href="#akun">Perpanjang langganan</a></div>`:""}<div class="admin-tabs">${nav.map(([key,label])=>`<button class="admin-tab ${state.merchantTab===key?"active":""}" data-merchant-tab="${key}">${label}</button>`).join("")}</div><div class="merchant-owner-links"><a class="btn btn-ghost btn-small" href="#akun">Tagihan & pembayaran langganan</a><a class="btn btn-ghost btn-small" href="#pesanan">Pembelian & pembayaran produk</a><a class="btn btn-ghost btn-small" href="#lapak/${encodeURIComponent(state.ownStore.slug)}">Lihat katalog publik</a></div>`;
       if(state.merchantTab==="products")return `${heading}${productManagementPage(products,packages)}`;
       if(state.merchantTab==="finance")return `${heading}${financeManagementPage(true)}`;
       return `${heading}<div class="admin-kpis"><div class="admin-kpi"><strong>${products.length}</strong><span>Produk / jasa</span></div><div class="admin-kpi"><strong>${products.filter(productAvailable).length}</strong><span>Tersedia di katalog</span></div><div class="admin-kpi"><strong>${state.ownOrders.filter(order=>["confirmed","completed"].includes(order.status)).length}</strong><span>Penjualan dikonfirmasi</span></div><div class="admin-kpi"><strong>${money(state.ownOrders.filter(order=>["confirmed","completed"].includes(order.status)).reduce((sum,order)=>sum+Number(order.total_idr||0),0))}</strong><span>Nilai penjualan</span></div></div><div class="dashboard-grid" style="margin-top:18px"><section class="panel"><h3>Informasi lapak</h3><form id="storefront-form"><div class="field"><label>Nama lapak</label><input name="name" maxlength="100" required value="${esc(state.ownStore.name)}"></div><div class="field"><label>Alamat halaman</label><input name="slug" maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*" required value="${esc(state.ownStore.slug)}"></div><div class="field"><label>Deskripsi</label><textarea name="description" minlength="20" maxlength="2000" required>${esc(state.ownStore.description)}</textarea></div><button class="btn btn-small" ${state.merchantWriteAccess?"":"disabled"}>Simpan profil lapak</button></form><div style="margin-top:18px"><button class="btn btn-small" data-merchant-tab="products">Kelola produk & harga →</button></div></section><section class="panel"><h3>Metode pembayaran lapak</h3><p style="font-size:12px;color:var(--muted)">Detail penerima akan tampil ke pembeli saat pemesanan. Jangan masukkan PIN, OTP, kata sandi, atau data rahasia.</p><form id="shop-payment-form" class="form-grid"><div class="field"><label>Metode</label><select name="method">${Object.entries(paymentLabels).map(([key,label])=>`<option value="${key}">${label}</option>`).join("")}</select></div><div class="field"><label>Nama penerima</label><input name="recipient_name" maxlength="100" required></div><div class="field"><label>Nomor rekening / telepon tujuan</label><input name="account_identifier" maxlength="100"></div><div class="field"><label>URL gambar QRIS (wajib untuk QRIS, HTTPS)</label><input name="qr_image_url" type="url" maxlength="500"></div><div class="span-2"><button class="btn btn-small" ${state.merchantWriteAccess?"":"disabled"}>Simpan metode</button></div></form><div class="file-list">${methods.map(method=>`<div class="file-item"><span><b>${paymentLabels[method.method]}</b><br>${esc(method.recipient_name)} · ${esc(method.account_identifier||"QRIS")} ${method.qr_image_url?`<br><a class="text-link" href="${esc(method.qr_image_url)}" target="_blank" rel="noopener">Lihat QR</a>`:""}</span><button class="btn btn-ghost btn-small" data-delete-payment="${esc(method.id)}" ${state.merchantWriteAccess?"":"disabled"}>Hapus</button></div>`).join("")||"Belum ada metode pembayaran."}</div></section></div><section class="panel"><div class="section-head"><h3>Pesanan lapak</h3><button class="btn btn-ghost btn-small" data-merchant-tab="finance">Lihat buku kas →</button></div>${shopOrdersTable(state.ownOrders,true)}</section>`;
@@ -1750,47 +1668,39 @@
       const heading=`<div class="page-title"><h1>Survey kepuasan pelanggan</h1><p>Masukan Anda membantu kami meningkatkan layanan, konten, dan pengalaman menggunakan Ryan D Clue – Ruang Berbagi.</p></div>`;
       if(!state.user)return `${heading}<div class="panel" style="max-width:700px"><h3>Bagikan pengalaman Anda</h3><p>Masuk atau daftar terlebih dahulu agar masukan dapat ditautkan ke akun Anda.</p><button class="btn" data-action="auth">Masuk / daftar untuk mengisi survey</button></div>`;
       if(!db)return `${heading}<div class="account-alert">Survey belum dapat dikirim karena layanan belum tersambung. Silakan hubungi Pengelola.</div>`;
-      return `${heading}<div class="panel" style="max-width:700px"><h3>Bagaimana pengalaman Anda?</h3><p class="price-note">Survey ini untuk pelanggan, viewer, dan anggota terdaftar. Masukan Anda hanya dapat dilihat oleh Anda dan Pengelola.</p><form id="survey-form"><div class="field"><label for="survey-rating">Seberapa puas Anda dengan layanan dan komunitas ini?</label><select id="survey-rating" name="rating" required><option value="">Pilih penilaian</option><option value="5">5 — Sangat puas</option><option value="4">4 — Puas</option><option value="3">3 — Cukup</option><option value="2">2 — Kurang puas</option><option value="1">1 — Tidak puas</option></select></div><div class="field"><label for="survey-feedback">Apa yang paling Anda sukai atau perlu ditingkatkan?</label><textarea id="survey-feedback" name="feedback" maxlength="2000" placeholder="Ceritakan pengalaman Anda..."></textarea></div><button class="btn" type="submit">Kirim survey kepuasan</button></form></div>`;
+      return `${heading}<div class="panel" style="max-width:700px"><h3>Bagaimana pengalaman Anda?</h3><p class="price-note">Survey ini untuk pelanggan, viewer, dan anggota terdaftar. Jawaban hanya dapat dibaca oleh pemilik akun.</p><form id="survey-form"><div class="field"><label for="survey-rating">Seberapa puas Anda dengan layanan dan komunitas ini?</label><select id="survey-rating" name="rating" required><option value="">Pilih penilaian</option><option value="5">5 — Sangat puas</option><option value="4">4 — Puas</option><option value="3">3 — Cukup</option><option value="2">2 — Kurang puas</option><option value="1">1 — Tidak puas</option></select></div><div class="field"><label for="survey-feedback">Apa yang paling Anda sukai atau perlu ditingkatkan?</label><textarea id="survey-feedback" name="feedback" maxlength="2000" placeholder="Ceritakan pengalaman Anda..."></textarea></div><button class="btn" type="submit">Kirim survey kepuasan</button></form></div>`;
     }
     function reviewPage(){return `<div class="page-title"><h1>Review komunitas</h1><p>Baca dan bagikan ulasan Anda tentang Ryan D Clue – Ruang Berbagi.</p></div><div class="dashboard-grid"><div class="panel"><h3>Ulasan terbaru</h3><div class="timeline">${state.reviews.map(r=>`<div class="timeline-item"><div class="timeline-icon">★</div><div class="timeline-copy"><b>${esc(r.display_name||"Anggota")} · ${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</b><p style="margin:7px 0;color:var(--muted)">${esc(r.body)}</p><small>${dateShort(r.created_at)}</small></div></div>`).join("")||'<div class="empty">Belum ada ulasan.</div>'}</div></div><div class="panel"><h3>Tulis review</h3><form id="review-form"><div class="field"><label>Nama yang ditampilkan</label><input name="display_name" maxlength="80" value="${esc(state.profile?.display_name||"")}" required></div><div class="field"><label>Penilaian</label><select name="rating" required><option value="5">★★★★★ Sangat baik</option><option value="4">★★★★☆ Baik</option><option value="3">★★★☆☆ Cukup</option><option value="2">★★☆☆☆ Kurang</option><option value="1">★☆☆☆☆ Buruk</option></select></div><div class="field"><label>Ulasan</label><textarea name="body" maxlength="2000" required placeholder="Bagikan kesan Anda..."></textarea></div><button class="btn" type="submit">Kirim review</button></form></div></div>`;}
     function chatPage(){
-      const heading=`<div class="page-title"><h1>Chat privat</h1><p>Percakapan anggota dengan Pengelola dan ruang khusus pelanggan berlangganan.</p></div>`;
+      const heading=`<div class="page-title"><h1>Chat pelanggan</h1><p>Ruang percakapan hanya tersedia bagi pelanggan dengan langganan aktif.</p></div>`;
       if(!state.user)return `${heading}<div class="panel"><h3>Masuk untuk menggunakan chat privat</h3><p>Chat hanya tersedia bagi akun terdaftar. Percakapan dienkripsi pada perangkat pengirim dan hanya dapat dibuka perangkat peserta.</p><button class="btn" data-action="auth">Masuk / daftar</button></div>`;
+      if(isAdmin())return `${heading}<div class="account-alert">Chat pelanggan tidak tersedia untuk Pengelola. Pengelolaan dibatasi pada transaksi.</div>`;
       if(!state.secureChatLoaded)return `${heading}<div class="panel">Menyiapkan kunci perangkat dan ruang chat privat…</div>`;
       if(state.secureChatError)return `${heading}<div class="account-alert"><b>Chat privat belum siap.</b><br>${esc(state.secureChatError)}<br>Pastikan migrasi E2EE pada schema.sql sudah diterapkan oleh Pengelola, kemudian muat ulang halaman.</div>`;
+      if(!state.secureChatRooms.length)return `${heading}<div class="panel"><h3>Langganan aktif diperlukan</h3><p>Aktifkan langganan untuk bergabung dengan ruang pelanggan. Chat langsung dengan Pengelola tidak tersedia.</p><a class="btn" href="#aktivasi">Lihat paket langganan</a></div>`;
       const room=state.secureChatRooms.find(item=>item.id===state.secureChatRoomId);
       const roomLabel=item=>item.room_type==="subscriber_lounge"?"Ruang pelanggan berlangganan":isAdmin()?`Percakapan anggota · ${(item.direct_user_id||"").slice(0,8)}`:"Chat privat dengan Pengelola";
       const roomNav=state.secureChatRooms.map(item=>`<button class="chip ${item.id===state.secureChatRoomId?"selected":""}" data-chat-room="${esc(item.id)}">${esc(roomLabel(item))}</button>`).join("");
       const messages=state.secureChatMessages.map(message=>`<div class="message ${message.sender_id===state.user.id?"mine":""}"><b>${message.sender_id===state.user.id?"Anda":isAdmin()?"Anggota":"Pengelola"}</b><br>${esc(message.body)}<small>${new Date(message.created_at).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"})}</small></div>`).join("")||'<div class="empty">Belum ada pesan pada percakapan ini.</div>';
-      return `${heading}<div class="account-alert" role="note"><b>Enkripsi end-to-end aktif.</b> Isi pesan dan kunci pesannya dienkripsi pada perangkat. Server menyimpan ciphertext dan tidak memiliki kunci pembuka. Perangkat baru tidak dapat membaca riwayat lama secara otomatis; gunakan perangkat yang sama untuk membuka pesan sebelumnya.</div><div class="panel"><div class="filters" aria-label="Pilih percakapan">${roomNav||'<span class="price-note">Belum ada ruang chat yang dapat diakses oleh akun ini.</span>'}</div>${room?`<h3>${esc(roomLabel(room))}</h3><div id="chat-box" class="chat-box"><div id="chat-messages" class="chat-messages">${messages}</div><form id="chat-form" class="chat-form"><input name="body" maxlength="2000" placeholder="Pesan terenkripsi…" required autocomplete="off"><button class="btn btn-small">Kirim</button></form></div>`:""}${!isAdmin()&&!state.secureChatRooms.some(item=>item.room_type==="subscriber_lounge")?`<p class="price-note">Ruang pelanggan berlangganan terbuka setelah langganan aktif. Chat privat dengan Pengelola tetap tersedia.</p>`:""}</div>`;
+      return `${heading}<div class="account-alert" role="note"><b>Enkripsi end-to-end aktif.</b> Isi pesan dan kunci pesannya dienkripsi pada perangkat. Server menyimpan ciphertext dan tidak memiliki kunci pembuka. Perangkat baru tidak dapat membaca riwayat lama secara otomatis; gunakan perangkat yang sama untuk membuka pesan sebelumnya.</div><div class="panel"><div class="filters" aria-label="Pilih percakapan">${roomNav||'<span class="price-note">Belum ada ruang chat yang dapat diakses oleh akun ini.</span>'}</div>${room?`<h3>${esc(roomLabel(room))}</h3><div id="chat-box" class="chat-box"><div id="chat-messages" class="chat-messages">${messages}</div><form id="chat-form" class="chat-form"><input name="body" maxlength="2000" placeholder="Pesan terenkripsi…" required autocomplete="off"><button class="btn btn-small">Kirim</button></form></div>`:""}</div>`;
     }
     function adminPage(){
       if(!isAdmin())return `<div class="page-title"><h1>Panel Pengelola</h1><p>Masuk dengan akun yang memiliki akses pengelolaan untuk membuka halaman ini.</p></div><div class="panel"><button class="btn" data-action="auth">Masuk</button></div>`;
-      const tabs=["dashboard","konten","media","produk","keuangan","pricing","payment","viewer","merchant-apps","klien","jasa","laporan","orders","private-chat","embed","access-logs","social","rbac","running-text"];
+      const tabs=["dashboard","konten","media","pricing","payment","merchant-apps","orders","embed","social","rbac","running-text"];
+      if(!tabs.includes(state.adminTab))state.adminTab="dashboard";
       let body="";
-      if(state.adminTab==="dashboard")body=`<div class="stats-row"><div class="stat"><span class="stat-icon">✎</span><div><strong>${state.stats.articles}</strong><small>Artikel terbit</small></div></div><div class="stat"><span class="stat-icon">◉</span><div><strong>${state.stats.views}</strong><small>Total views</small></div></div><div class="stat"><span class="stat-icon">▤</span><div><strong>${state.stats.media}</strong><small>Media</small></div></div><div class="stat"><span class="stat-icon">♧</span><div><strong>${state.stats.members}</strong><small>Viewer & anggota</small></div></div></div><div class="dashboard-grid"><div class="panel"><h3>Aktivitas publikasi</h3><div class="timeline">${state.timeline.slice(0,7).map(a=>`<div class="timeline-item"><div class="timeline-icon">✎</div><div class="timeline-copy"><b>${esc(a.title)}</b><small>${dateShort(a.created_at)}</small></div></div>`).join("")||"Belum ada aktivitas."}</div></div><div class="panel"><h3>Ringkasan</h3><p style="color:var(--muted);font-size:13px;line-height:1.7">Pantau performa konten, kelola akses anggota, dan atur informasi berjalan dari satu tempat.</p><button class="btn btn-small" data-admin-tab="konten">Kelola konten →</button></div></div>`;
+      if(state.adminTab==="dashboard")body=`<div class="stats-row"><div class="stat"><span class="stat-icon">✎</span><div><strong>${state.stats.articles}</strong><small>Artikel terbit</small></div></div><div class="stat"><span class="stat-icon">◉</span><div><strong>${state.stats.views}</strong><small>Total views</small></div></div><div class="stat"><span class="stat-icon">▤</span><div><strong>${state.stats.media}</strong><small>Media</small></div></div></div><div class="dashboard-grid"><div class="panel"><h3>Aktivitas publikasi</h3><div class="timeline">${state.timeline.slice(0,7).map(a=>`<div class="timeline-item"><div class="timeline-icon">✎</div><div class="timeline-copy"><b>${esc(a.title)}</b><small>${dateShort(a.created_at)}</small></div></div>`).join("")||"Belum ada aktivitas."}</div></div><div class="panel"><h3>Ringkasan</h3><p style="color:var(--muted);font-size:13px;line-height:1.7">Kelola publikasi dan pantau transaksi langganan serta jual-beli dari satu tempat.</p><button class="btn btn-small" data-admin-tab="konten">Kelola konten →</button></div></div>`;
       if(state.adminTab==="konten")body=`<div class="panel"><div class="section-head"><h3>Manajemen konten</h3><button class="btn btn-small" data-action="publish">＋ Artikel baru</button></div><div class="table-wrap"><table><thead><tr><th>Judul</th><th>Kategori</th><th>Status</th><th>Views</th><th>Dibuat</th><th>Aksi</th></tr></thead><tbody>${state.articles.map(a=>`<tr><td>${esc(a.title)}</td><td>${esc(a.category)}</td><td><span class="badge">Terbit</span></td><td>${Number(a.views||0).toLocaleString("id-ID")}</td><td>${dateShort(a.created_at)}</td><td><button class="btn btn-ghost btn-small" data-edit-article="${esc(a.id)}">Edit</button> <button class="btn btn-ghost btn-small" data-delete-article="${esc(a.id)}">Hapus</button></td></tr>`).join("")||'<tr><td colspan="6">Belum ada konten.</td></tr>'}</tbody></table></div></div>`;
-      if(state.adminTab==="media")body=`<div class="panel"><h3>Manajemen media & file</h3><p style="font-size:12px;color:var(--muted)">File tersimpan privat. Unduhan hanya untuk Pelanggan dan Pengelola.</p><div class="file-list">${state.media.map(m=>`<div class="file-item"><span>${iconByExt[m.name.split(".").pop().toLowerCase()]||"📁"} &nbsp;${esc(m.name)}</span><span><button class="btn btn-ghost btn-small" data-download-media="${esc(m.id)}">Unduh</button> <button class="btn btn-ghost btn-small" data-delete-media="${esc(m.id)}">Hapus</button></span></div>`).join("")||"<div>Belum ada file media.</div>"}</div></div>`;
-      if(state.adminTab==="viewer")body=`<div class="panel"><h3>Manajemen viewer & anggota</h3><div class="field"><input id="viewer-search" placeholder="Cari nama atau ID..." value="${esc(state.viewerSearch)}"></div><div id="viewer-table" class="table-wrap">Memuat data anggota...</div></div>`;
+      if(state.adminTab==="media")body=`<div class="panel"><h3>Manajemen media & file</h3><p style="font-size:12px;color:var(--muted)">File tersimpan privat. Unduhan tersedia bagi semua akun yang sudah login.</p><div class="file-list">${state.media.map(m=>`<div class="file-item"><span>${iconByExt[m.name.split(".").pop().toLowerCase()]||"📁"} &nbsp;${esc(m.name)}</span><span><button class="btn btn-ghost btn-small" data-download-media="${esc(m.id)}">Unduh</button> <button class="btn btn-ghost btn-small" data-delete-media="${esc(m.id)}">Hapus</button></span></div>`).join("")||"<div>Belum ada file media.</div>"}</div></div>`;
       if(state.adminTab==="merchant-apps")body=`<div class="panel"><h3>Pengajuan lapak Pedagang</h3><p style="font-size:12px;color:var(--muted)">Persetujuan hanya tersedia jika pengaju masih memiliki langganan aktif. Persetujuan akan mengaktifkan storefront dan role Pedagang.</p><div id="merchant-applications" class="table-wrap">Memuat pengajuan...</div></div>`;
-      if(state.adminTab==="klien")body=`<div class="panel"><h3>Pengguna jasa / daftar klien</h3><p style="font-size:12px;color:var(--muted)">Daftar kontak yang mengajukan jasa Excel dan Access.</p><div id="client-table" class="table-wrap">Memuat klien...</div></div>`;
-      if(state.adminTab==="jasa")body=`<div class="panel"><h3>Permintaan jasa masuk</h3><p style="font-size:12px;color:var(--muted)">Data kontak hanya dapat dilihat oleh pengelola. Tindak lanjuti permintaan melalui email yang dicantumkan.</p><div id="service-requests" class="table-wrap">Memuat permintaan...</div></div>`;
-      if(state.adminTab==="laporan"){
-        const rows=[["Baru","new"],["Dihubungi","contacted"],["Dikerjakan","in_progress"],["Selesai","completed"],["Dibatalkan","cancelled"]];
-        body=`<div class="panel"><div class="section-head"><div><h3>Laporan pengelolaan jasa / klien</h3><p>Ringkasan dihitung dari permintaan jasa tersimpan.</p></div><button class="btn btn-ghost btn-small" data-action="export-service-report">Unduh CSV</button></div><div class="admin-kpis"><div class="admin-kpi"><strong>${state.serviceRequests.length}</strong><span>Total permintaan</span></div><div class="admin-kpi"><strong>${state.serviceRequests.filter(r=>r.status==="new"||r.status==="contacted").length}</strong><span>Perlu tindak lanjut</span></div><div class="admin-kpi"><strong>${state.serviceRequests.filter(r=>r.status==="in_progress").length}</strong><span>Sedang dikerjakan</span></div><div class="admin-kpi"><strong>${state.serviceRequests.filter(r=>r.status==="completed").length}</strong><span>Selesai</span></div></div><div class="table-wrap" style="margin-top:20px"><table><thead><tr><th>Status</th><th>Jumlah</th></tr></thead><tbody>${rows.map(([label,status])=>`<tr><td>${label}</td><td>${state.serviceRequests.filter(r=>r.status===status).length}</td></tr>`).join("")}</tbody></table></div><div class="table-wrap" style="margin-top:18px"><table><thead><tr><th>Jenis jasa</th><th>Jumlah permintaan</th></tr></thead><tbody>${["XLSX","Access","Konsultasi"].map(type=>`<tr><td>${type}</td><td>${state.serviceRequests.filter(r=>r.service_type===type).length}</td></tr>`).join("")}</tbody></table></div><div id="report-loader" class="hidden"></div></div>`;
-      }
       if(state.adminTab==="orders")body=`<div class="panel"><h3>Purchase Order & akun berlangganan</h3><p style="font-size:12px;color:var(--muted)">PO yang disetujui akan otomatis membuat akun berlangganan sesuai durasi paket.</p><div id="purchase-orders" class="table-wrap">Memuat Purchase Order...</div></div><div class="panel"><h3>Pesanan lapak</h3><p class="price-note">Tinjau status pesanan dan selesaikan komplain yang sedang ditahan.</p><div id="admin-shop-orders" class="table-wrap">Memuat pesanan lapak...</div></div>`;
-      if(state.adminTab==="private-chat")body=adminPrivateChatPage();
-      if(state.adminTab==="produk")body=productManagementPage(state.adminProducts,state.adminPackages,true);
-      if(state.adminTab==="keuangan")body=financeManagementPage(false);
       if(state.adminTab==="pricing")body=subscriptionPricingPage();
       if(state.adminTab==="payment")body=`<div class="panel"><h3>Tujuan pembayaran langganan</h3><p class="price-note">Isi tujuan pembayaran untuk metode yang ingin diaktifkan. Data rekening/e-wallet dan QR akan disalin ke PO sebagai snapshot; pembayaran tetap diperiksa manual sebelum langganan aktif. Jangan masukkan PIN, OTP, kata sandi, atau data rahasia.</p><form id="payment-settings-form">${paymentMethods.map(method=>{const config=state.paymentSettings[method]||{};return `<section class="panel" style="padding:16px;margin:14px 0"><h3>${paymentLabels[method]}</h3><div class="form-grid"><div class="field"><label>Nama penerima</label><input name="${method}_recipient" maxlength="100" value="${esc(config.recipient||"")}"></div><div class="field"><label>${method==="qris"?"Nomor akun (tidak diperlukan)":"Nomor rekening / telepon tujuan"}</label><input name="${method}_account" maxlength="100" value="${esc(config.account||"")}" ${method==="qris"?"disabled":""}></div><div class="field span-2"><label>URL gambar QRIS ${method==="qris"?"(wajib jika metode diaktifkan)":"(opsional)"}</label><input name="${method}_qr_url" type="url" maxlength="1000" value="${esc(config.qrUrl||"")}" placeholder="https://..."></div><div class="field span-2"><label>Instruksi pembayaran</label><textarea name="${method}_instructions" maxlength="2000" placeholder="Nama bank/e-wallet, nominal, batas waktu, atau langkah pembayaran">${esc(config.instructions||"")}</textarea></div></div></section>`;}).join("")}<button class="btn">Simpan konfigurasi pembayaran</button></form></div>`;
       if(state.adminTab==="embed")body=`<div class="panel"><h3>Video pilihan</h3><p style="font-size:12px;color:var(--muted)">Pilih video yang ingin ditampilkan kepada pengunjung. Tautan yang didukung berasal dari YouTube atau Vimeo.</p><button class="btn btn-small" data-action="go-embed">Kelola video →</button></div>`;
-      if(state.adminTab==="rbac")body=`<div class="panel"><h3>Hak akses anggota</h3><p style="color:var(--muted);font-size:12px">Pengaturan akses hanya dapat diubah oleh pengelola yang berwenang.</p><div class="table-wrap"><table><thead><tr><th>Fitur</th><th>Viewer</th><th>Pelanggan</th><th>Pedagang</th><th>Editor</th><th>Pengelola</th></tr></thead><tbody><tr><td>Membaca publikasi & melihat katalog media</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr><tr><td>Unduh file/media privat</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>✓</td></tr><tr><td>Chat, survey, review</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr><tr><td>Publikasi artikel & upload media</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td></tr><tr><td>Kelola katalog dan pesanan lapak sendiri</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>✓</td></tr><tr><td>Ajukan permintaan jasa / Purchase Order</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr><tr><td>Kelola permintaan, PO, anggota & semua konten</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr><tr><td>Kelola role, log akses & pengaturan</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr></tbody></table></div></div>`;
-      if(state.adminTab==="access-logs")body=accessLogTable(true);
+      if(state.adminTab==="rbac")body=`<div class="panel"><h3>Pemisahan akses</h3><p style="color:var(--muted);font-size:12px">Pengunjung hanya melihat konten publik. Akun terdaftar mengelola profil serta data sendiri; pelanggan aktif memperoleh fitur berlangganan. Pengelola hanya menangani transaksi langganan, sewa, dan jual-beli.</p><div class="table-wrap"><table><thead><tr><th>Fitur</th><th>Pengunjung</th><th>Akun login</th><th>Pelanggan aktif / Pedagang</th><th>Pengelola</th></tr></thead><tbody><tr><td>Konten publik & katalog yang tersedia</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr><tr><td>Unduh dokumen privat</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr><tr><td>Profil, log akses, dan data pribadi</td><td>—</td><td>Data sendiri</td><td>Data sendiri</td><td>—</td></tr><tr><td>Pembukuan & manajemen produk lapak</td><td>—</td><td>—</td><td>Lapak sendiri</td><td>—</td></tr><tr><td>Chat pelanggan</td><td>—</td><td>—</td><td>Ruang pelanggan aktif</td><td>—</td></tr><tr><td>Purchase order, langganan, sewa & pesanan jual-beli</td><td>—</td><td>Transaksi sendiri</td><td>Transaksi sendiri</td><td>Kelola transaksi</td></tr></tbody></table></div></div>`;
       if(state.adminTab==="social")body=`<div class="panel" style="max-width:720px"><h3>Tautan media sosial</h3><p style="font-size:12px;color:var(--muted)">Masukkan URL profil resmi. Tautan hanya ditampilkan jika URL valid dan memakai HTTPS.</p><form id="social-form">${socialPlatforms.map(([key,label,placeholder])=>`<div class="field"><label>${label}</label><input name="${key}" type="url" maxlength="300" value="${esc(state.socialLinks[key]||"")}" placeholder="${placeholder}"></div>`).join("")}<button class="btn">Simpan tautan</button></form></div>`;
       if(state.adminTab==="running-text")body=`<div class="panel" style="max-width:700px"><h3>Atur running text</h3><form id="ticker-form"><div class="field"><label>Pesan berjalan</label><textarea name="text" maxlength="500" required placeholder="Tulis pengumuman untuk komunitas...">${esc(window.currentTicker||"")}</textarea><small>Pisahkan beberapa pengumuman dengan baris baru.</small></div><button class="btn">Simpan pengumuman</button></form></div>`;
-      const labels={dashboard:["⌂","Ringkasan"],konten:["▤","Manajemen konten"],media:["▧","Media & file"],produk:["▣","Manajemen produk"],keuangan:["▥","Keuangan & pembukuan"],pricing:["◈","Harga paket lapak"],payment:["↗","Pembayaran langganan"],viewer:["♙","Manajemen viewer"],"merchant-apps":["♧","Pengajuan lapak Pedagang"],klien:["♧","Pengguna jasa / klien"],jasa:["◷","Kelola permintaan jasa"],laporan:["▥","Laporan jasa"],orders:["◈","Purchase Order"],"private-chat":["✉","Chat privat"],embed:["↗","Video pilihan"],"access-logs":["◷","Log akses"],social:["◎","Media sosial"],rbac:["⊞","Hak akses"],"running-text":["≋","Pengumuman"]};
+      const labels={dashboard:["⌂","Ringkasan"],konten:["▤","Manajemen konten"],media:["▧","Media & file"],pricing:["◈","Harga paket lapak"],payment:["↗","Pembayaran langganan"],"merchant-apps":["♧","Pengajuan lapak Pedagang"],orders:["◈","Purchase Order & pesanan"],embed:["↗","Video pilihan"],social:["◎","Media sosial"],rbac:["⊞","Pemisahan akses"],"running-text":["≋","Pengumuman"]};
       return `<div class="admin-layout"><aside class="admin-sidebar"><div class="admin-side-label">Panel Pengelola</div>${tabs.map(t=>`<button class="admin-side-link ${state.adminTab===t?"active":""}" data-admin-tab="${t}"><span class="side-icon">${labels[t][0]}</span>${labels[t][1]}</button>`).join("")}</aside><section class="admin-main"><div class="page-title"><h1>${esc(labels[state.adminTab][1])}</h1><p>Ryan D Clue – Ruang Berbagi · Halo, ${esc(state.profile?.display_name||state.user.email)}.</p></div>${body}</section></div>`;
     }
     function render(){
@@ -1829,18 +1739,14 @@
       const paymentForm=document.getElementById("shop-payment-form");
       if(paymentForm){paymentForm.elements.qr_image_url.required=paymentForm.elements.method.value==="qris";paymentForm.elements.account_identifier.required=paymentForm.elements.method.value!=="qris";}
       document.getElementById("mobile-nav").classList.remove("open");
-      if(route==="admin"&&state.adminTab==="viewer")loadViewerTable();
-      if(route==="admin"&&state.adminTab==="private-chat"&&!state.adminChatContactsLoaded&&!state.adminChatContactsLoading&&!state.adminChatContactsError)loadAdminChatContacts();
+      document.querySelector('.nav a[data-nav="chat"]').classList.toggle("hidden",isAdmin());
+      document.querySelector('#mobile-nav a[href="#chat"]').classList.toggle("hidden",isAdmin());
       if(route==="admin"&&state.adminTab==="merchant-apps")loadMerchantApplications();
-      if(route==="admin"&&state.adminTab==="produk"&&!state.loadedAdminProducts)loadAdminProducts().then(render);
-      if(route==="admin"&&state.adminTab==="keuangan"&&(!state.loadedFinance||state.financeScope!==`platform-and-stores:${state.financeMonth}`))loadFinanceData().then(render);
       if(route==="pedagang"&&state.merchantTab==="finance"&&state.ownStore&&(!state.loadedFinance||state.financeScope!==`${state.ownStore.id}:${state.financeMonth}`))loadFinanceData().then(render);
       if(route==="admin"&&state.adminTab==="pricing"&&!state.loadedAdminPlans)loadSubscriptionPlans().then(render);
       if((route==="aktivasi"||route==="admin"&&state.adminTab==="payment")&&!state.loadedPaymentSettings&&!state.paymentSettingsLoading&&!state.paymentSettingsError)loadPaymentSettings().then(render);
-      if((route==="log-akses"||(route==="admin"&&state.adminTab==="access-logs"))&&!state.loadedAccessLogs)loadAccessLogs();
+      if(route==="log-akses"&&!state.loadedAccessLogs)loadAccessLogs();
       if(route==="admin"&&state.adminTab==="social"&&!state.loadedSocial)loadSocialLinks().then(render);
-      if(route==="admin"&&(state.adminTab==="jasa"||state.adminTab==="klien")&&!state.loadedRequests)loadServiceRequests();
-      if(route==="admin"&&state.adminTab==="laporan"&&!state.loadedRequests)loadServiceRequests();
       if(route==="admin"&&state.adminTab==="orders"&&!state.loadedOrders)loadAdminOrders();
       if((route==="aktivasi"||route==="akun")&&!state.loadedPricing&&!state.loadingPricing)loadPricingData().then(render);
       if(route==="keranjang"&&!state.loadedPricing&&!state.loadingPricing)loadPricingData().then(render);
@@ -1850,7 +1756,7 @@
       if(route==="embed"&&!state.loadedEmbeds){state.loadedEmbeds=true;loadExternalLinks().then(render);}
       if(route==="chat"&&state.user&&!state.secureChatLoaded&&!state.secureChatLoading)loadSecureChat();
       if(route==="chat"&&state.user)scrollChat();
-      if(state.sessionReady&&(baseRoute==="lapak"||baseRoute==="keranjang"||route==="admin"&&state.adminTab==="produk"||route==="pedagang"&&state.merchantTab==="products"))subscribeToProductChanges();
+      if(state.sessionReady&&(baseRoute==="lapak"||baseRoute==="keranjang"||route==="pedagang"&&state.merchantTab==="products"))subscribeToProductChanges();
       if(baseRoute==="lapak"&&!state.loadedMarketplace)loadPublicMarketplace().then(()=>{if(state.loadedMarketplace)render();});
       if(baseRoute==="pesanan"&&state.user&&!state.loadedBuyerOrders)loadBuyerOrders().then(()=>{if(state.loadedBuyerOrders)render();});
       if(baseRoute==="sampel"&&!state.loadedSamples)loadSamples().then(()=>{if((location.hash||"").slice(1).split("/")[0]==="sampel")render();});
@@ -2013,27 +1919,6 @@
       const fd=new FormData(form);
       try{const {error}=await db.from("reviews").insert({user_id:state.user.id,display_name:String(fd.get("display_name")).trim(),rating:Number(fd.get("rating")),body:String(fd.get("body")).trim()});if(error)throw error;form.reset();toast("Review terkirim dan menunggu peninjauan.");}catch(e){toast("Gagal mengirim review: "+errText(e),true);}
     }
-    async function submitServiceRequest(form){
-      if(!db||!state.user){toast("Masuk atau daftar sebagai Viewer untuk mengajukan permintaan.",true);authModal();return;}
-      const fd=new FormData(form);
-      const request={name:String(fd.get("name")).trim(),email:String(fd.get("email")).trim(),service_type:String(fd.get("service_type")),details:String(fd.get("details")).trim()};
-      if(!request.name||!request.service_type||!request.details||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(request.email)||request.email.toLowerCase()!==(state.user.email||"").toLowerCase()){toast("Lengkapi nama, layanan, kebutuhan, dan gunakan email valid dari akun aktif.",true);return;}
-      try{const {error}=await db.from("service_requests").insert({...request,user_id:state.user.id});if(error)throw error;form.reset();state.loadedOwnServiceRequests=false;await loadOwnServiceRequests();toast("Permintaan terkirim. Terima kasih, Ryan D Clue akan menindaklanjutinya.");}
-      catch(e){toast("Gagal mengirim permintaan jasa: "+errText(e),true);}
-    }
-    async function loadServiceRequests(){
-      const container=document.getElementById("service-requests")||document.getElementById("client-table")||document.getElementById("report-loader");if(!container||!isAdmin()||!db)return;
-      try{
-        const {data,error}=await db.from("service_requests").select("id,name,email,service_type,details,status,admin_notes,gdrive_folder_url,created_at").order("created_at",{ascending:false}).limit(500);if(error)throw error;
-        state.serviceRequests=data||[];state.loadedRequests=true;
-        if(container.id==="report-loader"){render();return;}
-        if(container.id==="client-table"){
-          container.innerHTML=`<table><thead><tr><th>Nama klien</th><th>Email</th><th>Layanan</th><th>Status pekerjaan</th><th>Permintaan masuk</th><th>Ringkasan</th><th>Akses file</th></tr></thead><tbody>${state.serviceRequests.map(r=>`<tr><td>${esc(r.name)}</td><td><a class="text-link" href="mailto:${esc(r.email)}">${esc(r.email)}</a></td><td>${esc(r.service_type)}</td><td><span class="badge ${r.status==="new"?"pending":""}">${({"new":"Baru","contacted":"Dihubungi","in_progress":"Dikerjakan","completed":"Selesai","cancelled":"Dibatalkan"}[r.status]||esc(r.status))}</span></td><td>${dateShort(r.created_at)}</td><td style="white-space:normal;min-width:220px">${esc(r.details)}</td><td>${["in_progress","completed"].includes(r.status)&&validGoogleDriveFolderUrl(r.gdrive_folder_url||"")?`<a class="btn btn-small" href="${esc(r.gdrive_folder_url)}" target="_blank" rel="noopener noreferrer">Buka folder ↗</a>`:"—"}</td></tr>`).join("")||'<tr><td colspan="7">Belum ada pengguna jasa.</td></tr>'}</tbody></table>`;
-          return;
-        }
-        container.innerHTML=`<table><thead><tr><th>Nama / Email</th><th>Layanan</th><th>Kebutuhan</th><th>Status / catatan / akses file</th><th>Dikirim</th><th></th></tr></thead><tbody>${state.serviceRequests.map(r=>`<tr><td>${esc(r.name)}<br><a class="text-link" href="mailto:${esc(r.email)}">${esc(r.email)}</a></td><td>${esc(r.service_type)}</td><td style="white-space:normal;min-width:200px">${esc(r.details)}</td><td><select class="status-select" data-service-status="${esc(r.id)}"><option value="new" ${r.status==="new"?"selected":""}>Baru</option><option value="contacted" ${r.status==="contacted"?"selected":""}>Dihubungi</option><option value="in_progress" ${r.status==="in_progress"?"selected":""}>Dikerjakan</option><option value="completed" ${r.status==="completed"?"selected":""}>Selesai</option><option value="cancelled" ${r.status==="cancelled"?"selected":""}>Dibatalkan</option></select><textarea data-service-notes="${esc(r.id)}" maxlength="1000" placeholder="Catatan internal">${esc(r.admin_notes||"")}</textarea><div class="field"><label for="service-drive-${esc(r.id)}">Tautan Folder Google Drive (Akses File Klien)</label><input id="service-drive-${esc(r.id)}" name="gdrive_folder_url" data-service-drive="${esc(r.id)}" type="url" value="${esc(r.gdrive_folder_url||"")}" placeholder="https://drive.google.com/drive/folders/..."><small>Pastikan pengaturan berbagi folder di Google Drive telah diset ke 'Siapa saja yang memiliki tautan' (Viewer/Editor) sebelum menyimpan.</small></div></td><td>${dateShort(r.created_at)}</td><td><button class="btn btn-small" data-save-service="${esc(r.id)}">Simpan</button></td></tr>`).join("")||'<tr><td colspan="6">Belum ada permintaan jasa.</td></tr>'}</tbody></table>`;
-      }catch(e){container.textContent="Gagal memuat permintaan jasa: "+errText(e);}
-    }
     async function loadOwnServiceRequests(){
       if(!db||!state.user||state.loadedOwnServiceRequests)return;
       try{
@@ -2046,16 +1931,6 @@
     function ownServiceRequestsPanel(){
       const labels={new:"Baru",contacted:"Dihubungi",in_progress:"Dikerjakan",completed:"Selesai",cancelled:"Dibatalkan"};
       return `<section class="panel" style="margin-top:20px"><h3>Permintaan jasa saya</h3><p class="price-note">Pantau status tiket dan akses file hasil pengerjaan dari sini.</p><div class="file-list">${state.ownServiceRequests.map(request=>`<article class="panel" style="padding:14px;margin:12px 0"><div class="section-head"><div><b>${esc(request.service_type)}</b><span class="badge ${request.status==="new"?"pending":""}">${esc(labels[request.status]||request.status)}</span></div><small>${dateShort(request.created_at)}</small></div><p>${esc(request.details)}</p>${["in_progress","completed"].includes(request.status)&&validGoogleDriveFolderUrl(request.gdrive_folder_url||"")?`<a class="btn btn-small" href="${esc(request.gdrive_folder_url)}" target="_blank" rel="noopener noreferrer">Buka Folder Akses File ↗</a>`:""}</article>`).join("")||'<div class="empty">Belum ada permintaan jasa pada akun ini.</div>'}</div></section>`;
-    }
-    async function updateServiceRequest(id){
-      if(!isAdmin())return;
-      const status=document.querySelector(`[data-service-status="${CSS.escape(id)}"]`)?.value;
-      const admin_notes=document.querySelector(`[data-service-notes="${CSS.escape(id)}"]`)?.value||"";
-      const driveInput=document.querySelector(`[data-service-drive="${CSS.escape(id)}"]`),gdrive_folder_url=String(driveInput?.value||"").trim();
-      if(!["new","contacted","in_progress","completed","cancelled"].includes(status)){toast("Status klien tidak valid.",true);return;}
-      if(gdrive_folder_url&&!validGoogleDriveFolderUrl(gdrive_folder_url)){toast("Tautan harus berupa URL HTTPS dari drive.google.com.",true);driveInput?.focus();return;}
-      try{const {error}=await db.from("service_requests").update({status,admin_notes,gdrive_folder_url:gdrive_folder_url||null}).eq("id",id);if(error)throw error;toast("Status, catatan, dan tautan akses klien diperbarui.");await loadServiceRequests();}
-      catch(e){toast("Gagal memperbarui data klien: "+errText(e),true);}
     }
     async function loadPricingData(){
       if(state.loadedPricing||state.loadingPricing)return;
@@ -2158,9 +2033,7 @@
       try{
         const plansResult=await db.from("subscription_plans").select("id,name,duration_days,mentorship_days,price_idr,description,active").order("duration_days");if(plansResult.error)throw plansResult.error;if(plansResult.data?.length)state.plans=plansResult.data;
         const {data,error}=await db.from("purchase_orders").select("id,user_id,purchaser_name,purchaser_email,plan_id,price_idr,duration_days,mentorship_days,payment_method,payment_recipient_snapshot,payment_account_snapshot,payment_method_qr_url_snapshot,payment_method_instructions_snapshot,status,payment_status,payment_url_snapshot,payment_qr_url_snapshot,payment_instructions_snapshot,payment_proof_url,payment_proof_path,payment_proof_name,payment_proof_mime,created_at").order("created_at",{ascending:false}).limit(500);if(error)throw error;
-        const orders=await paymentProofSignedLinks(data||[]),ids=[...new Set(orders.map(o=>o.user_id))];let profiles=[];
-        if(ids.length){const response=await db.from("profiles").select("id,display_name").in("id",ids);if(response.error)throw response.error;profiles=response.data||[];}
-        const profileName=id=>profiles.find(p=>p.id===id)?.display_name||`${id.slice(0,8)}…`;
+        const orders=await paymentProofSignedLinks(data||[]);
         state.purchaseOrders=orders;
         container.innerHTML=`<table><thead><tr><th>Pemesan</th><th>Paket & durasi</th><th>Harga PO</th><th>Status PO / pembayaran</th><th>Bukti pembayaran</th><th>Tanggal</th><th>Aksi</th></tr></thead><tbody>${orders.map(order=>{
           const plan=state.plans.find(item=>item.id===order.plan_id);
@@ -2168,7 +2041,7 @@
             ?`<button class="btn btn-small" data-order-action="approved" data-order-id="${esc(order.id)}">Validasi & aktifkan</button> <button class="btn btn-ghost btn-small" data-order-action="payment-rejected" data-order-id="${esc(order.id)}">Tolak bukti</button>`
             :`<button class="btn btn-ghost btn-small" data-order-action="rejected" data-order-id="${esc(order.id)}">Tolak PO</button>`;
           const proofLink=order.payment_proof_link_error?`<div class="account-alert">Tautan bukti gagal dimuat: ${esc(order.payment_proof_link_error)} <button type="button" class="btn btn-small" data-action="retry-payment-proof-links">Coba lagi</button></div>`:order.payment_proof_url?`<a class="text-link" href="${esc(order.payment_proof_url)}" target="_blank" rel="noopener noreferrer">Buka bukti${order.payment_proof_name?` · ${esc(order.payment_proof_name)}`:""}</a>`:"—";
-          return `<tr><td>${esc(order.purchaser_name||profileName(order.user_id))}<br><a class="text-link" href="mailto:${esc(order.purchaser_email||"")}">${esc(order.purchaser_email||"Email lama tidak tersedia")}</a></td><td>${esc(plan?.name||order.plan_id)}<br><small>${order.duration_days} hari · pendampingan ${order.mentorship_days} hari</small></td><td>${money(order.price_idr)}<br><small>${esc(paymentLabels[order.payment_method]||"")}</small></td><td><span class="badge ${order.status==="pending"?"pending":""}">${({"pending":"Menunggu pembayaran","approved":"Aktif","rejected":"Ditolak"}[order.status]||esc(order.status))}</span><br><small>${({"pending":"Belum tervalidasi","reported":"Bukti dikirim","verified":"Terverifikasi","rejected":"Bukti ditolak"}[order.payment_status]||esc(order.payment_status))}</small></td><td>${proofLink}</td><td>${dateShort(order.created_at)}</td><td>${actions}</td></tr>`;
+          return `<tr><td>${esc(order.purchaser_name||`${order.user_id.slice(0,8)}…`)}<br><a class="text-link" href="mailto:${esc(order.purchaser_email||"")}">${esc(order.purchaser_email||"Email lama tidak tersedia")}</a></td><td>${esc(plan?.name||order.plan_id)}<br><small>${order.duration_days} hari · pendampingan ${order.mentorship_days} hari</small></td><td>${money(order.price_idr)}<br><small>${esc(paymentLabels[order.payment_method]||"")}</small></td><td><span class="badge ${order.status==="pending"?"pending":""}">${({"pending":"Menunggu pembayaran","approved":"Aktif","rejected":"Ditolak"}[order.status]||esc(order.status))}</span><br><small>${({"pending":"Belum tervalidasi","reported":"Bukti dikirim","verified":"Terverifikasi","rejected":"Bukti ditolak"}[order.payment_status]||esc(order.payment_status))}</small></td><td>${proofLink}</td><td>${dateShort(order.created_at)}</td><td>${actions}</td></tr>`;
         }).join("")||'<tr><td colspan="7">Belum ada Purchase Order.</td></tr>'}</tbody></table>`;
         if(shopOrdersContainer){
           const shopOrders=await db.from("shop_orders").select("*").order("created_at",{ascending:false}).limit(500);
@@ -2176,6 +2049,7 @@
           state.adminShopOrders=shopOrders.data||[];
           await loadOrderStatusHistory(state.adminShopOrders);
           shopOrdersContainer.innerHTML=shopOrdersTable(state.adminShopOrders,true);
+          shopOrdersContainer.querySelectorAll("[data-order-chat]").forEach(button=>button.remove());
         }
         state.loadedOrders=true;
       }catch(e){state.loadedOrders=false;container.textContent="Gagal memuat Purchase Order: "+errText(e);if(shopOrdersContainer)shopOrdersContainer.textContent="Gagal memuat pesanan lapak: "+errText(e);}
@@ -2210,28 +2084,6 @@
       if(!isAdmin()||!confirm("Hapus video ini?"))return;
       try{const {error}=await db.from("external_links").delete().eq("id",id);if(error)throw error;state.loadedEmbeds=false;await loadExternalLinks();render();toast("Video dihapus.");}
       catch(e){toast("Gagal menghapus video: "+errText(e),true);}
-    }
-    function exportServiceReport(){
-      if(!isAdmin())return;
-      const fields=["name","email","service_type","status","details","admin_notes","created_at"];
-      const quote=value=>`"${String(value??"").replace(/^[=+\-@]/,"'$&").replace(/"/g,'""')}"`;
-      const csv=["Nama,Email,Jenis jasa,Status,Kebutuhan,Catatan internal,Tanggal",...state.serviceRequests.map(r=>fields.map(key=>quote(r[key])).join(","))].join("\r\n");
-      const url=URL.createObjectURL(new Blob(["\ufeff",csv],{type:"text/csv;charset=utf-8"}));
-      const link=document.createElement("a");link.href=url;link.download=`laporan-jasa-${dateKey(new Date())}.csv`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
-    }
-    async function loadViewerTable(){
-      const container=document.getElementById("viewer-table");if(!container||!db)return;
-      try{
-        const {data,error}=await db.from("profiles").select("id,display_name,email,role,created_at").order("created_at",{ascending:false}).limit(200);if(error)throw error;
-        const filtered=(data||[]).filter(p=>`${p.display_name||""} ${p.email||""} ${p.id}`.toLowerCase().includes(state.viewerSearch.toLowerCase()));
-        container.innerHTML=`<table><thead><tr><th>Nama / email</th><th>User ID</th><th>Role</th><th>Terdaftar</th><th>Simpan</th></tr></thead><tbody>${filtered.map(p=>`<tr><td>${esc(p.display_name||"—")}<br><span style="color:var(--muted)">${esc(p.email||"")}</span></td><td title="${esc(p.id)}">${esc(p.id.slice(0,8))}…</td><td><select data-role-user="${esc(p.id)}" ${p.id===state.user.id?"disabled":""}><option value="viewer" ${p.role==="viewer"?"selected":""}>Viewer</option><option value="customer" ${p.role==="customer"?"selected":""}>Pelanggan</option><option value="merchant" ${p.role==="merchant"?"selected":""}>Pedagang</option><option value="editor" ${p.role==="editor"?"selected":""}>Editor</option><option value="superadmin" ${p.role==="superadmin"?"selected":""}>Pengelola</option></select></td><td>${dateShort(p.created_at)}</td><td><button class="btn btn-small" data-save-role="${esc(p.id)}" ${p.id===state.user.id?"disabled":""}>Simpan</button></td></tr>`).join("")||'<tr><td colspan="5">Tidak ada anggota.</td></tr>'}</tbody></table>`;
-      }catch(e){container.textContent="Gagal memuat anggota: "+errText(e);}
-    }
-    async function saveRole(id){
-      if(!isAdmin()||id===state.user.id)return;
-      const role=document.querySelector(`[data-role-user="${CSS.escape(id)}"]`)?.value;
-      if(!["viewer","customer","merchant","editor","superadmin"].includes(role)){toast("Role tidak valid.",true);return;}
-      try{const {error}=await db.from("profiles").update({role}).eq("id",id);if(error)throw error;toast("Role anggota diperbarui.");}catch(e){toast("Gagal memperbarui role: "+errText(e),true);}
     }
     async function deleteArticle(id){
       if(!isAdmin()||!confirm("Hapus artikel ini? Tindakan ini tidak dapat dibatalkan."))return;
@@ -2280,26 +2132,21 @@
         state.socialLinks=values;state.loadedSocial=true;renderSocialLinks();toast("Tautan media sosial berhasil disimpan.");
       }catch(e){toast("Gagal menyimpan tautan media sosial: "+errText(e),true);}
     }
-    function accessLogTable(adminView=false){
+    function accessLogTable(){
       if(!state.user)return `<div class="panel"><h3>Masuk untuk melihat log akses akun</h3><button class="btn" data-action="auth">Masuk / daftar</button></div>`;
       const labels={login:"Login",article_view:"Membaca publikasi",media_download:"Mengunduh media"};
-      return `<div class="panel"><div class="section-head"><div><h3>${adminView?"Aktivitas akses akun":"Aktivitas akun saya"}</h3><p>${adminView?"Log seluruh akun terdaftar.":"Riwayat akses yang tercatat pada akun Anda."}</p></div></div><div class="table-wrap"><table><thead><tr>${adminView?"<th>Akun</th>":""}<th>Aktivitas</th><th>Konten / file</th><th>Waktu</th></tr></thead><tbody>${state.accessLogs.map(log=>`<tr>${adminView?`<td>${esc(log.account||log.user_id.slice(0,8)+"…")}</td>`:""}<td>${labels[log.event_type]||esc(log.event_type)}</td><td>${esc(log.target_name||"—")}</td><td>${new Date(log.created_at).toLocaleString("id-ID")}</td></tr>`).join("")||`<tr><td colspan="${adminView?4:3}">Belum ada aktivitas tercatat.</td></tr>`}</tbody></table></div></div>`;
+      return `<div class="panel"><div class="section-head"><div><h3>Aktivitas akun saya</h3><p>Riwayat akses yang tercatat pada akun Anda.</p></div></div><div class="table-wrap"><table><thead><tr><th>Aktivitas</th><th>Konten / file</th><th>Waktu</th></tr></thead><tbody>${state.accessLogs.map(log=>`<tr><td>${labels[log.event_type]||esc(log.event_type)}</td><td>${esc(log.target_name||"—")}</td><td>${new Date(log.created_at).toLocaleString("id-ID")}</td></tr>`).join("")||'<tr><td colspan="3">Belum ada aktivitas tercatat.</td></tr>'}</tbody></table></div></div>`;
     }
     function accessLogPage(){
       if(!state.user)return `<div class="page-title"><h1>Log akses</h1><p>Riwayat aktivitas hanya tersedia bagi akun terdaftar.</p></div>${accessLogTable()}`;
-      return `<div class="page-title"><h1>Log akses</h1><p>Riwayat aktivitas akun Anda. Data hanya dapat dilihat oleh pemilik akun dan Pengelola.</p></div>${accessLogTable()}`;
+      return `<div class="page-title"><h1>Log akses</h1><p>Riwayat aktivitas ini hanya dapat dilihat oleh pemilik akun.</p></div>${accessLogTable()}`;
     }
     async function loadAccessLogs(){
-      if(!db||!state.user||!isAdmin()&&location.hash!=="#log-akses")return;
+      if(!db||!state.user||location.hash!=="#log-akses")return;
       try{
-        const {data,error}=await db.from("access_logs").select("id,user_id,event_type,target_name,created_at").order("created_at",{ascending:false}).limit(300);
+        const {data,error}=await db.from("access_logs").select("id,user_id,event_type,target_name,created_at").eq("user_id",state.user.id).order("created_at",{ascending:false}).limit(300);
         if(error)throw error;
-        let profiles=[];
-        if(isAdmin()){
-          const ids=[...new Set((data||[]).map(log=>log.user_id))];
-          if(ids.length){const result=await db.from("profiles").select("id,display_name,email").in("id",ids);if(result.error)throw result.error;profiles=result.data||[];}
-        }
-        state.accessLogs=(data||[]).map(log=>({...log,account:(profiles.find(profile=>profile.id===log.user_id)?.display_name)||profiles.find(profile=>profile.id===log.user_id)?.email}));
+        state.accessLogs=data||[];
         state.loadedAccessLogs=true;
         render();
       }catch(e){toast("Gagal memuat log akses: "+errText(e),true);}
@@ -2390,7 +2237,7 @@
     }
     function scrollChat(){const el=document.getElementById("chat-messages");if(el)el.scrollTop=el.scrollHeight;}
     document.addEventListener("click",async e=>{
-      const target=e.target.closest("[data-action],[data-cart-add-plan],[data-cart-remove],[data-category],[data-sample-category],[data-delete-sample],[data-download-sample],[data-download-article],[data-article],[data-open-article],[data-admin-tab],[data-admin-chat-contact],[data-merchant-tab],[data-page-key],[data-catalog-group],[data-save-role],[data-edit-article],[data-delete-article],[data-delete-media],[data-download-media],[data-auth-mode],[data-service],[data-calendar-step],[data-calendar-date],[data-save-service],[data-purchase-plan],[data-order-action],[data-order-id],[data-delete-embed],[data-buy-product],[data-toggle-product],[data-delete-product],[data-edit-shop-product],[data-edit-package],[data-toggle-package],[data-delete-payment],[data-merchant-review],[data-shop-order-action],[data-report-shop-payment],[data-order-chat],[data-order-receive],[data-order-dispute],[data-order-review],[data-print-invoice],[data-order-dispute-resolution],[data-chat-room]");
+      const target=e.target.closest("[data-action],[data-cart-add-plan],[data-cart-remove],[data-category],[data-sample-category],[data-delete-sample],[data-download-sample],[data-download-article],[data-article],[data-open-article],[data-admin-tab],[data-merchant-tab],[data-page-key],[data-catalog-group],[data-edit-article],[data-delete-article],[data-delete-media],[data-download-media],[data-auth-mode],[data-calendar-step],[data-calendar-date],[data-purchase-plan],[data-order-action],[data-order-id],[data-delete-embed],[data-buy-product],[data-toggle-product],[data-delete-product],[data-edit-shop-product],[data-edit-package],[data-toggle-package],[data-delete-payment],[data-merchant-review],[data-shop-order-action],[data-report-shop-payment],[data-order-chat],[data-order-receive],[data-order-dispute],[data-order-review],[data-print-invoice],[data-order-dispute-resolution],[data-chat-room]");
       if(!target)return;
       if(target.dataset.action==="load-article-preview"){
         try{
@@ -2431,14 +2278,9 @@
         render();
       }
       if(target.dataset.action==="retry-payment-settings"){state.loadedPaymentSettings=false;state.paymentSettingsError="";await loadPaymentSettings();render();}
-      if(target.dataset.action==="retry-admin-chat-contacts"||target.dataset.action==="refresh-admin-chat-contacts"){
-        if(!isAdmin())return;
-        state.adminChatContactsLoaded=false;state.adminChatContactsError="";state.adminChatContactsLoading=false;await loadAdminChatContacts();
-      }
       if(target.dataset.action==="clear-search"){clearTimeout(articleSearchTimer);state.articleSearch="";updateSearchResults();const search=document.getElementById("article-search");if(search)search.value="";}
       if(target.dataset.action==="calendar-reset"){state.calendarSelectedDate="";render();}
       if(target.dataset.action==="go-embed"){location.hash="#embed";}
-      if(target.dataset.action==="export-service-report")exportServiceReport();
       if(target.dataset.action==="export-finance")exportFinanceReport();
       if(target.dataset.action==="export-finance-template")exportFinanceTemplate();
       if(target.dataset.action==="auth")authModal();
@@ -2446,7 +2288,6 @@
       if(target.dataset.cartAddPlan)addPlanToCart(target.dataset.cartAddPlan);
       if(target.dataset.cartRemove)removeCartItem(target.dataset.cartRemove);
       if(target.dataset.chatRoom)await selectSecureChatRoom(target.dataset.chatRoom);
-      if(target.dataset.adminChatContact)await openAdminPrivateChat(target.dataset.adminChatContact);
       if(target.dataset.pageKey){state.pages[target.dataset.pageKey]=Number(target.dataset.pageNumber)||1;render();}
       if(target.dataset.catalogGroup){state.catalogGroup=target.dataset.catalogGroup;state.pages["catalog-products"]=1;Object.keys(state.pages).filter(key=>key.startsWith("shop-products-")).forEach(key=>state.pages[key]=1);render();}
       if(target.dataset.sampleCategory){state.sampleCategory=target.dataset.sampleCategory;state.pages.samples=1;render();}
@@ -2457,7 +2298,6 @@
         articleFormModal();
       }
       if(target.dataset.action==="upload-media")await uploadMedia();
-      if(target.dataset.service){location.hash="#jasa";requestAnimationFrame(()=>{const select=document.querySelector('#service-form [name="service_type"]');if(select)select.value=target.dataset.service;document.getElementById("service-form")?.scrollIntoView({behavior:"smooth",block:"center"});});}
       if(target.dataset.calendarStep){state.calendarDate=new Date(state.calendarDate.getFullYear(),state.calendarDate.getMonth()+Number(target.dataset.calendarStep),1);state.calendarSelectedDate="";render();}
       if(target.dataset.calendarDate){state.calendarSelectedDate=target.dataset.calendarDate;const chosen=new Date(`${target.dataset.calendarDate}T12:00:00`);if(chosen.getMonth()!==state.calendarDate.getMonth()||chosen.getFullYear()!==state.calendarDate.getFullYear())state.calendarDate=new Date(chosen.getFullYear(),chosen.getMonth(),1);render();}
       if(target.dataset.category){state.category=target.dataset.category;state.pages.articles=1;render();}
@@ -2467,8 +2307,6 @@
       if(target.dataset.adminTab){state.adminTab=target.dataset.adminTab;render();if(state.adminTab==="running-text")await loadTicker();}
       if(target.dataset.merchantTab){state.merchantTab=target.dataset.merchantTab;render();}
       if(target.dataset.authMode){const mode=target.dataset.authMode;document.querySelectorAll("[data-auth-mode]").forEach(b=>b.classList.toggle("selected",b===target));const form=document.getElementById("auth-form");form.dataset.mode=mode;document.getElementById("auth-name-field").classList.toggle("hidden",mode!=="signup");form.querySelector("button").textContent=mode==="signup"?"Buat akun":"Masuk";form.querySelector('[name="password"]').autocomplete=mode==="signup"?"new-password":"current-password";}
-      if(target.dataset.saveRole)await saveRole(target.dataset.saveRole);
-      if(target.dataset.saveService)await updateServiceRequest(target.dataset.saveService);
       if(target.dataset.deleteArticle)await deleteArticle(target.dataset.deleteArticle);
       if(target.dataset.deleteMedia)await deleteMedia(target.dataset.deleteMedia);
       if(target.dataset.deleteSample)await deleteSampleProduct(target.dataset.deleteSample);
@@ -2524,7 +2362,6 @@
       if(f.id==="sample-product-form")await submitSampleProduct(f);
       if(f.id==="survey-form")await submitSurvey(f);
       if(f.id==="review-form")await submitReview(f);
-      if(f.id==="service-form")await submitServiceRequest(f);
       if(f.id==="chat-form")await submitSecureChatMessage(f);
       if(f.id==="ticker-form")await saveTicker(f);
       if(f.id==="embed-form")await submitExternalLink(f);
@@ -2546,16 +2383,6 @@
       if(f.classList.contains("plan-price-form"))await saveSubscriptionPlan(f);
     });
     document.addEventListener("input",e=>{
-      if(e.target.id==="viewer-search"){state.viewerSearch=e.target.value;clearTimeout(viewerSearchTimer);viewerSearchTimer=setTimeout(()=>loadViewerTable(),180);}
-      if(e.target.id==="admin-chat-contact-search"){
-        state.adminChatContactSearch=e.target.value;
-        const start=e.target.selectionStart;clearTimeout(adminChatSearchTimer);
-        adminChatSearchTimer=setTimeout(()=>{
-          if(location.hash!=="#admin"||state.adminTab!=="private-chat")return;
-          render();
-          const search=document.getElementById("admin-chat-contact-search");search?.focus();if(search&&start!==null)search.setSelectionRange(start,start);
-        },250);
-      }
       if(e.target.id==="article-search"||e.target.id==="timeline-search"){state.articleSearch=e.target.value;state.pages.articles=1;articleSearchRequest++;clearTimeout(articleSearchTimer);articleSearchTimer=setTimeout(()=>updateSearchResults(),300);}
       if(e.target.id==="sample-search"){state.sampleSearch=e.target.value;state.pages.samples=1;updateSampleResults();}
       if(e.target.closest("#shop-cart-item-form"))updateShopOrderEstimate(e.target.form);
